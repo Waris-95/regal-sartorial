@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, IntegerField
 from wtforms.validators import DataRequired
-# from app.models import OrderItem
+from app.models import OrderItem
 
 class OrderItemForm(FlaskForm):
     product_type_id= IntegerField('product_type_id', validators=[DataRequired()])
