@@ -21,7 +21,7 @@ class Style (db.Model):
         return {
             'id': self.id,
             'title': self.title,
-            'userId': self.user_Id,
+            'userId': self.user_id,
             'styleItems': [item.to_dict() for item in self.style_items],
             'createdAt': self.created_at,
             'updatedAt': self.updated_at

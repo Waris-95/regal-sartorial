@@ -7,8 +7,20 @@ from flask_login import LoginManager
 from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.product_category_routes import products_type_bp
+from .api.product_info_routes import products_bp
+from .api.order_management_routes import orders_bp
+from .api.order_detail_routes import order_item_bp
+from .api.product_review_routes import reviews_bp
+from .api.favorite_item_routes import favorite_bp
+from .api.style_detail_routes import styles_bp
+from .api.style_management_routes import style_item_bp
+
+
+
 from .seeds import seed_commands
 from .config import Config
+
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -28,6 +40,16 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(products_type_bp, url_prefix='/api/product_types')
+app.register_blueprint(products_bp, url_prefix='/api')
+app.register_blueprint(orders_bp, url_prefix="/api/orders")
+app.register_blueprint(order_item_bp, url_prefix='/api')
+app.register_blueprint(reviews_bp, url_prefix='/api/reviews')
+app.register_blueprint(favorite_bp, url_prefix='/api/favorites')
+app.register_blueprint(styles_bp, url_prefix='/api/styles')
+app.register_blueprint(style_item_bp, url_prefix='/api')
+
+
 db.init_app(app)
 Migrate(app, db)
 
@@ -88,4 +110,4 @@ def react_root(path):
 
 @app.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+    return app.send_static_file('index.html'), 404
