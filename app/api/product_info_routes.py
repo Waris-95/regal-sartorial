@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import db, Product, Review, Favorite
-from app.forms import review_form, favorite_form
+from app.forms import ReviewForm, FavoriteForm
 
 products_bp = Blueprint('products', __name__)
 

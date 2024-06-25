@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models import OrderItem, db
-from app.forms import order_item_form
+from app.forms import OrderItemForm
 from flask_login import login_required, current_user
 from datetime import datetime
 

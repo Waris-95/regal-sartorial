@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify 
 from flask_login import login_required, current_user
 from app.models import Style, db
-from app.forms import style_form
+from app.forms import StyleForm
 from datetime import datetime
 
 styles_bp = Blueprint('styles', __name__)
