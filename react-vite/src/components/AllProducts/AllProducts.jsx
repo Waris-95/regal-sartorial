@@ -15,12 +15,17 @@ function AllProducts() {
   }, []);
 
   let category = new URLSearchParams(location.search).get('category');
+  console.log("Category:", category);
 
   const products = useSelector(state => state.products);
   let productValues = Object.values(products);
+  console.log("Products from state:", productValues);
 
   useEffect(() => {
-    dispatch(getAllProductsThunk(category));
+    dispatch(getAllProductsThunk(category))
+      .then(() => {
+        console.log("Fetched products:", products);
+      });
   }, [dispatch, category]);
 
   if (category === "View All") category = null;
@@ -36,18 +41,28 @@ function AllProducts() {
             const primaryImage = color?.product_type_id === product.id ? color.image1 : product.products?.[0]?.image1 || defaultImage;
             const secondaryImage = color?.product_type_id === product.id ? color.image2 : product.products?.[0]?.image2 || primaryImage;
 
+            console.log("Product:", product);
+            console.log("Primary Image:", primaryImage);
+            console.log("Secondary Image:", secondaryImage);
+
             return (
               <div className='card-container' key={product.id}>
                 <div>
                   <Link className='all-prod-link-prod' to={`/shop/${product.id}`}>
                     <img
-                      alt=""
+                      alt={product.name}
                       loading="lazy"
                       className='card-img'
                       id="img-change-color"
                       src={primaryImage}
-                      onMouseOver={e => e.currentTarget.src = secondaryImage}
-                      onMouseOut={e => e.currentTarget.src = primaryImage}
+                      onMouseOver={e => {
+                        console.log("Mouse over - Secondary Image:", secondaryImage);
+                        e.currentTarget.src = secondaryImage;
+                      }}
+                      onMouseOut={e => {
+                        console.log("Mouse out - Primary Image:", primaryImage);
+                        e.currentTarget.src = primaryImage;
+                      }}
                     />
                   </Link>
                 </div>
@@ -61,7 +76,10 @@ function AllProducts() {
                           <div
                             key={item.id}
                             className="all-prods-color-item"
-                            onClick={() => setColor(item)}
+                            onClick={() => {
+                              console.log("Color clicked:", item);
+                              setColor(item);
+                            }}
                           >
                             <i
                               className="fa-solid fa-circle"
