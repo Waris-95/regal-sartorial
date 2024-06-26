@@ -1,4 +1,3 @@
-// actions.js
 export const GET_ALL_PRODUCTS = 'products/GET_ALL_PRODUCTS';
 
 export const getAllProducts = (products) => ({
@@ -25,6 +24,7 @@ export const getAllProductsThunk = (category) => async (dispatch) => {
     });
     if (response.ok) {
       const data = await response.json();
+      console.log("API Response Data:", data);  // Debugging line
       dispatch(getAllProducts(data.products));
       return data.products;
     } else {
@@ -36,7 +36,7 @@ export const getAllProductsThunk = (category) => async (dispatch) => {
   }
 };
 
-// reducer.js
+
 const initialState = [];
 
 const productsReducer = (state = initialState, action) => {

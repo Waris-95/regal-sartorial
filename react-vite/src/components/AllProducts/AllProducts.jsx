@@ -14,22 +14,24 @@ function AllProducts() {
     window.scrollTo(0, 0);
   }, []);
 
-  let category = new URLSearchParams(location.search).get('category');
-  
+  const category = new URLSearchParams(location.search).get('category');
+
   const products = useSelector((state) => state.products);
-  
+
   useEffect(() => {
     dispatch(getAllProductsThunk(category)).then((data) => {
       console.log('Fetched products:', data);
     });
   }, [dispatch, category]);
 
-  const defaultImage = 'https://via.placeholder.com/300';
+  const defaultImage = 'https://i.gifer.com/P4id.gif';
 
   const getValidImage = (product) => {
-    if (!product) return defaultImage;
-    return product.image1 || product.image2 || product.image3 || product.image4 || defaultImage;
+    if (!product || !product.images || product.images.length === 0) return defaultImage;
+    return product.images[0]; // Use the first image as default
   };
+
+  console.log("Products state:", products);
 
   return (
     <>
@@ -45,21 +47,19 @@ function AllProducts() {
                     <img
                       alt={productType.name}
                       loading='lazy'
-                      className='card-img'
+                      className={`card-img ${getValidImage(productType.products && productType.products[0]) === defaultImage ? 'default-img' : ''}`}
                       id='img-change-color'
-                      src={color?.product_type_id === productType.id ? color.image1 : getValidImage(productType.products && productType.products[0])}
+                      src={getValidImage(productType.products && productType.products[0])}
                       onMouseOver={(e) => {
-                        if (color?.product_type_id === productType.id && color.image2) {
-                          e.currentTarget.src = color.image2;
-                        } else if (productType.products && productType.products[0] && productType.products[0].image2) {
-                          e.currentTarget.src = productType.products[0].image2;
+                        if (productType.products && productType.products[0]) {
+                          const productImages = productType.products[0].images || [];
+                          const hoverImage = productImages.find((img) => img && img !== e.currentTarget.src);
+                          if (hoverImage) e.currentTarget.src = hoverImage;
                         }
                       }}
                       onMouseOut={(e) => {
-                        if (color?.product_type_id === productType.id && color.image1) {
-                          e.currentTarget.src = color.image1;
-                        } else if (productType.products && productType.products[0] && productType.products[0].image1) {
-                          e.currentTarget.src = productType.products[0].image1;
+                        if (productType.products && productType.products[0]) {
+                          e.currentTarget.src = getValidImage(productType.products[0]);
                         }
                       }}
                     />
@@ -77,7 +77,7 @@ function AllProducts() {
                             className='all-prods-color-item'
                             onClick={() => setColor(item)}
                           >
-                            <i className='fa-solid fa-circle' style={{ color: item.color }}></i>
+                            <i className='fa-solid fa-circle'></i>
                           </div>
                         ))}
                       </div>

@@ -19,6 +19,8 @@ def all_product_types():
     print("Product Types:", product_types_dict)  # Debug print
     return jsonify({"products": product_types_dict}), 200
 
+
+
 # GET Item type by it's ID
 @products_type_bp.route('<int:product_type_id>', methods=['GET'])
 def product_type(product_type_id):
