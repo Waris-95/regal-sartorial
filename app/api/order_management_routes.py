@@ -73,7 +73,7 @@ def order_edits(order_id):
     if order is None:
         return jsonify({'error': "Unable to find the order you're looking for"}), 404
     if current_user.id != order.user_id:
-        return jsonify({'error': 'Sorry, but you are unauthorized to edit this order'}), 400
+        return jsonify({'error': 'Sorry, but you are unauthorized to edit this order'}), 403
     
     data = request.get_json()
 
@@ -116,7 +116,7 @@ def order_deletion(order_id):
     if order is None:
         return jsonify({'error': "Unable to find the order you're looking for"}), 404
     if current_user.id != order.user_id:
-        return jsonify({'error': "Sorry, but you are unauthorized to delete this order"}), 400
+        return jsonify({'error': "Sorry, but you are unauthorized to delete this order"}), 403
     db.session.delete(order)
     db.session.commit()
     return jsonify({'message': "Order cancelled successfully."})

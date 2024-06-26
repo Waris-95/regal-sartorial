@@ -10,7 +10,7 @@ from .models import db, User
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.product_category_routes import products_type_bp
-from .api.product_info_routes import products_bp
+from .api.product_info_routes import product_bp
 from .api.order_management_routes import orders_bp
 from .api.order_detail_routes import order_item_bp
 from .api.product_review_routes import reviews_bp
@@ -35,7 +35,6 @@ login.login_view = 'auth.unauthorized'
 def load_user(id):
     return User.query.get(int(id))
 
-
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 
@@ -43,13 +42,13 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(products_type_bp, url_prefix='/api/product_types')
-app.register_blueprint(products_bp, url_prefix='/api')
+app.register_blueprint(product_bp, url_prefix='/api')
 app.register_blueprint(orders_bp, url_prefix="/api/orders")
 app.register_blueprint(order_item_bp, url_prefix='/api')
 app.register_blueprint(reviews_bp, url_prefix='/api/reviews')
 app.register_blueprint(favorite_bp, url_prefix='/api/favorites')
 app.register_blueprint(styles_bp, url_prefix='/api/styles')
-app.register_blueprint(style_item_bp, url_prefix='/api')
+app.register_blueprint(style_item_bp, url_prefix='/api/style_items')
 
 
 db.init_app(app)
