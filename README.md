@@ -37,7 +37,7 @@ Welcome to Regal Sartorials, a lightweight e-commerce store.
 Click the live link below to run Regal Sartorials locally on your machine follow these steps:
 
 * Clone the repository:
-  * git clone https://github.com/Waris-95/Regal-Sartorials.git
+  * git clone https://github.com/Waris-95/regal-sartorial.git
 
 * Navigate to the backend folder and install python packages
    * pipenv install

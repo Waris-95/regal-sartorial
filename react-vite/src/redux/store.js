@@ -1,14 +1,19 @@
-import {
-  legacy_createStore as createStore,
-  applyMiddleware,
-  compose,
-  combineReducers,
-} from "redux";
+import { legacy_createStore as createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import productsReducer from "./products";
+import bagReducer from "./bags";
+import ordersReducer from "./orders";
+import productTypeReducer from "./ProductType";
+import reviewsReducer from "./reviews";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  products: productsReducer,
+  productType: productTypeReducer,
+  bag: bagReducer,
+  orders: ordersReducer,
+  reviews: reviewsReducer
 });
 
 let enhancer;

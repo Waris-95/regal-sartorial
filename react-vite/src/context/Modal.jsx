@@ -1,8 +1,8 @@
-import { useRef, useState, useContext, createContext } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 
-const ModalContext = createContext();
+const ModalContext = React.createContext();
 
 export function ModalProvider({ children }) {
   const modalRef = useRef();

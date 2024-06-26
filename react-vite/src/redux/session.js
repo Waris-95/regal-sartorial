@@ -1,79 +1,124 @@
-const SET_USER = 'session/setUser';
-const REMOVE_USER = 'session/removeUser';
+import { setBag, editBag } from "./bags";
+import { getCookie } from "../utils";
+
+// constants
+const SET_USER = "session/SET_USER";
+const REMOVE_USER = "session/REMOVE_USER";
 
 const setUser = (user) => ({
-  type: SET_USER,
-  payload: user
+	type: SET_USER,
+	payload: user
 });
 
 const removeUser = () => ({
-  type: REMOVE_USER
+	type: REMOVE_USER,
 });
 
-export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth/");
+const initialState = { user: null };
+
+export const authenticate = () => async (dispatch) => {
+	const response = await fetch("/api/auth/", {
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
 	if (response.ok) {
 		const data = await response.json();
 		if (data.errors) {
 			return;
 		}
-
 		dispatch(setUser(data));
+		return data;
 	}
 };
 
-export const thunkLogin = (credentials) => async dispatch => {
-  const response = await fetch("/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials)
-  });
+export const login = (email, password) => async (dispatch) => {
+	const response = await fetch("/api/auth/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			email,
+			password,
+		}),
+	});
 
-  if(response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages
-  } else {
-    return { server: "Something went wrong. Please try again" }
-  }
+	if (response.ok) {
+		const data = await response.json();
+		let bag = 0;
+		const orders = data.orders;
+		orders.map(order => {
+			if (order.status === "pending") {
+				order.orderItems.map(item => {
+					bag += item.quantity;
+				});
+			}
+		});
+		dispatch(setBag(bag));
+		dispatch(setUser(data));
+		return null;
+	} else if (response.status < 500) {
+		const data = await response.json();
+		if (data.errors) {
+			return data.errors;
+		}
+	} else {
+		return ["An error occurred. Please try again."];
+	}
 };
 
-export const thunkSignup = (user) => async (dispatch) => {
-  const response = await fetch("/api/auth/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
-  });
+export const logout = () => async (dispatch) => {
+	const response = await fetch("/api/auth/logout", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
 
-  if(response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages
-  } else {
-    return { server: "Something went wrong. Please try again" }
-  }
+	if (response.ok) {
+		dispatch(removeUser());
+	}
 };
 
-export const thunkLogout = () => async (dispatch) => {
-  await fetch("/api/auth/logout");
-  dispatch(removeUser());
+export const signUp = (firstName, lastName, email, password) => async (dispatch) => {
+	const csrfToken = getCookie('csrf_token');
+	console.log("CSRF Token:", csrfToken); 
+	const response = await fetch("/api/auth/signup", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrfToken,
+		},
+		body: JSON.stringify({
+			firstName,
+			lastName,
+			email,
+			password,
+		}),
+	});
+
+	if (response.ok) {
+		const data = await response.json();
+		dispatch(setUser(data));
+		return null;
+	} else if (response.status < 500) {
+		const data = await response.json();
+		if (data.errors) {
+			return data.errors;
+		}
+	} else {
+		return ["An error occurred. Please try again."];
+	}
 };
 
-const initialState = { user: null };
-
-function sessionReducer(state = initialState, action) {
-  switch (action.type) {
-    case SET_USER:
-      return { ...state, user: action.payload };
-    case REMOVE_USER:
-      return { ...state, user: null };
-    default:
-      return state;
-  }
+export default function reducer(state = initialState, action) {
+	switch (action.type) {
+		case SET_USER:
+			return { user: action.payload };
+		case REMOVE_USER:
+			return { user: null };
+		default:
+			return state;
+	}
 }
-
-export default sessionReducer;

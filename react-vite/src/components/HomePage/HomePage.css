@@ -1,0 +1,24 @@
+
+.homepage-container {
+    padding-top: 20px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-collection-box {
+    display: flex;
+    height: 300px;
+    background-color: #000000;
+    justify-content: center;
+    align-items: center;
+}
+
+.feature-collection-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 50px;
+    border-top: thin #ffffff solid;
+    border-bottom: thin #ffffff solid;
+    color: #ffffff
+
+}
