@@ -42,6 +42,7 @@ function AllProducts() {
             const secondaryImage = color?.product_type_id === product.id ? color.image2 : product.products?.[0]?.image2 || primaryImage;
 
             console.log("Product:", product);
+            console.log("Product.products array:", product.products);
             console.log("Primary Image:", primaryImage);
             console.log("Secondary Image:", secondaryImage);
 
