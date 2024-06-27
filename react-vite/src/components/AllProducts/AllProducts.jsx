@@ -30,6 +30,18 @@ function AllProducts() {
 
   if (category === "View All") category = null;
 
+  const handleMouseOver = (e, product, item) => {
+    const secondaryImage = item ? item.image2 : product.products?.[0]?.image2;
+    console.log("Mouse over - Secondary Image:", secondaryImage);
+    e.currentTarget.src = secondaryImage || 'https://via.placeholder.com/300';
+  };
+
+  const handleMouseOut = (e, product, item) => {
+    const primaryImage = item ? item.image1 : product.products?.[0]?.image1;
+    console.log("Mouse out - Primary Image:", primaryImage);
+    e.currentTarget.src = primaryImage || 'https://via.placeholder.com/300';
+  };
+
   return (
     <>
       {category && <h1 className='page-header'>{category}</h1>}
@@ -38,13 +50,17 @@ function AllProducts() {
         <div className='product-cards'>
           {productValues.length ? productValues.map(product => {
             const defaultImage = 'https://via.placeholder.com/300';
-            const primaryImage = color?.product_type_id === product.id ? color.image1 : product.products?.[0]?.image1 || defaultImage;
-            const secondaryImage = color?.product_type_id === product.id ? color.image2 : product.products?.[0]?.image2 || primaryImage;
+            const primaryImage = color?.product_type_id === product.id ? color.image1 : (product.products?.[0]?.image1 || defaultImage);
+            const secondaryImage = color?.product_type_id === product.id ? color.image2 : (product.products?.[0]?.image2 || primaryImage);
 
             console.log("Product:", product);
             console.log("Product.products array:", product.products);
             console.log("Primary Image:", primaryImage);
             console.log("Secondary Image:", secondaryImage);
+
+            if (!product.products || !product.products.length) {
+              console.error("Missing product images for product ID:", product.id);
+            }
 
             return (
               <div className='card-container' key={product.id}>
@@ -56,22 +72,16 @@ function AllProducts() {
                       className='card-img'
                       id="img-change-color"
                       src={primaryImage}
-                      onMouseOver={e => {
-                        console.log("Mouse over - Secondary Image:", secondaryImage);
-                        e.currentTarget.src = secondaryImage;
-                      }}
-                      onMouseOut={e => {
-                        console.log("Mouse out - Primary Image:", primaryImage);
-                        e.currentTarget.src = primaryImage;
-                      }}
+                      onMouseOver={e => handleMouseOver(e, product, color)}
+                      onMouseOut={e => handleMouseOut(e, product, color)}
                     />
                   </Link>
                 </div>
                 <div className='all-prods-info'>
                   <div className='card-name'>{product.name}</div>
-                  <div className='card-price'>${product.price}.00</div>
+                  <div className='card-price'>${product.price}</div>
                   <div>
-                    {product.products.length > 1 && (
+                    {product.products && product.products.length > 1 && (
                       <div className="all-prods-color-container">
                         {product.products.map(item => (
                           <div

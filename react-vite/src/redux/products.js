@@ -1,5 +1,7 @@
+// action types as constants
 export const GET_ALL_PRODUCTS = 'products/GET_ALL_PRODUCTS';
 
+// action creator function to set products in the state
 export const getAllProducts = (products) => ({
   type: GET_ALL_PRODUCTS,
   payload: products,
@@ -18,6 +20,7 @@ export const getAllProductsThunk = (category) => async (dispatch) => {
 
   try {
     const response = await fetch(url, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -36,7 +39,7 @@ export const getAllProductsThunk = (category) => async (dispatch) => {
   }
 };
 
-
+// products reducer
 const initialState = [];
 
 const productsReducer = (state = initialState, action) => {
