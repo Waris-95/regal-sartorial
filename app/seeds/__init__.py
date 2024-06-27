@@ -34,8 +34,8 @@ def seed():
     seed_favorites()
     seed_orders()
     seed_order_items()
-    seed_style_items()
     seed_styles()
+    seed_style_items()
     seed_reviews()
     
 
@@ -43,8 +43,8 @@ def seed():
 @seed_commands.command('undo')
 def undo():
     undo_reviews()
-    undo_styles()
     undo_style_items()
+    undo_styles()
     undo_order_items()
     undo_orders()
     undo_favorites()
