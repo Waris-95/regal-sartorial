@@ -17,7 +17,7 @@ function HomePage() {
 
       <div className="featured-collection-box">
         <div className="feature-collection-text">
-          Featured Men's Collection
+          Featured Men&apo;s Collection
         </div>
       </div>
 
