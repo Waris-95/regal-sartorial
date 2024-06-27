@@ -47,7 +47,7 @@ def seed_products():
         stock=100)
     black_wool_trousers = Product(
         product_type_id=7, color="Black",
-        image1="https://m.media-amazon.com/images/I/619m+nb0SAL._AC_CR0%2C0%2C0%2C0_SX960_SY720_.jpg",
+        image1="https://m.media-amazon.com/images/I/61lc60CpVEL._AC_SX679_.jpg",
         image2="https://image.josbank.com/is/image/JosBank/3XRT_01_JOSEPH_A_BANK_BLACK_ALT2?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
         image3="https://image.josbank.com/is/image/JosBank/22WL_01_TRAVELER_BLACK_ALT1?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
         image4="https://image.josbank.com/is/image/JosBank/22WN_01_TRAVELER_BLACK_MAIN?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
