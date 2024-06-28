@@ -27,7 +27,9 @@ def product_type(product_type_id):
     product_type = ProductType.query.get(product_type_id)
     if product_type is None:
         return jsonify({'error': "Product you're looking for is unavailable"}), 404
-    return jsonify({'product_Type': product_type.to_dict()}), 200
+    product_type_dict = product_type.to_dict()
+    print("Product Type Response:", product_type_dict)
+    return jsonify({'productType': product_type.to_dict()}), 200
 
 # GET/All Reviews by the type of the product/item
 @products_type_bp.route('/<int:product_type_id>/reviews', methods=['GET'])

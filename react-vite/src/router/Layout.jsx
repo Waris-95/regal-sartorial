@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { ModalProvider, Modal } from "../context/Modal";
 import { authenticate } from "../redux/session";
 import Navigation from "../components/Navigation/Navigation";
+import Footer from "../components/Footer/Footer"; // Import the Footer component
 
 export default function Layout() {
   const dispatch = useDispatch();
@@ -12,8 +13,8 @@ export default function Layout() {
   useEffect(() => {
     dispatch(authenticate())
       .then(() => {
-        setIsLoaded(true)
-      })
+        setIsLoaded(true);
+      });
   }, [dispatch]);
 
   return (
@@ -21,6 +22,7 @@ export default function Layout() {
       <ModalProvider>
         <Navigation isLoaded={isLoaded} />
         {isLoaded && <Outlet />}
+        <Footer /> {/* Add the Footer component here */}
         <Modal />
       </ModalProvider>
     </>

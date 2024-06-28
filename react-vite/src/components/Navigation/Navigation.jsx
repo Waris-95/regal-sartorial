@@ -113,7 +113,7 @@ function Navigation({ isLoaded }) {
                   </li>
                   <li className="nav-item">
                     <NavLink to="/checkout" className="nav-links my-bag" onClick={closeMobileMenu}>
-                      Bag {bag > 0 && ` (${bag})`}
+                      Cart {bag > 0 && ` (${bag})`}
                     </NavLink>
                   </li>
                   <li className="nav-item">

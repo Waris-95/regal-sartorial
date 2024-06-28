@@ -15,16 +15,16 @@ function AllProducts() {
   }, []);
 
   let category = new URLSearchParams(location.search).get('category');
-  console.log("Category:", category);
+  // console.log("Category:", category);
 
   const products = useSelector(state => state.products);
   let productValues = Object.values(products);
-  console.log("Products from state:", productValues);
+  // console.log("Products from state:", productValues);
 
   useEffect(() => {
     dispatch(getAllProductsThunk(category))
       .then(() => {
-        console.log("Fetched products:", products);
+        // console.log("Fetched products:", products);
       });
   }, [dispatch, category]);
 
@@ -32,13 +32,13 @@ function AllProducts() {
 
   const handleMouseOver = (e, product, item) => {
     const secondaryImage = item ? item.image2 : product.products?.[0]?.image2;
-    console.log("Mouse over - Secondary Image:", secondaryImage);
+    // console.log("Mouse over - Secondary Image:", secondaryImage);
     e.currentTarget.src = secondaryImage || 'https://via.placeholder.com/300';
   };
 
   const handleMouseOut = (e, product, item) => {
     const primaryImage = item ? item.image1 : product.products?.[0]?.image1;
-    console.log("Mouse out - Primary Image:", primaryImage);
+    // console.log("Mouse out - Primary Image:", primaryImage);
     e.currentTarget.src = primaryImage || 'https://via.placeholder.com/300';
   };
 

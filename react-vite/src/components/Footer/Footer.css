@@ -1,0 +1,67 @@
+.footer-container {
+  height: 350px;
+  width: 100%;
+  color: #000000;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 90px;
+  background-color: #ffffff;
+}
+
+.thanks {
+  width: 100%;
+  height: 100%;
+  display: flex;
+align-items: center;
+justify-content: center;
+font-size: 40px;
+padding-bottom: 20px;
+}
+
+
+
+.contact-info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+align-items: center;
+gap: 20px;
+}
+
+.github-stuff {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fa-brands.fa-github {
+  font-size: 50px;
+}
+
+.link-github {
+  text-decoration: none;
+  color:#ffffff;
+}
+
+.link-github:hover {
+  color: #696969;
+
+}
+
+.github-handle {
+  font-size: 20px;
+}
+
+.links-container {
+  display: flex;
+  gap: 30px;
+}
+
+.linkdin {
+  font-size: 50px;
+}

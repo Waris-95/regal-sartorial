@@ -1,0 +1,32 @@
+.slider-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  .slider-images-container {
+    display: flex;
+    max-width: 900px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    transition: scroll 0.3s ease-in-out;
+  }
+  .image-slider {
+    width: 220px;
+    height: 300px;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .slider-btn {
+    color: inherit;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: inherit;
+    background-color: #c3c3c3;
+    border-radius: 6px;
+    height: 200px;
+    width: 30px;
+    margin: 5px;
+  }

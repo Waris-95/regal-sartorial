@@ -6,14 +6,16 @@ import bagReducer from "./bags";
 import ordersReducer from "./orders";
 import productTypeReducer from "./ProductType";
 import reviewsReducer from "./reviews";
+import favoritesReducer from "./favorites";
 
 const rootReducer = combineReducers({
-  session: sessionReducer,
+  bag: bagReducer,
+  favorites: favoritesReducer,
+  orders: ordersReducer,
   products: productsReducer,
   productType: productTypeReducer,
-  bag: bagReducer,
-  orders: ordersReducer,
-  reviews: reviewsReducer
+  reviews: reviewsReducer,
+  session: sessionReducer
 });
 
 let enhancer;
