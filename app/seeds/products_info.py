@@ -5,10 +5,10 @@ from sqlalchemy.sql import text
 def seed_products():
     navy_slim_fit_suit = Product(
         product_type_id=1, color="Navy",
-        image1="https://www.mrporter.com/variants/images/1647597340198467/in/w1200_q60.jpg",
-        image2="https://www.mrporter.com/variants/images/1647597340198467/ou/w1200_q60.jpg",
-        image3="https://www.mrporter.com/variants/images/1647597340198467/cu/w1200_q60.jpg",
-        image4="https://www.mrporter.com/variants/images/1647597340198467/e2/w1200_q60.jpg",
+        image1="https://image.josbank.com/is/image/JosBank/3WAT_76_1905_NAVY_BRIGHT_NAVY_MAIN?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image2="https://image.josbank.com/is/image/JosBank/3WAT_76_1905_NAVY_BRIGHT_NAVY_ALT1?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image3="https://image.josbank.com/is/image/JosBank/3WAT_76_1905_NAVY_BRIGHT_NAVY_ALT2?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image4="https://image.josbank.com/is/image/JosBank/3WAT_76_1905_NAVY_BRIGHT_NAVY_ALT8?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
         stock=50)
     charcoal_classic_fit_suit = Product(
         product_type_id=2, color="Charcoal",
@@ -19,10 +19,10 @@ def seed_products():
         stock=60)
     black_tuxedo = Product(
         product_type_id=3, color="Black",
-        image1="https://cdn.media.amplience.net/i/brooksbrothers/MZ00102_BLACK?$large$&fmt=auto",
-        image2="https://cdn.media.amplience.net/i/brooksbrothers/MZ00102_BLACK_2?$large$&fmt=auto",
-        image3="https://cdn.media.amplience.net/i/brooksbrothers/MZ00102_BLACK_4?$large$&fmt=auto",
-        image4="https://cdn.media.amplience.net/i/brooksbrothers/MZ00102_BLACK_5?$large$&fmt=auto",
+        image1="https://image.josbank.com/is/image/JosBank/3Y1N_01_JOS_A_BANK_RESERVE_BLACK_MAIN?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image2="https://image.josbank.com/is/image/JosBank/3Y1N_01_JOS_A_BANK_RESERVE_BLACK_ALT1?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image3="https://image.josbank.com/is/image/JosBank/3Y1N_01_JOS_A_BANK_RESERVE_BLACK_ALT2?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image4="https://image.josbank.com/is/image/JosBank/3Y1N_01_JOS_A_BANK_RESERVE_BLACK_ALT3?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
         stock=30)
     grey_three_piece_suit = Product(
         product_type_id=4, color="Grey",
@@ -33,10 +33,10 @@ def seed_products():
         stock=40)
     light_blue_slim_fit_suit = Product(
         product_type_id=5, color="LightBlue",
-        image1="https://m.media-amazon.com/images/I/61L7nhB6IFL._AC_SY879_.jpg",
-        image2="https://m.media-amazon.com/images/I/61DpbH6yd6L._AC_SY879_.jpg",
-        image3="https://example.com/light-blue-slim-fit-suit3.jpg",
-        image4="https://example.com/light-blue-slim-fit-suit4.jpg",
+        image1="https://image.josbank.com/is/image/JosBank/3XC9_71_JOSEPH_A_BANK_LIGHT_BLUE_MAIN?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image2="https://image.josbank.com/is/image/JosBank/3XC9_71_JOSEPH_A_BANK_LIGHT_BLUE_ALT3?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image3="https://image.josbank.com/is/image/JosBank/3XC9_71_JOSEPH_A_BANK_LIGHT_BLUE_ALT2?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
+        image4="https://image.josbank.com/is/image/JosBank/3XC9_71_JOSEPH_A_BANK_LIGHT_BLUE_ALT4?$JABPDPSharpen$&hei=1080&wid=800&align=0,-1",
         stock=45)
     brown_corduroy_pants = Product(
         product_type_id=6, color="Brown",

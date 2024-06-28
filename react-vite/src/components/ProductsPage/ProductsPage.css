@@ -9,14 +9,16 @@
 
 .product-area {
     display: grid;
-    grid-template-columns: auto 300px;
+    grid-template-columns: 1fr 300px; /* Adjusted to give more space to the images */
     grid-template-areas: "product-img-container product-info";
     gap: 20px;
+    width: 80%; /* Added to restrict the width of the product area */
+    margin: auto; /* Center the product area */
 }
 
 .product-img-container {
     display: grid;
-    grid-template-columns: 125px auto;
+    grid-template-columns: 125px 1fr; /* Adjusted to give more space to the main image */
     grid-template-rows: auto;
     grid-template-areas: "product-small-area product-img-big-container";
     gap: 20px;
@@ -24,24 +26,29 @@
 
 .product-small-area {
     grid-area: product-small-area;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Added gap between small images */
 }
 
 .product-img-small {
-    grid-area: product-img-small;
     height: 175px;
     width: 125px;
     cursor: pointer;
+    object-fit: cover; /* Ensure the images maintain aspect ratio and cover the area */
 }
 
 .product-img-big-container {
-    position: relative;
-    display: inline-flex;
+    grid-area: product-img-big-container; /* Added missing grid-area */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .product-img-big {
-    grid-area: product-img-big;
-    height: 750px;
-    width: 500px;
+    max-height: 750px;
+    max-width: 100%; /* Ensure the main image scales correctly */
+    object-fit: cover; /* Ensure the image maintains aspect ratio and covers the area */
 }
 
 .product-info {
@@ -61,8 +68,8 @@
     position: absolute;
     background: transparent;
     border: none;
-    margin-left: 430px;
-    margin-top: 20px;
+    right: 20px; /* Adjusted position to the right */
+    top: 20px; /* Adjusted position to the top */
 }
 
 .fav-button:hover {
