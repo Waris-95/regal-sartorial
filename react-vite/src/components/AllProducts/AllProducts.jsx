@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { getAllProductsThunk } from '../../redux/products';
-import { addFavorites } from '../../redux/favorites';  // Import the addFavorites thunk
+import { addFavorites, getUserFavorites } from '../../redux/favorites'; // Import getUserFavorites thunk
 import './AllProducts.css';
 import '../../index.css';
 
@@ -10,14 +10,17 @@ function AllProducts() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [color, setColor] = useState(null); // Initialize as null
+  const [feedback, setFeedback] = useState({}); // For feedback message
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    dispatch(getUserFavorites()); // Fetch user favorites on component mount
+  }, [dispatch]);
 
   let category = new URLSearchParams(location.search).get('category');
   const products = useSelector(state => state.products);
-  const user = useSelector(state => state.session.user);  // Get the current user
+  const user = useSelector(state => state.session.user); // Get the current user
+  const favorites = useSelector(state => state.favorites); // Get user's favorites
   let productValues = Object.values(products);
 
   useEffect(() => {
@@ -38,43 +41,42 @@ function AllProducts() {
 
   const handleAddFavorite = (product) => {
     if (user) {
-      console.log('Product data:', product);
-      
-      // hard coded
-      const productTypeId = 1; 
+      // Check if the product is already a favorite
+      const isFavorite = favorites.some(fav => fav.product_id === product.id);
+      if (isFavorite) {
+        setFeedback({ ...feedback, [product.id]: 'This item is already in your favorites.' });
+        return;
+      }
+
+      const productTypeId = 1; // Hardcoded for now, adjust as needed
       const productId = product.id;
       const image = product.products?.[0]?.image1;
-  
-      console.log('Adding favorite:', { productTypeId, productId, image });
-  
-      if (productTypeId) {
-        dispatch(addFavorites(productTypeId, productId, image))
-          .then((favorite) => {
-            if (favorite) {
-              console.log("Favorite added:", favorite);
-            } else {
-              console.error("Failed to add favorite.");
-            }
-          });
-      } else {
-        console.error("Product type ID is undefined. Cannot add favorite.");
-      }
+
+      dispatch(addFavorites(productTypeId, productId, image))
+        .then((favorite) => {
+          if (favorite) {
+            setFeedback({ ...feedback, [product.id]: 'Item added to favorites!' });
+          } else {
+            setFeedback({ ...feedback, [product.id]: 'Failed to add favorite.' });
+          }
+        });
     } else {
       alert("Please log in to add favorites");
     }
   };
-  
 
   return (
     <>
       {category && <h1 className='page-header'>{category}</h1>}
-
       <div className='all-prods-container'>
         <div className='product-cards'>
           {productValues.length ? productValues.map(product => {
             const defaultImage = 'https://via.placeholder.com/300';
             const primaryImage = color?.product_type_id === product.id ? color.image1 : (product.products?.[0]?.image1 || defaultImage);
             const secondaryImage = color?.product_type_id === product.id ? color.image2 : (product.products?.[0]?.image2 || primaryImage);
+
+            // Check if the product is already a favorite
+            const isFavorite = favorites.some(fav => fav.product_id === product.id);
 
             return (
               <div className='card-container' key={product.id}>
@@ -95,11 +97,13 @@ function AllProducts() {
                   <div className='card-name'>{product.name}</div>
                   <div className='card-price'>${product.price}</div>
                   <button 
-                    className="add-favorite-button" 
+                    className={`add-favorite-button ${isFavorite ? 'favorite-added' : ''}`} 
                     onClick={() => handleAddFavorite(product)}
+                    disabled={isFavorite} // Disable button if already a favorite
                   >
-                    Add to Favorites
+                    <i className="fa fa-heart"></i> {isFavorite ? 'Added to Favorites' : 'Add to Favorites'}
                   </button>
+                  {feedback[product.id] && <div className="feedback-message">{feedback[product.id]}</div>}
                   <div>
                     {product.products && product.products.length > 1 && (
                       <div className="all-prods-color-container">
