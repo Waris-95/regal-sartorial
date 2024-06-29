@@ -79,6 +79,7 @@ function AllProducts() {
     }
   };
 
+  
   return (
     <>
       {category && <h1 className='page-header'>{category}</h1>}
