@@ -1,4 +1,3 @@
-
 // Action Types
 const GET_USER_FAVORITES = 'favorites/GET_USER_FAVORITEs';
 const ADD_FAVORITE = 'favorites/ADD_FAVORITE';
@@ -15,10 +14,10 @@ export const addFavorite = (favorite) => ({
     payload: favorite
 });
 
-export const deleteFavorite = (favorite) => ({
+export const deleteFavorite = (favoriteId) => ({
     type: DELETE_FAVORITE,
-    payload: favorite
-})
+    payload: favoriteId
+});
 
 // Thunks
 export const getUserFavorites = () => async (dispatch) => {
@@ -54,16 +53,18 @@ export const addFavorites = (productTypeId, productId, image) => async (dispatch
     }
 };
 
-
 export const deleteFavorites = (favId) => async (dispatch) => {
     const response = await fetch(`/api/favorites/${favId}`, {
         method: 'DELETE',
     });
 
-    dispatch(deleteFavorite(favId));
+    if (response.ok) {
+        dispatch(deleteFavorite(favId));
+    }
     return response;
 }
 
+// Reducer
 const initialState = [];
 
 const favoritesReducer = (state = initialState, action) => {
@@ -80,6 +81,6 @@ const favoritesReducer = (state = initialState, action) => {
       default:
         return state;
     }
-  };
+};
 
 export default favoritesReducer;

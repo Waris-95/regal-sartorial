@@ -27,7 +27,7 @@ export const getAllProductsThunk = (category) => async (dispatch) => {
     });
     if (response.ok) {
       const data = await response.json();
-      // console.log("API Response Data:", data);  
+      console.log("API Response Data:", data);  // Log API response to verify data
       dispatch(getAllProducts(data.products));
       return data.products;
     } else {

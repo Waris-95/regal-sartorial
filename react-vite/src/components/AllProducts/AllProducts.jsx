@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { getAllProductsThunk } from '../../redux/products';
-import { addFavorites, getUserFavorites } from '../../redux/favorites'; // Import getUserFavorites thunk
+import { addFavorites, getUserFavorites } from '../../redux/favorites'; 
 import './AllProducts.css';
 import '../../index.css';
 
@@ -27,6 +27,12 @@ function AllProducts() {
     dispatch(getAllProductsThunk(category));
   }, [dispatch, category]);
 
+  useEffect(() => {
+    if (productValues.length > 0) {
+      console.log('Product Values:', productValues); // Log product values to verify `product_type_id`
+    }
+  }, [productValues]);
+
   if (category === "View All") category = null;
 
   const handleMouseOver = (e, product, item) => {
@@ -41,6 +47,8 @@ function AllProducts() {
 
   const handleAddFavorite = (product) => {
     if (user) {
+      console.log('Product data:', product); // Ensure `product_type_id` is present in the logged data
+
       // Check if the product is already a favorite
       const isFavorite = favorites.some(fav => fav.product_id === product.id);
       if (isFavorite) {
@@ -48,14 +56,20 @@ function AllProducts() {
         return;
       }
 
-      const productTypeId = 1; // Hardcoded for now, adjust as needed
+      const productTypeId = product.products?.[0]?.product_type_id; // Extract product_type_id dynamically from product
       const productId = product.id;
       const image = product.products?.[0]?.image1;
+
+      if (!productTypeId) {
+        console.error("Product type ID is undefined. Cannot add favorite.");
+        setFeedback({ ...feedback, [product.id]: 'Failed to add favorite due to missing product type ID.' });
+        return;
+      }
 
       dispatch(addFavorites(productTypeId, productId, image))
         .then((favorite) => {
           if (favorite) {
-            setFeedback({ ...feedback, [product.id]: 'Item added to favorites!' });
+            setFeedback({ ...feedback, [product.id]: 'Item added to favorites' });
           } else {
             setFeedback({ ...feedback, [product.id]: 'Failed to add favorite.' });
           }
@@ -101,7 +115,7 @@ function AllProducts() {
                     onClick={() => handleAddFavorite(product)}
                     disabled={isFavorite} // Disable button if already a favorite
                   >
-                    <i className="fa fa-heart"></i> {isFavorite ? 'Added to Favorites' : 'Add to Favorites'}
+                    <i className="fa fa-heart"></i> {isFavorite ? 'Added to Favorites!' : 'Add to Favorites'}
                   </button>
                   {feedback[product.id] && <div className="feedback-message">{feedback[product.id]}</div>}
                   <div>
@@ -138,3 +152,4 @@ function AllProducts() {
 }
 
 export default AllProducts;
+
