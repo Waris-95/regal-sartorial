@@ -35,19 +35,25 @@ export const getUserFavorites = () => async (dispatch) => {
 }
 
 export const addFavorites = (productTypeId, productId, image) => async (dispatch) => {
+    try {
+        const response = await fetch(`/api/product_types/${productTypeId}/products/${productId}/favorites`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image })
+        });
 
-    const response = await fetch(`/api/product_types/${productTypeId}/products/${productId}/favorites`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({image: image})
-    });
-
-    if (response.ok) {
-        const favorite = await response.json();
-        dispatch(addFavorite(favorite));
-        return favorite;
+        if (response.ok) {
+            const favorite = await response.json();
+            dispatch(addFavorite(favorite));
+            return favorite;
+        } else {
+            console.error("Failed to add favorite:", response.statusText);
+        }
+    } catch (err) {
+        console.error("Error in addFavorites thunk:", err);
     }
-}
+};
+
 
 export const deleteFavorites = (favId) => async (dispatch) => {
     const response = await fetch(`/api/favorites/${favId}`, {

@@ -27,5 +27,7 @@ class Favorite(db.Model):
             'user_id': self.user_id,
             'product_id': self.product_id,
             'product_type_id': self.product_type_id,
-            'image': self.image
+            'image': self.image,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
         }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { getAllProductsThunk } from '../../redux/products';
+import { addFavorites } from '../../redux/favorites';  // Import the addFavorites thunk
 import './AllProducts.css';
 import '../../index.css';
 
@@ -15,32 +16,54 @@ function AllProducts() {
   }, []);
 
   let category = new URLSearchParams(location.search).get('category');
-  // console.log("Category:", category);
-
   const products = useSelector(state => state.products);
+  const user = useSelector(state => state.session.user);  // Get the current user
   let productValues = Object.values(products);
-  // console.log("Products from state:", productValues);
 
   useEffect(() => {
-    dispatch(getAllProductsThunk(category))
-      .then(() => {
-        // console.log("Fetched products:", products);
-      });
+    dispatch(getAllProductsThunk(category));
   }, [dispatch, category]);
 
   if (category === "View All") category = null;
 
   const handleMouseOver = (e, product, item) => {
     const secondaryImage = item ? item.image2 : product.products?.[0]?.image2;
-    // console.log("Mouse over - Secondary Image:", secondaryImage);
     e.currentTarget.src = secondaryImage || 'https://via.placeholder.com/300';
   };
 
   const handleMouseOut = (e, product, item) => {
     const primaryImage = item ? item.image1 : product.products?.[0]?.image1;
-    // console.log("Mouse out - Primary Image:", primaryImage);
     e.currentTarget.src = primaryImage || 'https://via.placeholder.com/300';
   };
+
+  const handleAddFavorite = (product) => {
+    if (user) {
+      console.log('Product data:', product);
+      
+      // hard coded
+      const productTypeId = 1; 
+      const productId = product.id;
+      const image = product.products?.[0]?.image1;
+  
+      console.log('Adding favorite:', { productTypeId, productId, image });
+  
+      if (productTypeId) {
+        dispatch(addFavorites(productTypeId, productId, image))
+          .then((favorite) => {
+            if (favorite) {
+              console.log("Favorite added:", favorite);
+            } else {
+              console.error("Failed to add favorite.");
+            }
+          });
+      } else {
+        console.error("Product type ID is undefined. Cannot add favorite.");
+      }
+    } else {
+      alert("Please log in to add favorites");
+    }
+  };
+  
 
   return (
     <>
@@ -52,15 +75,6 @@ function AllProducts() {
             const defaultImage = 'https://via.placeholder.com/300';
             const primaryImage = color?.product_type_id === product.id ? color.image1 : (product.products?.[0]?.image1 || defaultImage);
             const secondaryImage = color?.product_type_id === product.id ? color.image2 : (product.products?.[0]?.image2 || primaryImage);
-
-            console.log("Product:", product);
-            console.log("Product.products array:", product.products);
-            console.log("Primary Image:", primaryImage);
-            console.log("Secondary Image:", secondaryImage);
-
-            if (!product.products || !product.products.length) {
-              console.error("Missing product images for product ID:", product.id);
-            }
 
             return (
               <div className='card-container' key={product.id}>
@@ -80,6 +94,12 @@ function AllProducts() {
                 <div className='all-prods-info'>
                   <div className='card-name'>{product.name}</div>
                   <div className='card-price'>${product.price}</div>
+                  <button 
+                    className="add-favorite-button" 
+                    onClick={() => handleAddFavorite(product)}
+                  >
+                    Add to Favorites
+                  </button>
                   <div>
                     {product.products && product.products.length > 1 && (
                       <div className="all-prods-color-container">
@@ -88,7 +108,6 @@ function AllProducts() {
                             key={item.id}
                             className="all-prods-color-item"
                             onClick={() => {
-                              console.log("Color clicked:", item);
                               setColor(item);
                             }}
                           >

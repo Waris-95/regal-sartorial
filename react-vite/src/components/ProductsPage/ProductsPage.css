@@ -116,8 +116,8 @@
     height: 25px;
     border-radius: 50%;
     vertical-align: middle;
-    appearance: none;
     -webkit-appearance: none;
+    appearance: none;
     outline: none;
     cursor: pointer;
 }

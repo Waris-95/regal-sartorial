@@ -50,6 +50,9 @@ def product_favs(product_type_id, product_id):
 @login_required
 def create_fav(product_type_id, product_id):
     image = request.get_json().get('image')
+    if not image:
+        return jsonify({'error': 'Image is required'}), 400
+
     fav = Favorite(
         user_id=current_user.id,
         product_id=product_id,
