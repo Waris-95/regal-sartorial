@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentOrder, modifyItem, deleteItem } from "../../redux/orders";
@@ -21,22 +21,23 @@ function Cart() {
 
   useEffect(() => {
     if (user) {
-      dispatch(getCurrentOrder()).then((data) => {
-        console.log('Fetched current order:', data); // Log current order
-        let bag = 0;
-        if (data && data.orderItems && data.orderItems.length) {
-          data.orderItems.map(item => {
-            bag += item.quantity;
-            return null;
-          });
-          dispatch(setBag(bag));
-        } else {
-          dispatch(setBag(0));
-        }
-        setOrderLoaded(true);
-      }).catch((error) => console.error("Failed to fetch current order:", error));
+        dispatch(getCurrentOrder()).then((data) => {
+            console.log('Fetched current order:', data); // Log current order
+            let bag = 0;
+            if (data && data.orderItems && data.orderItems.length) {
+                data.orderItems.forEach(item => {
+                    console.log("Image URL:", item.image);  // Log the image URL
+                    bag += item.quantity;
+                });
+                dispatch(setBag(bag));
+            } else {
+                dispatch(setBag(0));
+            }
+            setOrderLoaded(true);
+        }).catch((error) => console.error("Failed to fetch current order:", error));
     }
-  }, [dispatch, user]);
+}, [dispatch, user]);
+
 
   if (!user) return <Navigate to='/login' />;
 
@@ -118,7 +119,7 @@ function Cart() {
           {order.orderItems.map((item, i) => (
             <div key={i} className="order-item-container">
               <Link to={`/shop/${item.product_type_id}`}>
-                <img alt="" className="order-item-img" src={item.image} />
+                <img alt={item.name} className="order-item-img" src={item.image} />
               </Link>
               <div className="order-item-info">
                 <div className="order-item-name">{item.name}</div>

@@ -23,8 +23,10 @@ def all_order_items(order_id):
 @login_required
 def add_order_item(order_id):
     form = OrderItemForm()
+    
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+
         order_item = OrderItem(
             order_id=order_id,
             product_id=form.data['product_id'],
@@ -34,7 +36,7 @@ def add_order_item(order_id):
             total_price=form.data['total_price'],
             color=form.data['color'],
             size=form.data['size'],
-            image=form.data['image'],
+            image=form.data['image'],  
             name=form.data['name']
         )
         db.session.add(order_item)

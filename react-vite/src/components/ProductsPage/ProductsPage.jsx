@@ -102,18 +102,21 @@ const ProductPage = () => {
             return;
         }
     
-        let totalPrice = quantity * product.price;
+       
+        let totalPrice = quantity * productType.price
         let itemData = {
-            product_id: product.id,
-            product_type_id: product.product_type_id || id,
-            price: product.price,
+            product_id: item ? item.id : productType.products[0].id,
+            product_type_id: productType.id,
+            price: productType.price,
             quantity: quantity,
-            color: product.color || 'default color',
-            size: size || "Small",
-            image: product.image || 'default image',
-            name: product.name,
+            color: item ? item.color : productType.products[0].color,
+            size: size ? size : "Small",
+            image: item ? item.image1 : productType.products[0].image1,
+            name: productType.name,
             total_price: totalPrice
-        };
+
+        }
+        setMsg({ cart: "This item has been added to your cart" })
     
         console.log('Order ID:', order ? order.id : 'No order');
         console.log('Item Data:', itemData);
@@ -149,6 +152,7 @@ const ProductPage = () => {
             }
         }
     };
+    
         
         
     
