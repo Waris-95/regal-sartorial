@@ -21,23 +21,22 @@ function Cart() {
 
   useEffect(() => {
     if (user) {
-        dispatch(getCurrentOrder()).then((data) => {
-            console.log('Fetched current order:', data); // Log current order
-            let bag = 0;
-            if (data && data.orderItems && data.orderItems.length) {
-                data.orderItems.forEach(item => {
-                    console.log("Image URL:", item.image);  // Log the image URL
-                    bag += item.quantity;
-                });
-                dispatch(setBag(bag));
-            } else {
-                dispatch(setBag(0));
-            }
-            setOrderLoaded(true);
-        }).catch((error) => console.error("Failed to fetch current order:", error));
+      dispatch(getCurrentOrder()).then((data) => {
+        console.log('Fetched current order:', data); // Log current order
+        let bag = 0;
+        if (data && data.orderItems && data.orderItems.length) {
+          data.orderItems.forEach(item => {
+            console.log("Image URL:", item.image);  // Log the image URL
+            bag += item.quantity;
+          });
+          dispatch(setBag(bag));
+        } else {
+          dispatch(setBag(0));
+        }
+        setOrderLoaded(true);
+      }).catch((error) => console.error("Failed to fetch current order:", error));
     }
-}, [dispatch, user]);
-
+  }, [dispatch, user]);
 
   if (!user) return <Navigate to='/login' />;
 
@@ -111,6 +110,10 @@ function Cart() {
     );
   }
 
+  const subtotal = order.orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const tax = subtotal * 0.1; // Example tax rate of 10%
+  const totalPrice = subtotal + tax;
+
   return (
     <>
       <h1 className="page-header">My Bag</h1>
@@ -149,13 +152,13 @@ function Cart() {
           <div className="order-summary-container">
             <div className="order-summary">Order Summary</div>
             <div className="order-price">
-              Subtotal: <span>${order.price}.00</span>
+              Subtotal: <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="order-price">
-              Tax: <span>${order.tax.toFixed(2)}</span>
+              Tax: <span>${tax.toFixed(2)}</span>
             </div>
             <div className="order-price total">
-              Total Price: <span>${order.totalPrice.toFixed(2)}</span>
+              Total Price: <span>${totalPrice.toFixed(2)}</span>
             </div>
           </div>
           <button className="store-button-white checkout-now" onClick={toShipping}>Checkout Now</button>

@@ -178,7 +178,7 @@ function ShippingPage() {
                     <div className="order-summary-container">
                         <div className="order-summary">Order Summary</div>
                         <div className="order-price">
-                            subtotal:<span>${order.price}.00</span>
+                            subtotal:<span>${order.price}</span>
                         </div>
                         <div className="order-price">
                             tax:<span>${order.tax.toFixed(2)}</span>

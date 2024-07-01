@@ -93,6 +93,9 @@ export const getUserOrders = () => async (dispatch) => {
 };
 
 export const newOrder = (orderData, itemData) => async dispatch => {
+    console.log("Order Data being sent:", orderData);
+    console.log("Item Data being sent:", itemData);
+
     const response = await fetch(`/api/orders/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -102,15 +105,28 @@ export const newOrder = (orderData, itemData) => async dispatch => {
     if (response.ok) {
         const order = await response.json();
         dispatch(addOrder(order));
-        dispatch(newOrderItem(itemData, order.id));
+        if (itemData) {
+            dispatch(newOrderItem(itemData, order.id));
+        }
         return order;
     } else {
+        const error = await response.json();
+        console.error("Error creating new order:", error);
         return response;
     }
 };
 
 export const newOrderItem = (data, orderId) => async dispatch => {
-    dispatch(modifyOrder(orderId, data));
+    if (!data) {
+        console.error("No item data provided");
+        return;
+    }
+    if (!orderId) {
+        console.error("No order ID provided");
+        return;
+    }
+    console.log("Order ID being sent:", orderId);
+    console.log("Order Item Data being sent:", data);
 
     const response = await fetch(`/api/orders/${orderId}/order_items`, {
         method: 'POST',
@@ -123,9 +139,13 @@ export const newOrderItem = (data, orderId) => async dispatch => {
         dispatch(addOrderItem(orderItem));
         return orderItem;
     } else {
+        const error = await response.json();
+        console.error("Error adding order item:", error);
         return response;
     }
 };
+
+
 
 export const modifyOrder = (orderId, data) => async dispatch => {
     const response = await fetch(`/api/orders/${orderId}`, {

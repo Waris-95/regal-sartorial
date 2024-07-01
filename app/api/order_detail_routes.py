@@ -22,11 +22,12 @@ def all_order_items(order_id):
 @order_item_bp.route('/<int:order_id>/order_items', methods=['POST'])
 @login_required
 def add_order_item(order_id):
+    print("Incoming order ID:", order_id)
+    print("Incoming request data:", request.json)
+
     form = OrderItemForm()
-    
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-
         order_item = OrderItem(
             order_id=order_id,
             product_id=form.data['product_id'],
@@ -41,7 +42,8 @@ def add_order_item(order_id):
         )
         db.session.add(order_item)
         db.session.commit()
-        return order_item.to_dict()
+        return jsonify(order_item.to_dict())
+    print("Validation Errors:", form.errors)
     return jsonify({'error': validation_errors_to_error_messages(form.errors)}), 401
 
 
