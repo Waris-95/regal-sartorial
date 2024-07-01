@@ -22,8 +22,9 @@ function Cart() {
   useEffect(() => {
     if (user) {
       dispatch(getCurrentOrder()).then((data) => {
+        console.log('Fetched current order:', data); // Log current order
         let bag = 0;
-        if (data && Object.keys(data).length) {
+        if (data && data.orderItems && data.orderItems.length) {
           data.orderItems.map(item => {
             bag += item.quantity;
             return null;
@@ -32,7 +33,8 @@ function Cart() {
         } else {
           dispatch(setBag(0));
         }
-      }).then(() => setOrderLoaded(true));
+        setOrderLoaded(true);
+      }).catch((error) => console.error("Failed to fetch current order:", error));
     }
   }, [dispatch, user]);
 
@@ -48,7 +50,12 @@ function Cart() {
       add
     };
     dispatch(editBag(bag + 1));
-    dispatch(modifyItem(order.id, item.id, data));
+    dispatch(modifyItem(order.id, item.id, data))
+      .then(() => dispatch(getCurrentOrder())) // Fetch updated order
+      .then((updatedOrder) => {
+        console.log('Updated order after adding one item:', updatedOrder);
+      })
+      .catch((error) => console.error("Failed to add one item:", error));
   };
 
   const minusOne = (item) => {
@@ -61,13 +68,25 @@ function Cart() {
       minus
     };
     dispatch(editBag(bag - 1));
-    dispatch(modifyItem(order.id, item.id, data));
+    dispatch(modifyItem(order.id, item.id, data))
+      .then(() => dispatch(getCurrentOrder())) // Fetch updated order
+      .then((updatedOrder) => {
+        console.log('Updated order after removing one item:', updatedOrder);
+      })
+      .catch((error) => console.error("Failed to remove one item:", error));
   };
 
   const removeItem = (item) => {
-    dispatch(deleteItem(order.id, item));
-    let newBag = bag - item.quantity;
-    dispatch(editBag(newBag));
+    dispatch(deleteItem(order.id, item))
+      .then(() => {
+        let newBag = bag - item.quantity;
+        dispatch(editBag(newBag));
+        return dispatch(getCurrentOrder()); // Fetch updated order
+      })
+      .then((updatedOrder) => {
+        console.log('Updated order after removing item:', updatedOrder);
+      })
+      .catch((error) => console.error("Failed to remove item:", error));
   };
 
   const toShipping = () => {
@@ -98,16 +117,16 @@ function Cart() {
         <div className="order-items-container">
           {order.orderItems.map((item, i) => (
             <div key={i} className="order-item-container">
-              <Link to={`/shop/${item.productTypeId}`}>
+              <Link to={`/shop/${item.product_type_id}`}>
                 <img alt="" className="order-item-img" src={item.image} />
               </Link>
               <div className="order-item-info">
                 <div className="order-item-name">{item.name}</div>
                 <div className="order-item-color-size">{item.color}, {item.size}</div>
-                <div className="order-item-price">${item.price}.00</div>
+                <div className="order-item-price">${item.price}</div>
 
                 <div className="quantity-container">
-                  <div className="quanty-order">Quantity: </div>
+                  <div className="quantity-order">Quantity: </div>
                   <button className="add" disabled={item.quantity >= 10} onClick={() => addOne(item)}>
                     <i className="fa-solid fa-plus"></i>
                   </button>

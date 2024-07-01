@@ -5,7 +5,7 @@ import { getProductType } from "../../redux/ProductType";
 import { getUserFavorites, addFavorites, deleteFavorites } from "../../redux/favorites";
 import { getCurrentOrder, modifyItem, newOrderItem, newOrder } from "../../redux/orders";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import ImageSlider from '../ImageSlider/ImageSlider'
+import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag } from "../../redux/bags";
 import "./ProductsPage.css";
 import "../../index.css";
@@ -17,7 +17,7 @@ const ProductPage = () => {
     const productType = useSelector(state => state.productType);
     const favorites = useSelector(state => state.favorites);
     const user = useSelector(state => state.session.user);
-    const order = useSelector(state => state.orders);
+    const order = useSelector(state => state.orders.currentOrder); // Ensure you are accessing the correct state
     const bag = useSelector(state => state.bag);
 
     const [loadingFavorites, setLoadingFavorites] = useState(true);
@@ -96,52 +96,63 @@ const ProductPage = () => {
             .catch((error) => console.log("error deleting fav", error));
     };
 
-    const addItem = () => {
+    const addItem = (product) => {
         if (!user) {
             navigate("/login");
             return;
         }
-
-        let totalPrice = quantity * productType.price;
+    
+        let totalPrice = quantity * product.price;
         let itemData = {
-            product_id: item ? item.id : productType.products[0].id,
-            product_type_id: productType.id,
-            price: productType.price,
+            product_id: product.id,
+            product_type_id: product.product_type_id || id,
+            price: product.price,
             quantity: quantity,
-            color: item ? item.color : productType.products[0].color,
-            size: size ? size : "Small",
-            image: item ? item.image1 : productType.products[0].image1,
-            name: productType.name,
+            color: product.color || 'default color',
+            size: size || "Small",
+            image: product.image || 'default image',
+            name: product.name,
             total_price: totalPrice
         };
-        setMsg({ cart: "This item has been added to your cart" });
-
-        if (!order) {
+    
+        console.log('Order ID:', order ? order.id : 'No order');
+        console.log('Item Data:', itemData);
+    
+        if (!order || !order.orderItems) {
             let orderData = { status: "pending" };
-            dispatch(newOrder(orderData, itemData));
-            dispatch(editBag(bag + quantity));
+            dispatch(newOrder(orderData)).then((newOrder) => {
+                if (newOrder && newOrder.id) {
+                    dispatch(newOrderItem(itemData, newOrder.id)).then(() => {
+                        setMsg({ cart: "This item has been added to your cart" });
+                    });
+                } else {
+                    console.error('Failed to create new order:', newOrder);
+                }
+            }).catch((error) => {
+                console.error('Error creating new order:', error);
+            });
         } else {
             let orderItems = order.orderItems;
-            for (let i = 0; i < orderItems.length; i++) {
-                let orderItem = orderItems[i];
-                if (orderItem.image === itemData.image && orderItem.size === itemData.size) {
-                    dispatch(editBag(bag + itemData.quantity));
-                    let quantity = orderItem.quantity + itemData.quantity;
-                    let total_price = orderItem.price * quantity;
-                    let add = itemData.total_price;
-                    let data = {
-                        quantity,
-                        total_price,
-                        add
-                    };
-                    dispatch(modifyItem(order.id, orderItem.id, data));
-                    return;
-                }
+            let existingItem = orderItems.find(item => item.product_id === itemData.product_id && item.size === itemData.size);
+    
+            if (existingItem) {
+                let quantity = existingItem.quantity + itemData.quantity;
+                let total_price = existingItem.price * quantity;
+                let data = { quantity, total_price, add: itemData.total_price };
+                dispatch(modifyItem(order.id, existingItem.id, data)).then(() => {
+                    setMsg({ cart: "This item has been added to your cart" });
+                });
+            } else {
+                dispatch(newOrderItem(itemData, order.id)).then(() => {
+                    setMsg({ cart: "This item has been added to your cart" });
+                });
             }
-            dispatch(editBag(bag + quantity));
-            dispatch(newOrderItem(itemData, order.id));
         }
     };
+        
+        
+    
+    
 
     const addSize = (checkedSize) => {
         setSize(checkedSize);
@@ -242,7 +253,7 @@ const ProductPage = () => {
                             </div>
                         </div>
 
-                        <button className="store-button add-to-bag-button" onClick={addItem}>Add to bag</button>
+                        <button className="store-button add-to-bag-button" onClick={() => addItem(productType)}>Add to Cart</button>
                         {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
                         {msg.cart && <Link className="go-to" to="/checkout">Go to my bag</Link>}
                         {/* {user && (
@@ -268,4 +279,3 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-

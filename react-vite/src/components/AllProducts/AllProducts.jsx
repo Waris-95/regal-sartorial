@@ -75,11 +75,11 @@ function AllProducts() {
           }
         });
     } else {
-      alert("Please log in to add favorites");
+      // Handle case where user is not logged in
+      setFeedback({ ...feedback, [product.id]: 'Please log in to add favorites.' });
     }
   };
 
-  
   return (
     <>
       {category && <h1 className='page-header'>{category}</h1>}
@@ -111,13 +111,15 @@ function AllProducts() {
                 <div className='all-prods-info'>
                   <div className='card-name'>{product.name}</div>
                   <div className='card-price'>${product.price}</div>
-                  <button 
-                    className={`add-favorite-button ${isFavorite ? 'favorite-added' : ''}`} 
-                    onClick={() => handleAddFavorite(product)}
-                    disabled={isFavorite} // Disable button if already a favorite
-                  >
-                    <i className="fa fa-heart"></i> {isFavorite ? 'Added to Favorites!' : 'Add to Favorites'}
-                  </button>
+                  {user && (
+                    <button 
+                      className={`add-favorite-button ${isFavorite ? 'favorite-added' : ''}`} 
+                      onClick={() => handleAddFavorite(product)}
+                      disabled={isFavorite} // Disable button if already a favorite
+                    >
+                      <i className="fa fa-heart"></i> {isFavorite ? 'Added to Favorites!' : 'Add to Favorites'}
+                    </button>
+                  )}
                   {feedback[product.id] && <div className="feedback-message">{feedback[product.id]}</div>}
                   <div>
                     {product.products && product.products.length > 1 && (
@@ -153,4 +155,3 @@ function AllProducts() {
 }
 
 export default AllProducts;
-

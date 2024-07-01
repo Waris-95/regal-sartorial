@@ -19,28 +19,30 @@ def all_order_items(order_id):
     return jsonify({'order_items': [order_item.to_dict() for order_item in order_items]})
 
 # POST/Add a product to an order
-@order_item_bp.route('/orders/<int:order_id>/order_items', methods=['POST'])
+@order_item_bp.route('/<int:order_id>/order_items', methods=['POST'])
 @login_required
-def add_order(order_id):
+def add_order_item(order_id):
     form = OrderItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        # Create a new order item
-        order_items = OrderItem(
-            order_id = order_id,
-            product_id = form.data['product_id'],
-            product_type_id = form.data['product_type_id'],
-            price = form.data['price'],
-            quantity = form.data['quantity'],
-            total_price = form.data['total_price'],
-            color = form.data['color'],
-            size = form.data['size'],
-            image = form.data['image'],
-            name = form.data['name'])
-        db.session.add(order_items)
+        order_item = OrderItem(
+            order_id=order_id,
+            product_id=form.data['product_id'],
+            product_type_id=form.data['product_type_id'],
+            price=form.data['price'],
+            quantity=form.data['quantity'],
+            total_price=form.data['total_price'],
+            color=form.data['color'],
+            size=form.data['size'],
+            image=form.data['image'],
+            name=form.data['name']
+        )
+        db.session.add(order_item)
         db.session.commit()
-        return order_items.to_dict()
-    return jsonify({'error': validation_errors_to_error_messages}), 401
+        return order_item.to_dict()
+    return jsonify({'error': validation_errors_to_error_messages(form.errors)}), 401
+
+
 
 # PUT/Order Item
 @order_item_bp.route('/order_items/<int:order_item_id>', methods=['PUT'])

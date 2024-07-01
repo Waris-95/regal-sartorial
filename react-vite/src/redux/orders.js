@@ -56,54 +56,44 @@ export const removeItem = (orderItemId) => ({
 
 // Thunks
 export const submitOrder = (orderId) => async dispatch => {
-
-
-
     const response = await fetch(`/api/orders/${orderId}/shipping`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-    })
+    });
 
     if (response.ok) {
-        dispatch(deleteOrder(orderId))
+        dispatch(deleteOrder(orderId));
     } else {
         return response;
     }
 };
 
 export const getCurrentOrder = () => async (dispatch) => {
-
     const response = await fetch(`/api/orders/current/pending`);
     if (response.ok) {
-
         const order = await response.json();
-
         dispatch(currentOrder(order));
         return order;
     } else {
         return response;
     }
-}
+};
 
 export const getUserOrders = () => async (dispatch) => {
-
     const response = await fetch(`/api/orders/current`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
     });
     if (response.ok) {
         const orders = await response.json();
-
         dispatch(loadOrders(orders));
         return orders;
     } else {
         return response;
     }
-}
+};
 
 export const newOrder = (orderData, itemData) => async dispatch => {
-    const response = await fetch('/api/orders/', {
+    const response = await fetch(`/api/orders/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData)
@@ -112,19 +102,17 @@ export const newOrder = (orderData, itemData) => async dispatch => {
     if (response.ok) {
         const order = await response.json();
         dispatch(addOrder(order));
-        dispatch(newOrderItem(itemData, order.id))
+        dispatch(newOrderItem(itemData, order.id));
         return order;
     } else {
-
         return response;
     }
-}
+};
 
 export const newOrderItem = (data, orderId) => async dispatch => {
+    dispatch(modifyOrder(orderId, data));
 
-    dispatch(modifyOrder(orderId, data))
-
-    const response = await fetch(`/api/orders/${orderId}/order_items/`, {
+    const response = await fetch(`/api/orders/${orderId}/order_items`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -135,17 +123,16 @@ export const newOrderItem = (data, orderId) => async dispatch => {
         dispatch(addOrderItem(orderItem));
         return orderItem;
     } else {
-        return response
+        return response;
     }
-}
+};
 
 export const modifyOrder = (orderId, data) => async dispatch => {
-
     const response = await fetch(`/api/orders/${orderId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
-    })
+    });
 
     if (response.ok) {
         const order = await response.json();
@@ -157,20 +144,17 @@ export const modifyOrder = (orderId, data) => async dispatch => {
 };
 
 export const modifyItem = (orderId, itemId, data) => async dispatch => {
-
-    dispatch(modifyOrder(orderId, data))
+    dispatch(modifyOrder(orderId, data));
 
     const response = await fetch(`/api/orders/${orderId}/order_items/${itemId}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     });
 
     if (response.ok) {
         const orderItem = await response.json();
-        dispatch(editOrderItem(orderItem))
+        dispatch(editOrderItem(orderItem));
         return orderItem;
     } else {
         return response;
@@ -180,88 +164,88 @@ export const modifyItem = (orderId, itemId, data) => async dispatch => {
 export const removeOrder = (orderId) => async (dispatch) => {
     const response = await fetch(`/api/orders/${orderId}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
     });
 
     if (response.ok) {
-        dispatch(deleteOrder(orderId))
+        dispatch(deleteOrder(orderId));
         return response;
     } else {
         return response;
     }
-}
+};
 
 export const deleteItem = (orderId, item) => async (dispatch) => {
     let itemId = item.id;
-    dispatch(modifyOrder(orderId, { delete: item.total_price }))
+    dispatch(modifyOrder(orderId, { delete: item.total_price }));
     const response = await fetch(`/api/orders/${orderId}/order_items/${itemId}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
     });
     if (response.ok) {
-        dispatch(getCurrentOrder())
+        dispatch(getCurrentOrder());
         return response;
     } else {
         return response;
     }
-}
+};
 
-const initialState = {};
+
+const initialState = {
+    currentOrder: null,
+    orders: [],
+};
 
 const ordersReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case GET_USER_ORDERS: {
-            return action.payload.orders;
+            return { ...state, orders: action.payload.orders };
         }
         case GET_CURRENT_ORDER:
             newState = { ...state };
-
-            if (!Object.keys(action.payload).length) {
-                newState = null;
-                return newState
+            if (!action.payload) {
+                newState.currentOrder = null;
+            } else {
+                newState.currentOrder = action.payload;
             }
-            newState = action.payload;
             return newState;
         case ADD_ORDER: {
             newState = { ...state };
-            newState = action.payload
+            newState.currentOrder = action.payload;
             return newState;
         }
         case ADD_ORDER_ITEM: {
             newState = { ...state };
-            newState.orderItems.push(action.payload)
+            newState.currentOrder.orderItems.push(action.payload);
             return newState;
         }
         case EDIT_ORDER_ITEM: {
             newState = { ...state };
-            let index = newState.orderItems.findIndex(x => x.id === action.payload.id);
-            newState.orderItems[index] = action.payload
+            let index = newState.currentOrder.orderItems.findIndex(x => x.id === action.payload.id);
+            newState.currentOrder.orderItems[index] = action.payload;
             return newState;
         }
         case EDIT_ORDER: {
             newState = { ...state };
-            newState.totalPrice = action.payload.totalPrice
-            newState.tax = action.payload.tax
-            newState.price = action.payload.price
+            newState.currentOrder = {
+                ...newState.currentOrder,
+                ...action.payload
+            };
             return newState;
         }
-
         case DELETE_ORDER: {
-            return null
+            return { ...state, currentOrder: null };
         }
         case REMOVE_ORDER_ITEM: {
             newState = { ...state };
-            return newState.orderItems.filter((item) => item.id !== action.payload)
+            newState.currentOrder.orderItems = newState.currentOrder.orderItems.filter((item) => item.id !== action.payload);
+            return newState;
         }
-
         default:
             return state;
     }
 };
+
 
 export default ordersReducer;

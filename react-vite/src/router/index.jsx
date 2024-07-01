@@ -17,15 +17,36 @@ const routes = [
     path: '/',
     element: <Layout />,
     children: [
-      { path: '/', element: <HomePage /> },
-      { path: 'login', element: <LoginFormPage /> },
-      { path: 'signup', element: <SignupFormPage /> },
-      { path: 'shop', element: <AllProducts /> },
-      { path: 'shop/:id', element: <ProductPage /> },
-      { path: 'new-arrivals', element: <NewArrivals /> },
-      { path: 'favorites', element: <Favorites /> },
-      { path: 'checkout', element: <Cart /> },
-      { path: 'shipping', element: <ShippingPage /> },
+
+      { path: '/',
+       element: <HomePage /> 
+      },
+      { path: 'login',
+       element: <LoginFormPage />
+       },
+      { path: 'signup',
+       element: <SignupFormPage /> 
+      },
+      { path: 'shop',
+       element: <AllProducts /> 
+      },
+      { path: 'shop/:id',
+       element: <ProductPage /> 
+      },
+      { path: 'new-arrivals',
+       element: <NewArrivals /> 
+      },
+      { path: 'favorites',
+       element: <Favorites /> 
+      },
+      { path: 'checkout',
+       element: <Cart /> 
+      },
+      { path: 'shipping',
+       element: <ShippingPage /> 
+      },
+
+
       { path: '*', element: <DeadLinkPage/> }
     ],
   },
