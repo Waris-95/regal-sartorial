@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentOrder, modifyItem, deleteItem } from "../../redux/orders";
@@ -27,6 +27,7 @@ function Cart() {
         if (data && data.orderItems && data.orderItems.length) {
           data.orderItems.forEach(item => {
             console.log("Image URL:", item.image);  // Log the image URL
+            console.log("Product Type ID:", item.product_type_id); // Log the product type ID
             bag += item.quantity;
           });
           dispatch(setBag(bag));

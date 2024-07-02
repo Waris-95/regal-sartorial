@@ -12,24 +12,23 @@ products_type_bp = Blueprint('product_types', __name__)
 def all_product_types():
     category = request.args.get('category')
     if category:
-        product_types = ProductType.query.filter(ProductType.category == category).all()
+        product_types = ProductType.query.filter(ProductType.category==category).all()
     else:
         product_types = ProductType.query.all()
-    product_types_dict = [product.to_dict() for product in product_types]
-    print("Product Types:", product_types_dict)  # Debug print
-    return jsonify({"products": product_types_dict}), 200
-
+    return jsonify({"products": [product.to_dict() for product in product_types]}), 200
 
 
 # GET Item type by it's ID
 @products_type_bp.route('<int:product_type_id>', methods=['GET'])
 def product_type(product_type_id):
+
     product_type = ProductType.query.get(product_type_id)
+
     if product_type is None:
-        return jsonify({'error': "Product you're looking for is unavailable"}), 404
-    product_type_dict = product_type.to_dict()
-    print("Product Type Response:", product_type_dict)
+        return jsonify({'error': 'Product not found'}), 404
+
     return jsonify({'productType': product_type.to_dict()}), 200
+
 
 # GET/All Reviews by the type of the product/item
 @products_type_bp.route('/<int:product_type_id>/reviews', methods=['GET'])

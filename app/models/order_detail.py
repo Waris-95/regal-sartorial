@@ -33,7 +33,7 @@ class OrderItem (db.Model):
             'id': self.id,
             'orderId': self.order_id,
             'productId': self.product_id,
-            'productTypeId': self.product_type_id,
+            'product_type_id': self.product_type_id,
             'price': self.price,
             'quantity': self.quantity,
             'total_price': self.total_price,
