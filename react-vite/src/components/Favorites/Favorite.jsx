@@ -30,7 +30,7 @@ function Favorites() {
   return (
     <div>
       <div className="fav-header">
-        <h1>{`${user.firstName}'s Favorites`}</h1>
+        <h1>Favorites</h1>
       </div>
       <div className="fav-main-container">
         {favorites.length > 0 ? (
