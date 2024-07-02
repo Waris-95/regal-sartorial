@@ -167,6 +167,7 @@ function Cart() {
           <OpenModalButton
             buttonText="Empty Bag"
             modalComponent={<DeleteOrder order={order} />}
+            className="empty-bag-button"
           />
         </div>
       </div>

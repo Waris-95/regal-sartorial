@@ -4,6 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProductType } from "../../redux/ProductType";
 import { getUserFavorites, addFavorites, deleteFavorites } from "../../redux/favorites";
 import { getCurrentOrder, modifyItem, newOrderItem, newOrder } from "../../redux/orders";
+import { FaPlus, FaMinus } from 'react-icons/fa'; // Import icons
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag } from "../../redux/bags";
@@ -152,11 +153,6 @@ const ProductPage = () => {
             }
         }
     };
-    
-        
-        
-    
-    
 
     const addSize = (checkedSize) => {
         setSize(checkedSize);
@@ -248,11 +244,11 @@ const ProductPage = () => {
                             <div>Quantity : </div>
                             <div className="plusminus">
                                 <button className="add" disabled={quantity >= 10} onClick={addOne}>
-                                    <i className="fa-solid fa-plus"></i>
+                                    <FaPlus />
                                 </button>
                                 <div className="number">{quantity}</div>
                                 <button className="subtract" disabled={quantity <= 1} onClick={minusOne}>
-                                    <i className="fa-solid fa-minus"></i>
+                                    <FaMinus />
                                 </button>
                             </div>
                         </div>
@@ -260,13 +256,6 @@ const ProductPage = () => {
                         <button className="store-button add-to-bag-button" onClick={() => addItem(productType)}>Add to Cart</button>
                         {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
                         {msg.cart && <Link className="go-to" to="/checkout">Go to my bag</Link>}
-                        {/* {user && (
-                            <OpenModalButton
-                                className="store-button add-to-style"
-                                buttonText="Add to style"
-                                modalComponent={<AddStyleItem styleItem={productType} setMsg={setMsg} />}
-                            />
-                        )} */}
                         {msg.style && <p className="sign-up-errors">*{msg.style}</p>}
                         {msg.style && <Link className="go-to" to="/styles">Go to my styles</Link>}
                     </div>
