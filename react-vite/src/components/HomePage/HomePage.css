@@ -8,7 +8,7 @@
 
 .featured-collection-box {
     display: flex;
-    height: 300px;
+    height: 250px;
     background-color: #000000;
     justify-content: center;
     align-items: center;
@@ -19,6 +19,6 @@
     font-size: 50px;
     border-top: thin #ffffff solid;
     border-bottom: thin #ffffff solid;
-    color: #ffffff
+    color: #ffffff;
 
 }

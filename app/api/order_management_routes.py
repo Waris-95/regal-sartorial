@@ -73,11 +73,14 @@ def order_edits(order_id):
     if order is None:
         return jsonify({'error': "Unable to find the order you're looking for"}), 404
     if current_user.id != order.user_id:
-        return jsonify({'error': 'Sorry, but you are unauthorized to edit this order'}), 403
+        return jsonify({'error': 'Sorry, but you are unauthorized to edit this order'}), 401
     
     data = request.get_json()
 
     def update_order_price(operation, amount):
+        if order.price is None:
+            order.price = 0.0
+
         if operation == "delete":
             order.price -= amount
         elif operation == "add":
@@ -97,6 +100,8 @@ def order_edits(order_id):
 
     if 'total_price' in data:
         if order.price is None:
+            order.price = 0.0
+            
             order.price = data["total_price"]
         else:
             order.price += data["total_price"]
@@ -116,7 +121,7 @@ def order_deletion(order_id):
     if order is None:
         return jsonify({'error': "Unable to find the order you're looking for"}), 404
     if current_user.id != order.user_id:
-        return jsonify({'error': "Sorry, but you are unauthorized to delete this order"}), 403
+        return jsonify({'error': "Sorry, but you are unauthorized to delete this order"}), 401
     db.session.delete(order)
     db.session.commit()
     return jsonify({'message': "Order cancelled successfully."})
