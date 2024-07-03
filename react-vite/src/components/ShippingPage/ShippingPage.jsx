@@ -34,7 +34,7 @@ function ShippingPage() {
         if (!city.trim()) errors.push("City is required.");
         if (!state.trim() || state.length !== 2) errors.push("Valid state abbreviation is required.");
         if (!/^\d{5}$/.test(zipcode)) errors.push("Valid ZIP Code is required.");
-        if (!/^\d{16}$/.test(cardnumber.replace(/\s+/g, ''))) errors.push("Valid card number is required.");
+        // if (!/^\d{16}$/.test(cardnumber.replace(/\s+/g, ''))) errors.push("Valid card number is required.");
         if (!/^\d{2}\/\d{2}$/.test(expDate) || !isValidExpirationDate(expDate)) errors.push("Valid expiration date is required.");
         if (!/^\d{3}$/.test(cvv)) errors.push("Valid CVV is required.");
         return errors;
@@ -65,11 +65,11 @@ function ShippingPage() {
 
         const data = {
             name: user.firstName,
-            confirmation_number: "#9LKVXZMNB09823",
+            confirmation_number: "#3KHGFAQ09823",
             email: user.email,
         };
 
-        await emailjs.send('gmail', 'template_h3e28eo', data, '8AnBwut9yyPZ1CjYX')
+        await emailjs.send('gmail', 'template_49np8dy', data, 'QRfJZsZlMoqoYc3Vr')
             .then((result) => {
                 dispatch(submitOrder(order.id));
             }, (error) => {
@@ -85,9 +85,10 @@ function ShippingPage() {
         return <ConfirmationPage />;
     }
 
-    const subtotal = order.price ? parseFloat(order.price).toFixed(2) : '0.00';
-    const tax = order.tax ? parseFloat(order.tax).toFixed(2) : '0.00';
-    const totalPrice = order.total_price ? parseFloat(order.total_price).toFixed(2) : '0.00';
+    // Calculate subtotal and tax like in the cart component
+    const subtotal = order.orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const tax = subtotal * 0.1; // Example tax rate of 10%
+    const totalPrice = subtotal + tax;
 
     return (
         <div className='shipping-container'>
@@ -185,13 +186,13 @@ function ShippingPage() {
                 <div className="order-summary-container">
                     <div className="order-summary">Order Summary</div>
                     <div className="order-price">
-                        Subtotal:<span>${subtotal}</span>
+                        Subtotal:<span>${subtotal.toFixed(2)}</span>
                     </div>
                     <div className="order-price">
-                        Tax:<span>${tax}</span>
+                        Shipping & Tax:<span>${tax.toFixed(2)}</span>
                     </div>
                     <div className="order-price total">
-                        Total Price:<span>${totalPrice}</span>
+                        Total Price:<span>${totalPrice.toFixed(2)}</span>
                     </div>
                 </div>
             </div>

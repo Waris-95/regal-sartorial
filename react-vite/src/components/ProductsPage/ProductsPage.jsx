@@ -77,7 +77,8 @@ const ProductPage = () => {
 
     useEffect(() => {
         if (order && order.orderItems) {
-            const existingItem = order.orderItems.find(orderItem => orderItem.product_id === (item ? item.id : productType.products[0].id) && orderItem.size === size);
+            const productId = item ? item.id : productType.products?.[0]?.id;
+            const existingItem = order.orderItems.find(orderItem => orderItem.product_id === productId && orderItem.size === size);
             if (existingItem) {
                 setIsInCart(true);
             } else {
@@ -87,13 +88,14 @@ const ProductPage = () => {
     }, [order, item, productType, size]);
 
     const addFav = () => {
-        let productId = productType.products[0].id;
-        if (item) productId = item.id;
-        let image = item ? item.image1 : productType.products[0].image1;
-        dispatch(addFavorites(productType.id, productId, image))
-            .then(() => dispatch(getUserFavorites()))
-            .then(() => setFavorite(true))
-            .catch((error) => console.log("error adding fav", error));
+        let productId = item ? item.id : productType.products?.[0]?.id;
+        let image = item ? item.image1 : productType.products?.[0]?.image1;
+        if (productId && image) {
+            dispatch(addFavorites(productType.id, productId, image))
+                .then(() => dispatch(getUserFavorites()))
+                .then(() => setFavorite(true))
+                .catch((error) => console.log("error adding fav", error));
+        }
     };
 
     const deleteFav = () => {
@@ -103,10 +105,12 @@ const ProductPage = () => {
                 favId = favorites[i].id;
             }
         }
-        dispatch(deleteFavorites(favId))
-            .then(() => dispatch(getUserFavorites()))
-            .then(() => setFavorite(false))
-            .catch((error) => console.log("error deleting fav", error));
+        if (favId) {
+            dispatch(deleteFavorites(favId))
+                .then(() => dispatch(getUserFavorites()))
+                .then(() => setFavorite(false))
+                .catch((error) => console.log("error deleting fav", error));
+        }
     };
 
     const addItem = (product) => {
@@ -117,13 +121,13 @@ const ProductPage = () => {
     
         let totalPrice = quantity * productType.price;
         let itemData = {
-            product_id: item ? item.id : productType.products[0].id,
+            product_id: item ? item.id : productType.products?.[0]?.id,
             product_type_id: productType.id,
             price: productType.price,
             quantity: quantity,
-            color: item ? item.color : productType.products[0].color,
+            color: item ? item.color : productType.products?.[0]?.color,
             size: size ? size : "Small",
-            image: item ? item.image1 : productType.products[0].image1,
+            image: item ? item.image1 : productType.products?.[0]?.image1,
             name: productType.name,
             total_price: totalPrice
         };
