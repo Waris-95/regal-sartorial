@@ -64,9 +64,9 @@ function ShippingPage() {
         }
 
         const data = {
-            name: user.firstName,
+            to_name: user.firstName,
             confirmation_number: "#3KHGFAQ09823",
-            email: user.email,
+            to_email: user.email,
         };
 
         await emailjs.send('gmail', 'template_49np8dy', data, 'QRfJZsZlMoqoYc3Vr')
