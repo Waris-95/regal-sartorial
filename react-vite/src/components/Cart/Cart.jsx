@@ -117,7 +117,7 @@ function Cart() {
 
   return (
     <>
-      <h1 className="page-header">My Bag</h1>
+      <h1 className="page-header">My Cart</h1>
       <div className="cart-container">
         <div className="order-items-container">
           {order.orderItems.map((item, i) => (
