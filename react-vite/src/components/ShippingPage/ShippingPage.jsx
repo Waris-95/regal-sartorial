@@ -12,6 +12,7 @@ function ShippingPage() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
     const order = useSelector(state => state.orders.currentOrder);
+
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -27,8 +28,40 @@ function ShippingPage() {
 
     if (!user) return <Navigate to='/login' />;
 
+    const validateForm = () => {
+        const errors = [];
+        if (!address.trim()) errors.push("Address is required.");
+        if (!city.trim()) errors.push("City is required.");
+        if (!state.trim() || state.length !== 2) errors.push("Valid state abbreviation is required.");
+        if (!/^\d{5}$/.test(zipcode)) errors.push("Valid ZIP Code is required.");
+        if (!/^\d{16}$/.test(cardnumber.replace(/\s+/g, ''))) errors.push("Valid card number is required.");
+        if (!/^\d{2}\/\d{2}$/.test(expDate) || !isValidExpirationDate(expDate)) errors.push("Valid expiration date is required.");
+        if (!/^\d{3}$/.test(cvv)) errors.push("Valid CVV is required.");
+        return errors;
+    };
+
+    const isValidExpirationDate = (expDate) => {
+        const [month, year] = expDate.split('/').map(Number);
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1; // Months are 0-based in JS
+        const currentYear = currentDate.getFullYear() % 100; // Get last two digits of the year
+
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+            return false;
+        }
+        if (month < 1 || month > 12) {
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const errors = validateForm();
+        if (errors.length > 0) {
+            alert(errors.join("\n"));
+            return;
+        }
 
         const data = {
             name: user.firstName,
@@ -58,7 +91,7 @@ function ShippingPage() {
 
     return (
         <div className='shipping-container'>
-            <form className='shipping-form'>
+            <form className='shipping-form' onSubmit={handleSubmit}>
                 <div className='shipping-name'>Shipping Address</div>
                 <AddressAutofill accessToken='pk.eyJ1IjoibG9sYW1hcnJlcm8iLCJhIjoiY2xtODJlYzFxMDRxYjNzbGJ0NzBmN3Z2bCJ9._0qzVpfHwA3vy3a47nT8DQ'>
                     <div className='shipping-input'>
@@ -145,20 +178,20 @@ function ShippingPage() {
                     />
                 </div>
 
-                <button onClick={handleSubmit} className='store-button-white'>Place Order</button>
+                <button type="submit" className='store-button-white'>Place Order</button>
             </form>
 
             <div className='order-sum-box'>
                 <div className="order-summary-container">
                     <div className="order-summary">Order Summary</div>
                     <div className="order-price">
-                        subtotal:<span>${subtotal}</span>
+                        Subtotal:<span>${subtotal}</span>
                     </div>
                     <div className="order-price">
-                        tax:<span>${tax}</span>
+                        Tax:<span>${tax}</span>
                     </div>
                     <div className="order-price total">
-                        total price:<span>${totalPrice}</span>
+                        Total Price:<span>${totalPrice}</span>
                     </div>
                 </div>
             </div>
