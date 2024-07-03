@@ -66,9 +66,9 @@ def put_order_product(order_item_id):  # Ensure the function parameter name matc
     return order_product.to_dict()
 
 # DELETE/ A product item
-@order_item_bp.route('/order_items/<int:order_item_id>', methods=['DELETE'])
+@order_item_bp.route('/<int:order_id>/order_items/<int:order_item_id>', methods=['DELETE'])
 @login_required
-def delete_order_prod(order_item_id):
+def delete_order_prod(order_id, order_item_id):
     order_item = OrderItem.query.get(order_item_id)
     if order_item is None:
         return jsonify({'error': "Unable to find the order item you're looking for"}), 404

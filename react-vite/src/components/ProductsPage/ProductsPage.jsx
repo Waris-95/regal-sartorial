@@ -4,6 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProductType } from "../../redux/ProductType";
 import { getUserFavorites, addFavorites, deleteFavorites } from "../../redux/favorites";
 import { getCurrentOrder, modifyItem, newOrderItem, newOrder } from "../../redux/orders";
+import { FaPlus, FaMinus } from 'react-icons/fa';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag } from "../../redux/bags";
@@ -17,7 +18,7 @@ const ProductPage = () => {
     const productType = useSelector(state => state.productType);
     const favorites = useSelector(state => state.favorites);
     const user = useSelector(state => state.session.user);
-    const order = useSelector(state => state.orders.currentOrder); // Ensure you are accessing the correct state
+    const order = useSelector(state => state.orders.currentOrder);
     const bag = useSelector(state => state.bag);
 
     const [loadingFavorites, setLoadingFavorites] = useState(true);
@@ -32,6 +33,7 @@ const ProductPage = () => {
     const [circleS, setCircleS] = useState(true);
     const [circleM, setCircleM] = useState(false);
     const [circleL, setCircleL] = useState(false);
+    const [isInCart, setIsInCart] = useState(false);
 
     const addOne = () => setQuantity(quantity + 1);
     const minusOne = () => setQuantity(quantity - 1);
@@ -73,14 +75,27 @@ const ProductPage = () => {
         }
     }, [favorites, id, user]);
 
+    useEffect(() => {
+        if (order && order.orderItems) {
+            const productId = item ? item.id : productType.products?.[0]?.id;
+            const existingItem = order.orderItems.find(orderItem => orderItem.product_id === productId && orderItem.size === size);
+            if (existingItem) {
+                setIsInCart(true);
+            } else {
+                setIsInCart(false);
+            }
+        }
+    }, [order, item, productType, size]);
+
     const addFav = () => {
-        let productId = productType.products[0].id;
-        if (item) productId = item.id;
-        let image = item ? item.image1 : productType.products[0].image1;
-        dispatch(addFavorites(productType.id, productId, image))
-            .then(() => dispatch(getUserFavorites()))
-            .then(() => setFavorite(true))
-            .catch((error) => console.log("error adding fav", error));
+        let productId = item ? item.id : productType.products?.[0]?.id;
+        let image = item ? item.image1 : productType.products?.[0]?.image1;
+        if (productId && image) {
+            dispatch(addFavorites(productType.id, productId, image))
+                .then(() => dispatch(getUserFavorites()))
+                .then(() => setFavorite(true))
+                .catch((error) => console.log("error adding fav", error));
+        }
     };
 
     const deleteFav = () => {
@@ -90,10 +105,12 @@ const ProductPage = () => {
                 favId = favorites[i].id;
             }
         }
-        dispatch(deleteFavorites(favId))
-            .then(() => dispatch(getUserFavorites()))
-            .then(() => setFavorite(false))
-            .catch((error) => console.log("error deleting fav", error));
+        if (favId) {
+            dispatch(deleteFavorites(favId))
+                .then(() => dispatch(getUserFavorites()))
+                .then(() => setFavorite(false))
+                .catch((error) => console.log("error deleting fav", error));
+        }
     };
 
     const addItem = (product) => {
@@ -102,31 +119,25 @@ const ProductPage = () => {
             return;
         }
     
-       
-        let totalPrice = quantity * productType.price
+        let totalPrice = quantity * productType.price;
         let itemData = {
-            product_id: item ? item.id : productType.products[0].id,
+            product_id: item ? item.id : productType.products?.[0]?.id,
             product_type_id: productType.id,
             price: productType.price,
             quantity: quantity,
-            color: item ? item.color : productType.products[0].color,
+            color: item ? item.color : productType.products?.[0]?.color,
             size: size ? size : "Small",
-            image: item ? item.image1 : productType.products[0].image1,
+            image: item ? item.image1 : productType.products?.[0]?.image1,
             name: productType.name,
             total_price: totalPrice
-
-        }
-        setMsg({ cart: "This item has been added to your cart" })
-    
-        console.log('Order ID:', order ? order.id : 'No order');
-        console.log('Item Data:', itemData);
+        };
     
         if (!order || !order.orderItems) {
             let orderData = { status: "pending" };
             dispatch(newOrder(orderData)).then((newOrder) => {
                 if (newOrder && newOrder.id) {
                     dispatch(newOrderItem(itemData, newOrder.id)).then(() => {
-                        setMsg({ cart: "This item has been added to your cart" });
+                        setIsInCart(true);
                     });
                 } else {
                     console.error('Failed to create new order:', newOrder);
@@ -136,27 +147,22 @@ const ProductPage = () => {
             });
         } else {
             let orderItems = order.orderItems;
-            let existingItem = orderItems.find(item => item.product_id === itemData.product_id && item.size === itemData.size);
+            let existingItem = orderItems.find(orderItem => orderItem.product_id === itemData.product_id && orderItem.size === itemData.size);
     
             if (existingItem) {
                 let quantity = existingItem.quantity + itemData.quantity;
                 let total_price = existingItem.price * quantity;
                 let data = { quantity, total_price, add: itemData.total_price };
                 dispatch(modifyItem(order.id, existingItem.id, data)).then(() => {
-                    setMsg({ cart: "This item has been added to your cart" });
+                    setIsInCart(true);
                 });
             } else {
                 dispatch(newOrderItem(itemData, order.id)).then(() => {
-                    setMsg({ cart: "This item has been added to your cart" });
+                    setIsInCart(true);
                 });
             }
         }
     };
-    
-        
-        
-    
-    
 
     const addSize = (checkedSize) => {
         setSize(checkedSize);
@@ -248,25 +254,25 @@ const ProductPage = () => {
                             <div>Quantity : </div>
                             <div className="plusminus">
                                 <button className="add" disabled={quantity >= 10} onClick={addOne}>
-                                    <i className="fa-solid fa-plus"></i>
+                                    <FaPlus />
                                 </button>
                                 <div className="number">{quantity}</div>
                                 <button className="subtract" disabled={quantity <= 1} onClick={minusOne}>
-                                    <i className="fa-solid fa-minus"></i>
+                                    <FaMinus />
                                 </button>
                             </div>
                         </div>
 
-                        <button className="store-button add-to-bag-button" onClick={() => addItem(productType)}>Add to Cart</button>
+                        <button
+                            className="store-button add-to-bag-button"
+                            onClick={() => addItem(productType)}
+                            disabled={isInCart}
+                        >
+                            {isInCart ? "Item added to cart" : "Add to Cart"}
+                            {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
+                        </button>
                         {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
-                        {msg.cart && <Link className="go-to" to="/checkout">Go to my bag</Link>}
-                        {/* {user && (
-                            <OpenModalButton
-                                className="store-button add-to-style"
-                                buttonText="Add to style"
-                                modalComponent={<AddStyleItem styleItem={productType} setMsg={setMsg} />}
-                            />
-                        )} */}
+                        {msg.cart && <Link className="go-to" to="/checkout">Go to my cart</Link>}
                         {msg.style && <p className="sign-up-errors">*{msg.style}</p>}
                         {msg.style && <Link className="go-to" to="/styles">Go to my styles</Link>}
                     </div>
