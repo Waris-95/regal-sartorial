@@ -64,6 +64,7 @@ export const submitOrder = (orderId) => async dispatch => {
     if (response.ok) {
         dispatch(deleteOrder(orderId));
     } else {
+        console.error("Failed to submit order");
         return response;
     }
 };
@@ -72,13 +73,14 @@ export const getCurrentOrder = () => async (dispatch) => {
     const response = await fetch(`/api/orders/current/pending`);
     if (response.ok) {
         const order = await response.json();
+        console.log("Fetched current order:", order);
         dispatch(currentOrder(order));
         return order;
     } else {
+        console.error("Failed to fetch current order");
         return response;
     }
 };
-
 export const getUserOrders = () => async (dispatch) => {
     const response = await fetch(`/api/orders/current`, {
         headers: { 'Content-Type': 'application/json' },
@@ -227,30 +229,54 @@ const ordersReducer = (state = initialState, action) => {
             if (!action.payload) {
                 newState.currentOrder = null;
             } else {
-                newState.currentOrder = action.payload;
+                const { price, tax, total_price, ...rest } = action.payload;
+                newState.currentOrder = {
+                    ...rest,
+                    price: price ? Math.max(price, 0) : 0,
+                    tax: tax ? Math.max(tax, 0) : 0,
+                    total_price: total_price ? Math.max(total_price, 0) : 0,
+                };
             }
             return newState;
         case ADD_ORDER: {
+            const { price, tax, total_price, ...rest } = action.payload;
             newState = { ...state };
-            newState.currentOrder = action.payload;
+            newState.currentOrder = {
+                ...rest,
+                price: price ? Math.max(price, 0) : 0,
+                tax: tax ? Math.max(tax, 0) : 0,
+                total_price: total_price ? Math.max(total_price, 0) : 0,
+            };
             return newState;
         }
         case ADD_ORDER_ITEM: {
             newState = { ...state };
             newState.currentOrder.orderItems.push(action.payload);
+            const newPrice = newState.currentOrder.orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            newState.currentOrder.price = newPrice;
+            newState.currentOrder.tax = newPrice * 0.1; // Assuming 10% tax
+            newState.currentOrder.total_price = newPrice + newState.currentOrder.tax;
             return newState;
         }
         case EDIT_ORDER_ITEM: {
             newState = { ...state };
             let index = newState.currentOrder.orderItems.findIndex(x => x.id === action.payload.id);
             newState.currentOrder.orderItems[index] = action.payload;
+            const newPrice = newState.currentOrder.orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            newState.currentOrder.price = newPrice;
+            newState.currentOrder.tax = newPrice * 0.1; // Assuming 10% tax
+            newState.currentOrder.total_price = newPrice + newState.currentOrder.tax;
             return newState;
         }
         case EDIT_ORDER: {
+            const { price, tax, total_price, ...rest } = action.payload;
             newState = { ...state };
             newState.currentOrder = {
                 ...newState.currentOrder,
-                ...action.payload
+                ...rest,
+                price: price ? Math.max(price, 0) : 0,
+                tax: tax ? Math.max(tax, 0) : 0,
+                total_price: total_price ? Math.max(total_price, 0) : 0,
             };
             return newState;
         }
@@ -260,12 +286,15 @@ const ordersReducer = (state = initialState, action) => {
         case REMOVE_ORDER_ITEM: {
             newState = { ...state };
             newState.currentOrder.orderItems = newState.currentOrder.orderItems.filter((item) => item.id !== action.payload);
+            const newPrice = newState.currentOrder.orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            newState.currentOrder.price = newPrice;
+            newState.currentOrder.tax = newPrice * 0.1; // Assuming 10% tax
+            newState.currentOrder.total_price = newPrice + newState.currentOrder.tax;
             return newState;
         }
         default:
             return state;
     }
 };
-
 
 export default ordersReducer;

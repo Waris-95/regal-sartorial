@@ -200,10 +200,11 @@
 }
 
 .add-to-bag-button:hover {
-    background-color: #707070; /* Lighter color on hover */
-    transform: translateY(-2px); /* Slight lift on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
-}
+    background-color: #000000; 
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+} 
 
 .prod-price-2, .go-to {
     color: #333333; /* Darker text */

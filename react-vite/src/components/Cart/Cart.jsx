@@ -141,7 +141,7 @@ function Cart() {
                   </button>
                 </div>
                 {item.quantity > 1 && (
-                  <div className="order-item-price">Total: ${item.total_price}.00</div>
+                  <div className="order-item-price">Total: ${item.total_price}</div>
                 )}
                 <button className="store-button remove-order-item" onClick={() => removeItem(item)}>Remove</button>
               </div>
@@ -156,7 +156,7 @@ function Cart() {
               Subtotal: <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="order-price">
-              Tax: <span>${tax.toFixed(2)}</span>
+              Shipping & Tax: <span>${tax.toFixed(2)}</span>
             </div>
             <div className="order-price total">
               Total Price: <span>${totalPrice.toFixed(2)}</span>
