@@ -7,7 +7,7 @@ Welcome to Regal Sartorials, a lightweight e-commerce store.
 
 
 # Link to Live Site
-[Regal Sartorials](https://e-commerce-aiii.onrender.com)
+[Regal Sartorials](https://regal-sartorial.onrender.com)
 
 
 # WikiLinks
