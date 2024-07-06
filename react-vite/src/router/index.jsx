@@ -11,6 +11,8 @@ import NewArrivals from '../components/NewCollections/NewCollection';
 import Favorites from '../components/Favorites/Favorite';
 import Cart from '../components/Cart/Cart';
 import ShippingPage from '../components/ShippingPage/ShippingPage';
+import StylesDetails from '../components/Wardrobe/StylesDetail';
+import Styles from '../components/Wardrobe/Styles';
 
 const routes = [
   {
@@ -44,6 +46,12 @@ const routes = [
       },
       { path: 'shipping',
        element: <ShippingPage /> 
+      },
+      { path: 'styles/:styleId',
+       element: <StylesDetails /> 
+      },
+      { path: 'styles',
+       element: <Styles /> 
       },
 
 

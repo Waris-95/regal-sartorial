@@ -1,0 +1,108 @@
+.styles-container {
+    height: auto;
+    width: 100%;
+    background-color: #000000;
+    padding-bottom: 100px;
+}
+
+.new-style-button-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}
+
+
+.styles-cards-container {
+    display: flex;
+    align-content: center;
+    margin-left: 6.2%;
+    margin-right: 6.2%;
+    width: auto;
+    background-color: #7a7a7a;
+
+}
+
+.style-cards-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6%;
+    margin-top: 90px;
+    width: 100%;
+}
+
+.style-card {
+    height: 300px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+
+.delete-style2 {
+    width: 100px;
+    height: 30px;
+    margin-top: 15px;
+    margin-left: 15px;
+    font-size: 15px;
+    border: 1px solid #fdf9f5
+}
+
+
+.style-link {
+    text-decoration: none;
+}
+
+.style-card-image-container {
+    height: 220px;
+    display: grid;
+    grid-template-columns: 165px 125px;
+    gap: 2.5px;
+    margin-bottom: 10px;
+}
+
+.style-small-images {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+}
+
+.style-card-image1 {
+    height: 220px;
+    width: 165px;
+    object-fit: cover;
+    border-radius: 20px 0px 0px 20px;
+}
+
+.style-card-image2 {
+    height: 109px;
+    width: 125px;
+    object-fit: cover;
+    border-radius: 0px 20px 0px 0px;
+}
+
+.style-card-image3 {
+    height: 109px;
+    width: 125px;
+    object-fit: cover;
+    border-radius: 0px 0px 20px 0px;
+}
+
+.style-card-title {
+    text-decoration: none;
+    color: #fdf9f5;
+    font-weight: lighter;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.no-styles-container {
+    padding-top: 80px;
+    color: #fdf9f5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    padding-bottom: 200px;
+}
