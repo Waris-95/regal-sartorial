@@ -1,24 +1,43 @@
-
 .homepage-container {
     padding-top: 20px;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-}
-
-.featured-collection-box {
+  }
+  
+  .featured-collection-box {
     display: flex;
     height: 250px;
     background-color: #000000;
     justify-content: center;
     align-items: center;
-}
-
-.feature-collection-text {
+  }
+  
+  .feature-collection-text {
     font-family: 'Roboto', sans-serif;
     font-size: 50px;
     border-top: thin #ffffff solid;
     border-bottom: thin #ffffff solid;
     color: #ffffff;
-
-}
+  }
+  
+  @media screen and (max-width: 768px) {
+    .feature-collection-text {
+      font-size: 30px;
+    }
+  
+    .featured-collection-box {
+      height: 150px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .feature-collection-text {
+      font-size: 24px;
+    }
+  
+    .featured-collection-box {
+      height: 120px;
+    }
+  }
+  

@@ -117,7 +117,6 @@
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   font-size: 16px;
   margin-top: 10px;
-  /* text-transform: uppercase; */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   padding: 10px 20px;
   font-weight: 600;
@@ -140,7 +139,7 @@
 }
 
 .add-favorite-button.favorite-added {
-  background: #000000; /* Green background for added favorites */
+  background: #000000; /* Change background for added favorites */
   cursor: default; /* Change cursor to default */
 }
 
@@ -148,4 +147,46 @@
   color: #000000;
   font-size: 14px;
   margin-top: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .product-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-container {
+    width: 90%;
+    margin: 10px 0;
+  }
+
+  .card-img {
+    height: 200px;
+  }
+
+  .add-favorite-button {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .product-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-container {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .card-img {
+    height: 150px;
+  }
+
+  .add-favorite-button {
+    width: 100%;
+    font-size: 12px;
+  }
 }
