@@ -8,6 +8,7 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag } from "../../redux/bags";
+import AddStyleItem from '../Wardrobe/AddStyleItem'
 import "./ProductsPage.css";
 import "../../index.css";
 
