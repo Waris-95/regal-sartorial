@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Link } from 'react-router-dom';
 import { getUserStyles, deleteStyle, createStyle } from '../../redux/styles';
 import OpenModalButton from '../OpenModalButton';
-import StylesFormPage from './StyleFormPage';
+import StylesFormPage from './StylesFormPage';
 import './Styles.css';
 
 function Styles() {

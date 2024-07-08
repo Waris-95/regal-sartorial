@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from '../../context/Modal'
 import { getUserStyles } from "../../redux/styles";
 import { newStyleItem } from "../../redux/styles";
-import StyleFormPage from "./StylesFormPage";
-import OpenModalButton from '../OpenModalButton'
+import StylesFormPage from "./StylesFormPage";
+
 import "./AddStyleItem.css"
 
 
@@ -91,7 +91,7 @@ function AddStyleItem({ styleItem, setMsg }) {
 
             {newStyle && (
                 <div className="new-style-modal-container">
-                    <StyleFormPage styleReturned={styleReturned} setMsg={setMsg} />
+                    <StylesFormPage styleReturned={styleReturned} setMsg={setMsg} />
                     <button className="nevermind-new-style" onClick={() => setNewStyle(false)}>Nevermind, I want to add it to an existing Style</button>
 
                 </div>
