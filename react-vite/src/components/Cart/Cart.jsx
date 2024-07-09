@@ -39,7 +39,7 @@ function Cart() {
   useEffect(() => {
     if (user) {
       dispatch(getCurrentOrder()).then((data) => {
-        console.log('Fetched current order:', data);
+        // console.log('Fetched current order:', data);
         let bag = 0;
         if (data && data.orderItems && data.orderItems.length) {
           data.orderItems.forEach(item => {

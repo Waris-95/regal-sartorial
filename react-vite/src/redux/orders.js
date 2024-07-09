@@ -73,7 +73,7 @@ export const getCurrentOrder = () => async (dispatch) => {
     const response = await fetch(`/api/orders/current/pending`);
     if (response.ok) {
         const order = await response.json();
-        console.log("Fetched current order:", order);
+        // console.log("Fetched current order:", order);
         dispatch(currentOrder(order));
         return order;
     } else {

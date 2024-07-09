@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from '../../context/Modal';
-import { getUserStyles } from "../../redux/styles";
-import { newStyleItem } from "../../redux/styles";
+import { getUserStyles, newStyleItem } from "../../redux/styles";
 import StylesFormPage from "./StylesFormPage";
-
 import "./AddStyleItem.css";
 
 function AddStyleItem({ styleItem, setMsg }) {
@@ -13,7 +11,7 @@ function AddStyleItem({ styleItem, setMsg }) {
     const styles = useSelector(state => state.styles);
     const [newStyle, setNewStyle] = useState(false);
     const [open, setOpen] = useState(false);
-    const [chosenStyle, setChosenStyle] = useState(false);
+    const [chosenStyle, setChosenStyle] = useState(null);
     const [styleExists, setStyleExists] = useState(false);
 
     let stylesArray = styles ? Object.entries(styles).map((style) => style[1]) : [];
@@ -26,7 +24,7 @@ function AddStyleItem({ styleItem, setMsg }) {
         setOpen(!open);
     };
 
-    const addToStyle = (style) => {
+    const addToStyle = async (style) => {
         setChosenStyle(style);
         setOpen(false);
 
@@ -39,15 +37,14 @@ function AddStyleItem({ styleItem, setMsg }) {
             }
         }
 
-        dispatch(newStyleItem(styleItem.id, style.id))
-            .then(() => {
-                setMsg({ "style": "This item has been added to your style" });
-                closeModal();
-            })
-            .catch(error => {
-                console.error('Error adding to style:', error);
-                setMsg({ "style": "Failed to add item to style" });
-            });
+        try {
+            const result = await dispatch(newStyleItem(styleItem.id, style.id));
+            setMsg({ "style": "This item has been added to your style" });
+            closeModal();
+        } catch (error) {
+            console.error('Error adding to style:', error);
+            setMsg({ "style": "Failed to add item to style" });
+        }
     };
 
     const styleReturned = (returnedStyle) => {

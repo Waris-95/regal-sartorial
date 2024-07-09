@@ -21,9 +21,9 @@ def all_style():
 @styles_bp.route('/current')
 @login_required
 def user_styles():
-    styles = Style.query.filter_by(user_id=current_user.id).order_by(
-        Style.created_at)
+    styles = Style.query.filter_by(user_id=current_user.id).order_by(Style.created_at)
     return jsonify({'styles': [style.to_dict() for style in styles]})
+
 
 # GET/by style id
 @styles_bp.route('/current/<int:style_id>')

@@ -7,15 +7,17 @@ import ordersReducer from "./orders";
 import productTypeReducer from "./ProductType";
 import reviewsReducer from "./reviews";
 import favoritesReducer from "./favorites";
+import stylesReducer from "./styles";
 
 const rootReducer = combineReducers({
-  bag: bagReducer,
-  favorites: favoritesReducer,
-  orders: ordersReducer,
   products: productsReducer,
   productType: productTypeReducer,
   reviews: reviewsReducer,
-  session: sessionReducer
+  favorites: favoritesReducer,
+  session: sessionReducer,
+  styles: stylesReducer,
+  orders: ordersReducer,
+  bag: bagReducer,
 });
 
 let enhancer;

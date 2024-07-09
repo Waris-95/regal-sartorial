@@ -41,30 +41,30 @@ export const removeStyle = styleId => ({
     payload: styleId
 })
 
-export const getUserStyles = () => async (dispatch) => {
 
+export const getUserStyles = () => async (dispatch) => {
     const response = await fetch(`/api/styles/current`, {
         headers: {
             'Content-Type': 'application/json'
         },
     });
     if (response.ok) {
-        const styles = await response.json();
-
-
-        dispatch(loadUserStyles(styles));
-        if (!styles.length) {
-            return null
+        const data = await response.json();
+        console.log('Fetched styles:', data); // Log for debugging
+        dispatch(loadUserStyles(data)); // Dispatch the correct payload
+        if (!data.styles || !data.styles.length) {
+            return null;
         }
-        return styles;
+        return data;
     } else {
         return response;
     }
-}
+};
+
 
 export const getStyleItems = (styleId) => async (dispatch) => {
 
-    const response = await fetch(`/api/styles/${styleId}/style_items/`, {
+    const response = await fetch(`/api/styles/${styleId}/style_items`, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -100,10 +100,7 @@ export const createStyle = data => async (dispatch) => {
 
     const response = await fetch(`/api/styles/`, {
         method: "POST",
-        headers: { 
-            'Content-Type': 'application/json',
-            // 'X-CSRFToken': csrfToken
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
     if (response.ok) {
@@ -124,20 +121,24 @@ export const createStyle = data => async (dispatch) => {
     }
 }
 
-export const newStyleItem = (productTypeId, styleId) => async dispatch => {
+export const newStyleItem = (styleItemId, styleId) => async dispatch => {
 
-    const response = await fetch(`/api/styles/${styleId}/style_items/`, {
+    const response = await fetch(`/api/styles/${styleId}/style_items`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_type_id: productTypeId })
+        body: JSON.stringify(styleItemId)
     });
 
 
     if (response.ok) {
         const res = await response.json();
+
         if (res.error) {
+
             return res
         }
+
+        // dispatch(addStyleItem(res));
         dispatch(getUserStyles())
         return res;
     } else {
@@ -212,41 +213,45 @@ const stylesReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_USER_STYLES: {
             newState = {};
-            action.payload.user_styles.forEach(style => {
-                newState[style.id] = style;
-            });
+            if (Array.isArray(action.payload.styles)) {
+                action.payload.styles.forEach(style => {
+                    newState[style.id] = style;
+                });
+            } else {
+                console.error('GET_USER_STYLES payload is not an array:', action.payload.styles);
+            }
             return newState;
         }
         case GET_STYLE_ITEMS: {
-
-            newState.styleItems = action.payload
-            return newState
+            newState = { ...state };
+            newState.styleItems = action.payload;
+            return newState;
         }
         case ADD_STYLE: {
             newState = {
                 ...state,
                 [action.payload.id]: action.payload
-            }
+            };
             return newState;
         }
         case GET_STYLE: {
-            newState = action.payload
-            return newState
+            newState = { ...state };
+            newState[action.payload.id] = action.payload;
+            return newState;
         }
         case EDIT_STYLE: {
             newState = { ...state };
-            newState[action.payload.id] = action.payload
+            newState[action.payload.id] = action.payload;
             return newState;
         }
         case REMOVE_STYLE: {
             newState = { ...state };
-            delete newState[action.payload]
-            return newState
+            delete newState[action.payload];
+            return newState;
         }
         default:
             return state;
     }
-}
+};
 
-
-export default stylesReducer
+export default stylesReducer;

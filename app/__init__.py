@@ -48,7 +48,7 @@ app.register_blueprint(order_item_bp, url_prefix='/api/orders')
 app.register_blueprint(reviews_bp, url_prefix='/api/reviews')
 app.register_blueprint(favorite_bp, url_prefix='/api/favorites')
 app.register_blueprint(styles_bp, url_prefix='/api/styles')
-app.register_blueprint(style_item_bp, url_prefix='/api/style_items')
+app.register_blueprint(style_item_bp, url_prefix='/api/styles')
 
 
 db.init_app(app)
