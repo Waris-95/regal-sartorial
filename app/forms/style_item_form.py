@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField
 from wtforms.validators import DataRequired, ValidationError
-from app.models import Product, StyleItem
+from app.models import StyleItem, Product
 
-def product_validator(form, field):
+def check_product(form, field):
     product_type_id = field.data
     product = Product.query.get(product_type_id)
     if product is None:
-        raise ValidationError('This item does not exists.')
-    
+        raise ValidationError('Product does not exist.')
+
 class StyleItemForm(FlaskForm):
-    product_type_id = IntegerField('product_type_id', validators=[DataRequired()])
+    product_type_id= IntegerField('product_type_id', validators=[DataRequired()])
