@@ -17,10 +17,12 @@ function StylesFormPage({ styleReturned, setMsg }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (errors.title) errors.title = '';
+        // Clear previous title error if any
+        if (errors.title) setErrors(prev => ({ ...prev, title: '' }));
 
         const data = await dispatch(createStyle({ title }));
-        if (data.errors) {
+
+        if (data.errors && data.errors.length > 0) {
             setErrors(data.errors[0]);
         } else {
             if (styleReturned) {

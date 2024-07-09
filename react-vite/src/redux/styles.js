@@ -100,7 +100,10 @@ export const createStyle = data => async (dispatch) => {
 
     const response = await fetch(`/api/styles/`, {
         method: "POST",
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            // 'X-CSRFToken': csrfToken
+        },
         body: JSON.stringify(data)
     })
     if (response.ok) {
@@ -121,24 +124,20 @@ export const createStyle = data => async (dispatch) => {
     }
 }
 
-export const newStyleItem = (styleItemId, styleId) => async dispatch => {
+export const newStyleItem = (productTypeId, styleId) => async dispatch => {
 
     const response = await fetch(`/api/styles/${styleId}/style_items/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(styleItemId)
+        body: JSON.stringify({ product_type_id: productTypeId })
     });
 
 
     if (response.ok) {
         const res = await response.json();
-
         if (res.error) {
-
             return res
         }
-
-        // dispatch(addStyleItem(res));
         dispatch(getUserStyles())
         return res;
     } else {

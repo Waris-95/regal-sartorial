@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Link } from "react-router-dom";
 import { getUserFavorites, deleteFavorites } from "../../redux/favorites";
@@ -9,6 +9,8 @@ function Favorites() {
 
   const user = useSelector(state => state.session.user);
   const favorites = useSelector(state => state.favorites) || [];
+  const [editingFav, setEditingFav] = useState(null);
+  const [newImage, setNewImage] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);

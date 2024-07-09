@@ -34,7 +34,11 @@ function ShippingPage() {
         if (!city.trim()) errors.push("City is required.");
         if (!state.trim() || state.length !== 2) errors.push("Valid state abbreviation is required.");
         if (!/^\d{5}$/.test(zipcode)) errors.push("Valid ZIP Code is required.");
-        // if (!/^\d{16}$/.test(cardnumber.replace(/\s+/g, ''))) errors.push("Valid card number is required.");
+
+        if (!/^\d{5,}$/.test(cardnumber.replace(/\D/g, ''))) {
+            errors.push("Valid card number is required (minimum 12 digits).");
+          }
+          
         if (!/^\d{2}\/\d{2}$/.test(expDate) || !isValidExpirationDate(expDate)) errors.push("Valid expiration date is required.");
         if (!/^\d{3}$/.test(cvv)) errors.push("Valid CVV is required.");
         return errors;
