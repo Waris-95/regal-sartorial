@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: flex-end;
     object-fit: contain;
-    max-width:1500px;
+    max-width: 1500px;
 }
 
 .fall-photo {
@@ -22,18 +22,14 @@
     background-size: cover;
     overflow: hidden;
     object-fit: cover;
-
-
 }
 
 .fall-collection {
-    padding: 8px 80px;
+    padding: 12px 26px;
     border-radius: 2px;
     margin-right: 30px;
     color: #fdf9f5;
-    padding: 8px 10px;
     border: 2px solid white;
-    padding: 12px 26px;
     font-size: 50px;
     margin-top: -200px;
     font-family: Italiana;
@@ -43,6 +39,38 @@
     margin-right: 40px;
     color: #fdf9f5;
     font-size: 30px;
-    margin-top: 15px;;
+    margin-top: 15px;
+}
 
+@media screen and (max-width: 960px) {
+    .fall-container {
+        margin-top: -150px;
+        align-items: center;
+    }
+
+    .fall-collection {
+        font-size: 40px;
+        margin-right: 0;
+    }
+
+    .fall-coming-soon {
+        font-size: 25px;
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .fall-container {
+        align-items: center;
+    }
+
+    .fall-collection {
+        font-size: 30px;
+        margin-top: -100px;
+        padding: 10px 20px;
+    }
+
+    .fall-coming-soon {
+        font-size: 20px;
+    }
 }

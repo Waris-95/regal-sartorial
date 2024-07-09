@@ -7,6 +7,23 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteOrder from "../DeleteOrder/DeleteOrder";
 import "./Cart.css";
 
+// Helper function to group order items
+const groupOrderItems = (orderItems) => {
+  const groupedItems = {};
+
+  orderItems.forEach(item => {
+    const key = `${item.product_id}-${item.size}`;
+    if (!groupedItems[key]) {
+      groupedItems[key] = { ...item, total_quantity: item.quantity, total_price: item.price * item.quantity };
+    } else {
+      groupedItems[key].total_quantity += item.quantity;
+      groupedItems[key].total_price += item.price * item.quantity;
+    }
+  });
+
+  return Object.values(groupedItems);
+};
+
 function Cart() {
   const [orderLoaded, setOrderLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -22,12 +39,12 @@ function Cart() {
   useEffect(() => {
     if (user) {
       dispatch(getCurrentOrder()).then((data) => {
-        console.log('Fetched current order:', data); // Log current order
+        console.log('Fetched current order:', data);
         let bag = 0;
         if (data && data.orderItems && data.orderItems.length) {
           data.orderItems.forEach(item => {
-            console.log("Image URL:", item.image);  // Log the image URL
-            console.log("Product Type ID:", item.product_type_id); // Log the product type ID
+            console.log("Image URL:", item.image);
+            console.log("Product Type ID:", item.product_type_id);
             bag += item.quantity;
           });
           dispatch(setBag(bag));
@@ -44,15 +61,10 @@ function Cart() {
   const addOne = (item) => {
     let quantity = item.quantity + 1;
     let total_price = item.price * quantity;
-    let add = item.price;
-    let data = {
-      quantity,
-      total_price,
-      add
-    };
+    let data = { quantity, total_price };
     dispatch(editBag(bag + 1));
     dispatch(modifyItem(order.id, item.id, data))
-      .then(() => dispatch(getCurrentOrder())) // Fetch updated order
+      .then(() => dispatch(getCurrentOrder())) 
       .then((updatedOrder) => {
         console.log('Updated order after adding one item:', updatedOrder);
       })
@@ -62,15 +74,10 @@ function Cart() {
   const minusOne = (item) => {
     let quantity = item.quantity - 1;
     let total_price = item.price * quantity;
-    let minus = item.price;
-    let data = {
-      quantity,
-      total_price,
-      minus
-    };
+    let data = { quantity, total_price };
     dispatch(editBag(bag - 1));
     dispatch(modifyItem(order.id, item.id, data))
-      .then(() => dispatch(getCurrentOrder())) // Fetch updated order
+      .then(() => dispatch(getCurrentOrder())) 
       .then((updatedOrder) => {
         console.log('Updated order after removing one item:', updatedOrder);
       })
@@ -82,7 +89,7 @@ function Cart() {
       .then(() => {
         let newBag = bag - item.quantity;
         dispatch(editBag(newBag));
-        return dispatch(getCurrentOrder()); // Fetch updated order
+        return dispatch(getCurrentOrder());
       })
       .then((updatedOrder) => {
         console.log('Updated order after removing item:', updatedOrder);
@@ -111,8 +118,11 @@ function Cart() {
     );
   }
 
-  const subtotal = order.orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.1; // Example tax rate of 10%
+  // Group order items before rendering
+  const groupedOrderItems = groupOrderItems(order.orderItems);
+
+  const subtotal = groupedOrderItems.reduce((acc, item) => acc + item.total_price, 0);
+  const tax = subtotal * 0.1;
   const totalPrice = subtotal + tax;
 
   return (
@@ -120,7 +130,7 @@ function Cart() {
       <h1 className="page-header">My Cart</h1>
       <div className="cart-container">
         <div className="order-items-container">
-          {order.orderItems.map((item, i) => (
+          {groupedOrderItems.map((item, i) => (
             <div key={i} className="order-item-container">
               <Link to={`/shop/${item.product_type_id}`}>
                 <img alt={item.name} className="order-item-img" src={item.image} />
@@ -132,15 +142,15 @@ function Cart() {
 
                 <div className="quantity-container">
                   <div className="quantity-order">Quantity: </div>
-                  <button className="add" disabled={item.quantity >= 10} onClick={() => addOne(item)}>
+                  <button className="add" disabled={item.total_quantity >= 10} onClick={() => addOne(item)}>
                     <i className="fa-solid fa-plus"></i>
                   </button>
-                  <div className="number">{item.quantity}</div>
-                  <button className="subtract" disabled={item.quantity <= 1} onClick={() => minusOne(item)}>
+                  <div className="number">{item.total_quantity}</div>
+                  <button className="subtract" disabled={item.total_quantity <= 1} onClick={() => minusOne(item)}>
                     <i className="fa-solid fa-minus"></i>
                   </button>
                 </div>
-                {item.quantity > 1 && (
+                {item.total_quantity > 1 && (
                   <div className="order-item-price">Total: ${item.total_price}</div>
                 )}
                 <button className="store-button remove-order-item" onClick={() => removeItem(item)}>Remove</button>
@@ -167,7 +177,7 @@ function Cart() {
           <OpenModalButton
             buttonText="Empty Bag"
             modalComponent={<DeleteOrder order={order} />}
-            className="empty-bag-button"
+            className="empty-bag-buttonssss"
           />
         </div>
       </div>

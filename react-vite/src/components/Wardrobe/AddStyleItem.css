@@ -1,11 +1,11 @@
 .add-style-item-container {
     height: auto;
     width: auto;
-    background-color: #caafa8;
+    background-color: #1a1a1a;
     border-radius: 10px;
-    color: white;
+    color: #f0f0f0;
     font-weight: lighter;
-
+    padding: 20px;
 }
 
 .would-you-box {
@@ -21,6 +21,8 @@
     justify-content: center;
     padding-top: 20px;
     padding-bottom: 20px;
+    font-size: 1.2em;
+    font-style: italic;
 }
 
 .would-you-buttons {
@@ -29,11 +31,25 @@
     gap: 20px;
 }
 
+.store-button {
+    background-color: #333;
+    color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.store-button:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
 .nevermind-new-style {
     text-decoration: none;
     border: none;
     background-color: transparent;
-    color: white;
+    color: #f0f0f0;
     font-weight: lighter;
     font-size: 13px;
     padding-bottom: 80px;
@@ -42,6 +58,7 @@
 
 .nevermind-new-style:hover {
     font-size: 14px;
+    color: #b3b3b3;
 }
 
 .new-style-modal-container {
@@ -52,20 +69,21 @@
 .drop-down-menu-styles {
     height: 80px;
     overflow-y: scroll;
-    background-color: white;
+    background-color: #1a1a1a;
     position: absolute;
     padding: 10px;
     padding-bottom: 2px;
     padding-left: 10px;
     width: 250px;
     cursor: pointer;
-    border-top: 1px solid #caafa8;
+    border-top: 1px solid #f0f0f0;
+    color: #f0f0f0;
 }
 
 .style-list-item {
     text-decoration: none;
     border: none;
-    color: #caafa8;
+    color: #f0f0f0;
     background-color: transparent;
     width: 230px;
     cursor: pointer;
@@ -73,15 +91,15 @@
     justify-content: start;
     margin-bottom: 3px;
     font-weight: lighter;
-
-
 }
 
 .style-list-item:hover {
-    background-color: #caafa8;
-    color: white;
+    background-color: #333;
+    color: #f0f0f0;
 }
 
 .already-has-item {
     margin-top: 5px;
+    color: #ff4c4c;
+    font-style: italic;
 }

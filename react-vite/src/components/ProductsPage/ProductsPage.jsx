@@ -8,6 +8,7 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag } from "../../redux/bags";
+import AddStyleItem from "../Wardrobe/AddStyleItems";
 import "./ProductsPage.css";
 import "../../index.css";
 
@@ -113,30 +114,40 @@ const ProductPage = () => {
         }
     };
 
+
+
+
     const addItem = (product) => {
         if (!user) {
             navigate("/login");
             return;
         }
     
-        let totalPrice = quantity * productType.price;
-        let itemData = {
-            product_id: item ? item.id : productType.products?.[0]?.id,
-            product_type_id: productType.id,
-            price: productType.price,
-            quantity: quantity,
-            color: item ? item.color : productType.products?.[0]?.color,
-            size: size ? size : "Small",
-            image: item ? item.image1 : productType.products?.[0]?.image1,
-            name: productType.name,
-            total_price: totalPrice
-        };
+        const productId = item ? item.id : productType.products?.[0]?.id;
+        const color = item ? item.color : productType.products?.[0]?.color;
+        const image = item ? item.image1 : productType.products?.[0]?.image1;
+        const name = productType.name;
+        const sizeToUse = size || "Small";
+        const price = productType.price;
+        const total_price = quantity * price;
     
         if (!order || !order.orderItems) {
-            let orderData = { status: "pending" };
+            const orderData = { status: "pending" };
             dispatch(newOrder(orderData)).then((newOrder) => {
                 if (newOrder && newOrder.id) {
+                    const itemData = {
+                        product_id: productId,
+                        product_type_id: productType.id,
+                        price,
+                        quantity,
+                        color,
+                        size: sizeToUse,
+                        image,
+                        name,
+                        total_price
+                    };
                     dispatch(newOrderItem(itemData, newOrder.id)).then(() => {
+                        dispatch(getCurrentOrder());
                         setIsInCart(true);
                     });
                 } else {
@@ -147,22 +158,40 @@ const ProductPage = () => {
             });
         } else {
             let orderItems = order.orderItems;
-            let existingItem = orderItems.find(orderItem => orderItem.product_id === itemData.product_id && orderItem.size === itemData.size);
+            let existingItem = orderItems.find(orderItem => orderItem.product_id === productId && orderItem.size === sizeToUse);
     
             if (existingItem) {
-                let quantity = existingItem.quantity + itemData.quantity;
-                let total_price = existingItem.price * quantity;
-                let data = { quantity, total_price, add: itemData.total_price };
+                let newQuantity = existingItem.quantity + quantity;
+                let newTotalPrice = price * newQuantity;
+                let data = { quantity: newQuantity, total_price: newTotalPrice };
                 dispatch(modifyItem(order.id, existingItem.id, data)).then(() => {
+                    dispatch(getCurrentOrder());
                     setIsInCart(true);
                 });
             } else {
+                const itemData = {
+                    product_id: productId,
+                    product_type_id: productType.id,
+                    price,
+                    quantity,
+                    color,
+                    size: sizeToUse,
+                    image,
+                    name,
+                    total_price
+                };
                 dispatch(newOrderItem(itemData, order.id)).then(() => {
+                    dispatch(getCurrentOrder());
                     setIsInCart(true);
                 });
             }
         }
     };
+    
+
+    
+    
+    
 
     const addSize = (checkedSize) => {
         setSize(checkedSize);
@@ -275,6 +304,13 @@ const ProductPage = () => {
                         {msg.cart && <Link className="go-to" to="/checkout">Go to my cart</Link>}
                         {msg.style && <p className="sign-up-errors">*{msg.style}</p>}
                         {msg.style && <Link className="go-to" to="/styles">Go to my styles</Link>}
+                        {user && (
+                            <OpenModalButton
+                                className="store-button add-to-style"
+                                buttonText="Add to Wardrobe"
+                                modalComponent={<AddStyleItem styleItem={productType} setMsg={setMsg} />}
+                            />
+                        )}
                     </div>
                 </div>
 
