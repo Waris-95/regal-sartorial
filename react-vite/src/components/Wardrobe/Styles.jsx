@@ -43,7 +43,7 @@ function Styles() {
         return (
             <div className="styles-container">
                 <div className="page-header">
-                    <h1>my styles</h1>
+                    <h1>My Wardrobes</h1>
                 </div>
                 <div className="styles-cards-container">
                     <div className="style-cards-box">
@@ -74,14 +74,14 @@ function Styles() {
                                     </div>
                                     <div className="style-card-title">{style.title.toLowerCase()}</div>
                                 </Link>
-                                <button className="store-button delete-style2" onClick={() => removeStyle(style)}>delete style</button>
+                                <button className="store-button delete-style2" onClick={() => removeStyle(style)}>delete</button>
                             </div>
                         ))}
                     </div>
                 </div>
                 <div className="new-style-button-container">
                     <OpenModalButton
-                        buttonText="add new style"
+                        buttonText="Add New Wardrobes"
                         modalComponent={<StylesFormPage styles={stylesArray} />}
                     />
                 </div>

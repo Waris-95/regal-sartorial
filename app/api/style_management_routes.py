@@ -19,10 +19,13 @@ def all_style_items(style_id):
 @style_item_bp.route('/styles/<int:style_id>/style_items/', methods=['POST'])
 @login_required
 def new_item_to_style(style_id):
+    print("Received POST request")  # Log request receipt
     form = StyleItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    print(f"CSRF Token: {form['csrf_token'].data}")  # Log CSRF token
     style = Style.query.get(style_id)
     if style is None:
+        print("Wardrobe not found")  # Log wardrobe not found
         return jsonify({'error': 'Wardrobe you are looking for does not exist'}), 404
 
     if form.validate_on_submit():
@@ -30,6 +33,7 @@ def new_item_to_style(style_id):
 
         for item in style.style_items:
             if item.product_type_id == product_type_id:
+                print("Item already exists in wardrobe")  # Log item exists
                 return jsonify({'error': "This item has already been saved in your wardrobe, please try a different one"}), 400
 
         style_item = StyleItem(
@@ -39,7 +43,7 @@ def new_item_to_style(style_id):
 
         db.session.add(style_item)
         db.session.commit()
-
+        print("Item added to wardrobe")  # Log item added
         return style_item.to_dict(), 201
     else:
         print(f"Form validation errors: {form.errors}")
