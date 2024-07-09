@@ -303,7 +303,7 @@ const ProductPage = () => {
                         {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
                         {msg.cart && <Link className="go-to" to="/checkout">Go to my cart</Link>}
                         {msg.style && <p className="sign-up-errors">*{msg.style}</p>}
-                        {msg.style && <Link className="go-to" to="/styles">Go to my styles</Link>}
+                        {msg.style && <Link className="go-to" to="/styles">View my wardrobes</Link>}
                         {user && (
                             <OpenModalButton
                                 className="store-button add-to-style"

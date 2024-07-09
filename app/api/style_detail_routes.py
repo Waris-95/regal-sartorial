@@ -22,7 +22,9 @@ def all_style():
 @login_required
 def user_styles():
     styles = Style.query.filter_by(user_id=current_user.id).order_by(Style.created_at)
-    return jsonify({'styles': [style.to_dict() for style in styles]})
+    styles_dict = {'styles': [style.to_dict() for style in styles]}
+    print('Fetched styles:', styles_dict)
+    return jsonify(styles_dict)
 
 
 # GET/by style id

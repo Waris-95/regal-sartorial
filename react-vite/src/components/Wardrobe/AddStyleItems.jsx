@@ -39,11 +39,11 @@ function AddStyleItem({ styleItem, setMsg }) {
 
         try {
             const result = await dispatch(newStyleItem(styleItem.id, style.id));
-            setMsg({ "style": "This item has been added to your style" });
+            setMsg({ "style": "This item has been added to your wardrobe" });
             closeModal();
         } catch (error) {
-            console.error('Error adding to style:', error);
-            setMsg({ "style": "Failed to add item to style" });
+            console.error('Error adding to wardrobe:', error);
+            setMsg({ "style": "Failed to add item to wardrobe" });
         }
     };
 
@@ -55,11 +55,11 @@ function AddStyleItem({ styleItem, setMsg }) {
         <div className="add-style-item-container">
             {!newStyle && (
                 <div className="would-you-box">
-                    <div className="would-you">Would you like to add to an existing Style or create a new one?</div>
+                    <div className="would-you">Would you like to add to an existing wardrobe or create a new one?</div>
                     <div className="would-you-buttons">
                         <button className="store-button would-you-new-style" onClick={() => setNewStyle(true)}>Create a New One</button>
                         <div className="dropdown-styles">
-                            <button className="store-button" onClick={handleOpen}>Your Styles</button>
+                            <button className="store-button" onClick={handleOpen}>Your Wardrobe</button>
                             {open && (
                                 <ul className="drop-down-menu-styles">
                                     {stylesArray.map(style => (
@@ -70,7 +70,7 @@ function AddStyleItem({ styleItem, setMsg }) {
                                 </ul>
                             )}
                             {styleExists && (
-                                <div className="already-has-item">*This Style already has this item</div>
+                                <div className="already-has-item">*This wardrobe already has this item</div>
                             )}
                         </div>
                     </div>
@@ -79,7 +79,7 @@ function AddStyleItem({ styleItem, setMsg }) {
             {newStyle && (
                 <div className="new-style-modal-container">
                     <StylesFormPage styleReturned={styleReturned} setMsg={setMsg} />
-                    <button className="nevermind-new-style" onClick={() => setNewStyle(false)}>Nevermind, I want to add it to an existing Style</button>
+                    <button className="nevermind-new-style" onClick={() => setNewStyle(false)}>Nevermind, I want to add it to an existing wardrobe</button>
                 </div>
             )}
         </div>

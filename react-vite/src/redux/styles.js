@@ -62,9 +62,10 @@ export const getUserStyles = () => async (dispatch) => {
 };
 
 
+
 export const getStyleItems = (styleId) => async (dispatch) => {
 
-    const response = await fetch(`/api/styles/${styleId}/style_items`, {
+    const response = await fetch(`/api/styles/${styleId}/style_items/`, {
         headers: {
             'Content-Type': 'application/json'
         },
@@ -122,30 +123,24 @@ export const createStyle = data => async (dispatch) => {
 }
 
 export const newStyleItem = (styleItemId, styleId) => async dispatch => {
-
-    const response = await fetch(`/api/styles/${styleId}/style_items`, {
+    const response = await fetch(`/api/styles/${styleId}/style_items/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(styleItemId)
+        body: JSON.stringify({ product_type_id: styleItemId })
     });
-
 
     if (response.ok) {
         const res = await response.json();
-
         if (res.error) {
-
-            return res
+            return res;
         }
-
-        // dispatch(addStyleItem(res));
-        dispatch(getUserStyles())
+        dispatch(getUserStyles());
         return res;
     } else {
-        return response
+        return response;
     }
+};
 
-}
 
 export const modifyStyle = (styleId, title) => async dispatch => {
 
