@@ -1,7 +1,10 @@
 .style-details-container {
     display: grid;
     gap: 40px;
-    background-color: #caafa8;
+    background-color: #000000;
+    padding: 20px;
+    color: #fdf9f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .main-style-details-container {
@@ -13,9 +16,7 @@
     align-items: center;
     padding-bottom: 50px;
     gap: 20px;
-
 }
-
 
 .style-title-box {
     height: 250px;
@@ -23,7 +24,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fdf9f5;
+    background-color: #1a1a1a;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 .style-title-container {
@@ -34,49 +37,51 @@
 .style-details-title {
     display: flex;
     align-items: center;
-    width: auto;
-    font-family: Italiana;
+    font-family: 'Italiana', serif;
     font-size: 40px;
-    color: #caafa8;
+    color: #fdf9f5;
+    margin-right: 10px;
 }
 
 .change-title-button {
     width: 40px;
-    height: 100px;
+    height: 40px;
     background: transparent;
     border: none;
     display: flex;
     padding-left: 3px;
+    align-items: center;
+    justify-content: center;
 }
 
 .fa-pen-to-square {
-    font-size: 30px;
+    font-size: 24px;
     cursor: pointer;
-    color: #caafa8;
-    font-weight: lighter;
+    color: #fdf9f5;
+    transition: transform 0.3s ease;
 }
 
 .fa-pen-to-square:hover {
-    font-weight: bolder;
+    transform: scale(1.2);
 }
 
 .edit-style-title-container {
     display: grid;
     grid-template-areas:
-    "new-style-title cancel-title"
-    "new-style-title style-submit-title"
-    "error error";
+        "new-style-title cancel-title"
+        "new-style-title style-submit-title"
+        "error error";
     grid-template-rows: auto;
-    background-color: #caafa8;
+    background-color: #1a1a1a;
     color: #fdf9f5;
     padding: 30px;
-    height: 120px;
-    width: 600px;
-    border-radius: 3px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 .new-style-label {
     padding-right: 10px;
+    font-size: 18px;
 }
 
 .new-style-title {
@@ -87,83 +92,124 @@
 }
 
 .new-style-title-input {
-    display: flex;
-    align-items: center;
-    background-color: #d1bfba;
+    background-color: #333333;
     border: none;
     border-bottom: 2px solid #fdf9f5;
-    width: 360px;
+    width: 100%;
     color: #fdf9f5;
-    padding-left: 10px;
-    cursor: pointer;
+    padding: 10px;
     outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.new-style-title-input:focus {
+    border-bottom-color: #ffffff;
 }
 
 .cancel-title {
     grid-area: cancel-title;
-    border-radius: 3px;
-    color: #fdf9f5;
-    width: 160px;
-    margin-top: -20px;
-    height: 30px;
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
+    color: #fdf9f5;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .cancel-title:hover {
-    font-size: 15px;
+    transform: scale(1.2);
 }
 
 .style-submit-title {
     grid-area: style-submit-title;
-    border-radius: 3px;
-    color: #fdf9f5;
-    background-color: #caafa8;
-    border: 2px solid #fdf9f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    background-color: #fdf9f5;
+    border: none;
+    border-radius: 5px;
     width: 100px;
-    height: 30px;
-    margin-left: 20px;
+    height: 35px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .style-submit-title:hover {
-
-    background-color: #fdf9f5;
-    color: #caafa8;
+    background-color: #000000;
+    color: #fdf9f5;
 }
 
 .delete-style-button {
     width: 250px;
+    background-color: #1a1a1a;
+    color: #fdf9f5;
+    border: 2px solid #fdf9f5;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.delete-style-button:hover {
+    background-color: #fdf9f5;
+    color: #000000;
 }
 
 .style-item-image {
     height: 200px;
     width: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 .error {
     color: #fdf9f5;
     font-size: 12px;
+    margin-top: 5px;
 }
 
 .style-items-display {
-    background-color: #caafa8;
+    background-color: #1a1a1a;
     padding-top: 40px;
     margin-left: 5%;
     margin-right: 5%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
-
 
 .style-is-empty {
     color: #fdf9f5;
     padding-bottom: 200px;
-
+    text-align: center;
+    font-size: 18px;
 }
 
-.add-items-link{
+.add-items-link {
     color: #fdf9f5;
     cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.add-items-link:hover {
+    color: #ffffff;
 }
 
 .link-back-styles {
     margin-bottom: 70px;
+    color: #fdf9f5;
+    background-color: #1a1a1a;
+    border: 2px solid #fdf9f5;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.link-back-styles:hover {
+    background-color: #fdf9f5;
+    color: #000000;
 }

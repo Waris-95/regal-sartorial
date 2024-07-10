@@ -32,7 +32,7 @@ function DisplayStyleItems({ productValues }) {
             </Link>
             <div className='style-i-info'>
               <div className='card-name style-i-card-name'>{`${product.product.name.toLowerCase()}`}</div>
-              <div className='card-price style-i-card-price'>${`${product.product.price}`}.00</div>
+              <div className='card-price style-i-card-price'>${`${product.product.price}`}</div>
               <div className='color-style-i-box'>
                 {
                   product.product.products.length > 1 && (
