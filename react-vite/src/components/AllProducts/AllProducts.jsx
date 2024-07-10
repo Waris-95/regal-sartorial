@@ -5,8 +5,10 @@ import { getAllProductsThunk } from '../../redux/products';
 import { addFavorites, getUserFavorites } from '../../redux/favorites'; 
 import './AllProducts.css';
 import '../../index.css';
+import SearchBox from '../SearchBox/SearchBox';
 
 function AllProducts() {
+  const [searchField, setSearchField] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
   const [color, setColor] = useState(null); // Initialize as null
@@ -80,12 +82,25 @@ function AllProducts() {
     }
   };
 
+  const onSearchChange = (e) => {
+    setSearchField(e.target.value);
+  };
+
+  const filteredProducts = productValues.filter(product =>
+    product.name.toLowerCase().includes(searchField.toLowerCase())
+  );
+
   return (
     <>
       {category && <h1 className='page-header'>{category}</h1>}
+      <SearchBox
+        className="search-box"
+        onChangeHandler={onSearchChange}
+        placeholder="Search Products..."
+      />
       <div className='all-prods-container'>
         <div className='product-cards'>
-          {productValues.length ? productValues.map(product => {
+          {filteredProducts.length ? filteredProducts.map(product => {
             const defaultImage = 'https://via.placeholder.com/300';
             const primaryImage = color?.product_type_id === product.id ? color.image1 : (product.products?.[0]?.image1 || defaultImage);
             const secondaryImage = color?.product_type_id === product.id ? color.image2 : (product.products?.[0]?.image2 || primaryImage);
