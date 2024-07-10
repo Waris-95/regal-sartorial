@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./S3Bucket.css";
 
 function Video() {
   const videoRef = useRef(null);
   const playDuration = 50.9; // Time in seconds to play the video
+  const [showImage, setShowImage] = useState(false);
 
   useEffect(() => {
     const handleTimeUpdate = () => {
       if (videoRef.current.currentTime >= playDuration) {
         videoRef.current.pause();
+        setShowImage(true); // Show the image after the video ends
       }
     };
 
@@ -39,6 +41,13 @@ function Video() {
         muted
         playsInline
       />
+      {showImage && (
+        <img
+          src="https://wallpapercave.com/wp/wp3376810.jpg"
+          alt="Background"
+          className="fade-in-image"
+        />
+      )}
       <Link className="link-new-arrivals" to="/new-arrivals">Shop New Arrivals</Link>
     </div>
   );

@@ -118,11 +118,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* Center the content vertically */
     padding-top: 60px;
+    padding-bottom: 100px; /* Add padding to move the content down */
     gap: 50px;
     font-size: 18px;
     border-radius: 10px;
-  }
+}
   
   .remove-order-item {
     margin-top: 10px;
