@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Navigate, Link, useNavigate } from 'react-router-dom';
 import { deleteStyle, getUserStyles, modifyStyle } from '../../redux/styles';
 import DisplayStyleItems from './DisplayStyleItems';
+import { FaEdit } from 'react-icons/fa'; // Import the FaEdit icon
 import "./StylesDetail.css";
 
 function StylesDetails() {
@@ -67,7 +68,7 @@ function StylesDetails() {
               <div className='style-title-container'>
                 <div className='style-details-title'>{style.title}</div>
                 <button className='change-title-button' onClick={() => setEdit(true)}>
-                  <i className="fa-solid fa-pen-to-square" title="Edit style title"></i>
+                  <FaEdit className="edit-icon" title="Edit style title" /> {/* Use the FaEdit icon here */}
                 </button>
               </div>
             ) : (
@@ -116,3 +117,4 @@ function StylesDetails() {
 }
 
 export default StylesDetails;
+

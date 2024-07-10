@@ -74,7 +74,7 @@ function Styles() {
                                     </div>
                                     <div className="style-card-title">{style.title.toLowerCase()}</div>
                                 </Link>
-                                <button className="store-button delete-style2" onClick={() => removeStyle(style)}>delete</button>
+                                <button className="store-button delete-style2" onClick={() => removeStyle(style)}>Delete</button>
                             </div>
                         ))}
                     </div>

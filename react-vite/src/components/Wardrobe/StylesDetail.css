@@ -54,14 +54,14 @@
     justify-content: center;
 }
 
-.fa-pen-to-square {
+.edit-icon {
     font-size: 24px;
     cursor: pointer;
     color: #fdf9f5;
     transition: transform 0.3s ease;
 }
 
-.fa-pen-to-square:hover {
+.edit-icon:hover {
     transform: scale(1.2);
 }
 
