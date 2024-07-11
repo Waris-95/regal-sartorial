@@ -7,6 +7,7 @@ import { editBag } from '../../redux/bags';
 import './Navigation.css';
 import '../../index.css';
 import { FaCrown } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 function Navigation({ isLoaded }) {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ function Navigation({ isLoaded }) {
           <FaCrown style={{ marginRight: '8px' }} /> Regal Sartorial
         </NavLink>
         <div className="menu-icon" onClick={handleClick}>
-          <i className={click ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'}></i>
+          {click ? <FaTimes /> : <FaBars />}
         </div>
         <ul className={click ? 'menu active' : 'menu'}>
           <li className="nav-item shop-item">
@@ -145,3 +146,4 @@ function Navigation({ isLoaded }) {
 }
 
 export default Navigation;
+

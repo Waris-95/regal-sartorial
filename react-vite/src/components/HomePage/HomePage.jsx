@@ -12,7 +12,7 @@ function HomePage() {
   return (
     <div className="homepage-container">
       <div className="vid-container">
-       <Video />
+        <Video />
       </div>
 
       <div className="featured-collection-box">

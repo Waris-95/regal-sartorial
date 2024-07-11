@@ -1,18 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Italiana&display=swap');
-
 .navbar {
   background-color: #000;
   height: 80px;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 1000;
   transition: background-color 0.3s ease;
 }
 
 .navbar-container {
   height: 80px;
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0 8%;
 }
 
@@ -28,7 +27,7 @@
 }
 
 .regal-logo:hover {
-  color: #ffffff; /* Gold color on hover */
+  color: #ffffff;
   transform: scale(1);
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
@@ -147,48 +146,19 @@
   border-bottom: 1px solid #fdf9f5;
 }
 
+.menu-icon {
+  display: none;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  cursor: pointer;
+  font-size: 2rem;
+  color: white;
+}
+
 @media screen and (max-width: 960px) {
-  .menu {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 500px;
-    position: absolute;
-    top: 80px;
-    left: -100%;
-    opacity: 1;
-    transition: all 0.5s ease;
-    z-index: 1;
-  }
-
-  .menu.active {
-    background-color: #cdbbb6;
-    left: 0;
-    opacity: 1;
-    transition: all 0.5s ease;
-    display: flex;
-    justify-content: flex-start;
-    padding-top: 60px;
-  }
-
-  .nav-links {
-    text-align: center;
-    padding: 2rem;
-    width: 100%;
-    display: table;
-    margin-top: -30px;
-    justify-content: center;
-    font-size: 17px;
-  }
-
-  .nav-links:hover {
-    background-color: #fdf9f5;
-    color: #cdbbb6;
-    border-radius: 0;
-  }
-
-  .regal-logo {
-    font-size: 2rem;
+  .navbar-container {
+    padding: 0 5%;
   }
 
   .menu-icon {
@@ -202,48 +172,43 @@
     font-weight: lighter;
   }
 
-  .fa-times {
-    color: white;
-    font-size: 2rem;
-  }
-
-  .nav-links-mobile {
-    display: block;
-    text-align: center;
-    margin: 2rem auto;
-    border-radius: 4px;
-    width: 80%;
-    text-decoration: none;
-    font-size: 1.5rem;
-    background-color: transparent;
-    color: white;
-    padding: 14px 20px;
-    border: 1px solid white;
-    transition: all 0.3s ease-out;
-  }
-
-  .nav-links-mobile:hover {
-    background: white;
-    color: #caafa8;
-    transition: 250ms;
-  }
-}
-
-@media screen and (max-width: 768px) {
   .menu {
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 80px;
+    left: -100%;
+    opacity: 1;
+    transition: all 0.5s ease;
+    background-color: #000;
+  }
+
+  .menu.active {
+    left: 0;
+    opacity: 1;
+    transition: all 0.5s ease;
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 60px;
   }
 
   .nav-links {
-    font-size: 16px;
-    padding: 1.5rem;
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+    font-size: 17px;
   }
 
-  .menu-icon {
-    font-size: 1.6rem;
+  .nav-links:hover {
+    background-color: #fdf9f5;
+    color: #cdbbb6;
+    border-radius: 0;
   }
 
-  .nav-links-mobile {
-    font-size: 1.4rem;
+  .regal-logo {
+    font-size: 2rem;
   }
 }

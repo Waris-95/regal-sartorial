@@ -5,5 +5,5 @@ from app.models import Review
 
 # Review form
 class ReviewForm(FlaskForm):
-    rating = StringField('rating', validators=[DataRequired()])
     description = StringField('description', validators=[DataRequired()])
+    rating = StringField('rating', validators=[DataRequired()])

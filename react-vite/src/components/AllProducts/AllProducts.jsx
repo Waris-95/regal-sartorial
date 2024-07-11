@@ -93,11 +93,13 @@ function AllProducts() {
   return (
     <>
       {category && <h1 className='page-header'>{category}</h1>}
-      <SearchBox
-        className="search-box"
-        onChangeHandler={onSearchChange}
-        placeholder="Search Products..."
-      />
+      <div className="search-box-container">
+        <SearchBox
+          className="search-box"
+          onChangeHandler={onSearchChange}
+          placeholder="Search Products..."
+        />
+      </div>
       <div className='all-prods-container'>
         <div className='product-cards'>
           {filteredProducts.length ? filteredProducts.map(product => {
