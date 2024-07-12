@@ -9,6 +9,7 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag } from "../../redux/bags";
 import AddStyleItem from "../Wardrobe/AddStyleItems";
+import Reviews from "../Reviews/Review"; 
 import "./ProductsPage.css";
 import "../../index.css";
 
@@ -114,9 +115,6 @@ const ProductPage = () => {
         }
     };
 
-
-
-
     const addItem = (product) => {
         if (!user) {
             navigate("/login");
@@ -187,11 +185,6 @@ const ProductPage = () => {
             }
         }
     };
-    
-
-    
-    
-    
 
     const addSize = (checkedSize) => {
         setSize(checkedSize);
@@ -317,6 +310,9 @@ const ProductPage = () => {
                 <div className="you-may-also">
                     <ImageSlider productType={productType.id} category={productType.category} />
                 </div>
+
+                {/* Add Reviews */}
+                <Reviews productTypeId={productType.id} productId={id} />
             </div>
         );
     } else {

@@ -1,0 +1,126 @@
+.reviews-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.reviews-container h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.review-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    transition: transform 0.2s;
+}
+
+.review-card:hover {
+    transform: scale(1.02);
+}
+
+.review-card p {
+    margin: 5px 0;
+}
+
+.review-card button {
+    background: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.review-card button:hover {
+    background: #c9302c;
+}
+
+.review-form {
+    margin-top: 20px;
+}
+
+.review-form h3 {
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.review-form .errors {
+    color: #d9534f;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.review-form .errors li {
+    margin-bottom: 5px;
+}
+
+.review-form .form-group {
+    margin-bottom: 15px;
+}
+
+.review-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.review-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif;
+}
+
+.review-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif;
+}
+
+.review-form button {
+    display: block;
+    width: 100%;
+    background: #5cb85c;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.review-form button:hover {
+    background: #4cae4c;
+}
+
+.review-form .submit-button {
+    background: #000000;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.review-form .submit-button:hover {
+    background: #333333;
+}

@@ -1,11 +1,17 @@
-/* Common styles */
+/* Navigation.css */
+
 .navbar {
   background-color: #000;
   height: 80px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.5s ease, opacity 0.5s ease;
+}
+
+.navbar.fade-out {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
 .navbar-container {
@@ -23,9 +29,9 @@
   font-size: 2rem;
   display: flex;
   align-items: center;
-  font-family: 'Italiana', serif !important;
+  /* font-family: 'Italiana', serif; */
   transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
-  font-weight: 100 !important;
+  font-weight: 100 !important; /* Make font weight important */
 }
 
 .regal-logo:hover {
@@ -61,14 +67,14 @@
 }
 
 .fa-bars,
-.fa-xmark {
+.fa-times {
   font-size: 25px;
   color: white;
   transition: transform 0.3s ease;
 }
 
 .fa-bars:hover,
-.fa-xmark:hover {
+.fa-times:hover {
   transform: rotate(90deg);
 }
 
@@ -162,7 +168,7 @@
     cursor: pointer;
     font-size: 2rem;
     color: white;
-    z-index: 1001;
+    z-index: 1001; /* Ensure it is above other elements */
   }
 
   .menu {
@@ -176,7 +182,7 @@
     opacity: 0;
     transition: all 0.5s ease;
     background-color: #000;
-    z-index: 999;
+    z-index: 1000;
     justify-content: center;
     align-items: center;
   }

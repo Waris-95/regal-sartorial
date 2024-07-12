@@ -8,9 +8,9 @@
     align-items: flex-end;
     object-fit: contain;
     max-width: 1500px;
-}
-
-video {
+  }
+  
+  video {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -20,9 +20,9 @@ video {
     background-size: cover;
     overflow: hidden;
     object-fit: cover;
-}
-
-.link-new-arrivals {
+  }
+  
+  .link-new-arrivals {
     position: relative; /* Ensure the link is on top of the image */
     z-index: 2; /* Higher z-index to keep the link above the image */
     text-decoration: none;
@@ -35,16 +35,15 @@ video {
     font-size: 15px;
     margin-top: 200px;
     transition: all 0.3s ease-out;
-}
-
-.link-new-arrivals:hover {
+  }
+  
+  .link-new-arrivals:hover {
     background-color: #ffffff;
     color: #000000;
     border: 1px solid #ffffff00;
-}
-
-
-.fade-in-image {
+  }
+  
+  .fade-in-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -60,38 +59,53 @@ video {
       opacity: 1;
     }
   }
-
-@media screen and (max-width: 960px) {
+  
+  @media screen and (max-width: 960px) {
     .new-arrivals-container {
-        margin-top: -150px;
-        font-size: 70px;
-        align-items: center;
+      margin-top: -150px;
+      font-size: 70px;
+      align-items: center;
     }
-
+  
     .link-new-arrivals {
-        margin-right: 0;
-        font-size: 14px;
-        padding: 10px 20px;
+      margin-right: 0;
+      font-size: 14px;
+      padding: 10px 20px;
     }
-}
-
-@media screen and (max-width: 768px) {
+  
+    video {
+      width: auto; /* Set width to auto */
+      height: auto; /* Set height to auto */
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
     .new-arrivals-container {
-        align-items: center;
+      align-items: center;
     }
-
+  
     .new-arrivals-container > h1 {
-        font-size: 50px;
-        margin-top: -100px;
+      font-size: 50px;
+      margin-top: -100px;
     }
-
+  
     .new-arrivals-container > p {
-        font-size: 30px;
+      font-size: 30px;
     }
-
+  
     .link-new-arrivals {
-        font-size: 14px;
-        padding: 10px 20px;
-        margin-top: 150px;
+      font-size: 14px;
+      padding: 10px 20px;
+      margin-top: 150px;
     }
-}
+  
+    video {
+      width: auto; /* Set width to auto */
+      height: auto; /* Set height to auto */
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  
