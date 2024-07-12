@@ -153,6 +153,27 @@
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  width: 100%;
+}
+
+.product-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+  width: 100%;
+  justify-content: center;
+}
+
+@media screen and (max-width: 1230px) {
+  .card-container {
+    width: 30%; /* Adjust the width as needed */
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .card-container {
+    width: 45%; /* Adjust the width as needed */
+  }
 }
 
 @media screen and (max-width: 768px) {

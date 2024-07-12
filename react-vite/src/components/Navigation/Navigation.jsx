@@ -15,6 +15,7 @@ function Navigation({ isLoaded }) {
   const bag = useSelector((state) => state.bag);
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -24,6 +25,21 @@ function Navigation({ isLoaded }) {
       dispatch(getCurrentOrder());
     }
   }, [dispatch, sessionUser]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPosition = window.scrollY;
+      if (window.innerWidth <= 960) { // Apply fade-out only for screens <= 960px
+        setScrollPosition(currentScrollPosition);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleOpen = () => {
     setOpen(true);
@@ -53,7 +69,7 @@ function Navigation({ isLoaded }) {
   ];
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${scrollPosition > 50 ? 'fade-out' : ''}`}>
       <div className="navbar-container">
         <NavLink to="/" className="regal-logo" onClick={closeMobileMenu}>
           <FaCrown style={{ marginRight: '8px' }} /> Regal Sartorial
