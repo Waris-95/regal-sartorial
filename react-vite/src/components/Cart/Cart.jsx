@@ -12,7 +12,7 @@ const groupOrderItems = (orderItems) => {
   const groupedItems = {};
 
   orderItems.forEach(item => {
-    const key = `${item.product_id}-${item.size}`;
+    const key = `${item.product_id}-${item.size}-${item.color}`; // Include color or any other distinguishing attribute
     if (!groupedItems[key]) {
       groupedItems[key] = { ...item, total_quantity: item.quantity, total_price: item.price * item.quantity };
     } else {
@@ -39,12 +39,9 @@ function Cart() {
   useEffect(() => {
     if (user) {
       dispatch(getCurrentOrder()).then((data) => {
-        // console.log('Fetched current order:', data);
         let bag = 0;
         if (data && data.orderItems && data.orderItems.length) {
           data.orderItems.forEach(item => {
-            console.log("Image URL:", item.image);
-            console.log("Product Type ID:", item.product_type_id);
             bag += item.quantity;
           });
           dispatch(setBag(bag));
@@ -130,8 +127,8 @@ function Cart() {
       <h1 className="page-header">My Cart</h1>
       <div className="cart-container">
         <div className="order-items-container">
-          {groupedOrderItems.map((item, i) => (
-            <div key={i} className="order-item-container">
+          {groupedOrderItems.map((item) => (
+            <div key={`${item.product_id}-${item.size}-${item.color}`} className="order-item-container">
               <Link to={`/shop/${item.product_type_id}`}>
                 <img alt={item.name} className="order-item-img" src={item.image} />
               </Link>

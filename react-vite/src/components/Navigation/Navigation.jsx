@@ -6,8 +6,7 @@ import { getCurrentOrder } from '../../redux/orders';
 import { editBag } from '../../redux/bags';
 import './Navigation.css';
 import '../../index.css';
-import { FaCrown } from "react-icons/fa";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaCrown, FaBars, FaTimes } from "react-icons/fa";
 
 function Navigation({ isLoaded }) {
   const navigate = useNavigate();
@@ -82,12 +81,12 @@ function Navigation({ isLoaded }) {
                     <div className="category-list-container" key={i}>
                       <li>
                         <NavLink
-                          onClick={handleClose}
-                          className="category-link"
-                          to={{
-                            pathname: '/shop',
-                            search: `?category=${category}`,
+                          onClick={() => {
+                            closeMobileMenu();
+                            navigate(`/shop?category=${category}`);
                           }}
+                          className="category-link"
+                          to={`/shop?category=${category}`}
                         >
                           {category}
                         </NavLink>
@@ -146,4 +145,3 @@ function Navigation({ isLoaded }) {
 }
 
 export default Navigation;
-

@@ -11,7 +11,14 @@
     width: 100%;
     gap: 20px;
   }
-  
+
+.page-header {
+  color: #000000 !important; /* Force the color to apply */
+  text-align: center;
+  margin: 20px 0;
+  font-size: 2rem;
+}
+
   .order-item-container {
     display: flex;
     margin-bottom: 60px;
