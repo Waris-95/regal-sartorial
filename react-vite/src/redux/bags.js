@@ -22,10 +22,8 @@ const initialState = 0
 const bagReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_BAG:
-
             return action.payload;
         case EDIT_BAG:
-
             return action.payload;
         case GET_BAG:
             return state;

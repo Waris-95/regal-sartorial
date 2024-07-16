@@ -1,13 +1,16 @@
 .style-i-cards {
-    width: auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .style-i-info {
-    margin-top: -40px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    height: 170px;
     justify-content: center;
     margin-bottom: 25px;
     color: #fdf9f5;
@@ -17,8 +20,7 @@
 .all-prods-color-container-i {
     display: flex;
     flex-direction: row;
-    height: auto;
-    gap: 60%;
+    gap: 10px;
     font-size: 20px;
     justify-content: center;
     color: #fdf9f5;
@@ -26,7 +28,8 @@
 }
 
 .style-i {
-    padding: 5px;
+    width: 200px; /* Set a fixed width for the cards */
+    padding: 10px;
     background-color: #1a1a1a;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
@@ -44,7 +47,7 @@
     height: 30px;
     font-size: 18px;
     font-weight: 300;
-    color: #3d3d3d;
+    color: #fdf9f5;
     letter-spacing: 1px;
 }
 
@@ -53,13 +56,12 @@
     justify-content: center;
     font-size: 18px;
     font-weight: 400;
-    color: #3d3d3d;
+    color: #fdf9f5;
     margin-top: 5px;
 }
 
 .color-style-i-box {
     display: flex;
-    height: 35px;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
@@ -75,13 +77,12 @@
 .style-i-remove-container {
     display: flex;
     justify-content: center;
-    height: 60px;
     align-items: center;
     margin-top: 20px;
 }
 
 .style-i-remove-button {
-    width: 200px;
+    width: 100px;
     background-color: #1a1a1a;
     color: #fdf9f5;
     border: 2px solid #fdf9f5;
@@ -93,5 +94,5 @@
 
 .style-i-remove-button:hover {
     background-color: #fdf9f5;
-    color: #000000;
+    color: #000;
 }

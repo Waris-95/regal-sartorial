@@ -1,55 +1,53 @@
 .style-details-container {
-    display: grid;
-    gap: 40px;
-    background-color: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: #111;
     padding: 20px;
     color: #fdf9f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .main-style-details-container {
-    padding-left: 8%;
-    padding-right: 8%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding-bottom: 50px;
-    gap: 20px;
+    width: 100%;
 }
 
 .style-title-box {
-    height: 250px;
-    width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1a1a1a;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #222;
     border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
 
 .style-title-container {
     display: grid;
     grid-template-columns: auto auto;
+    align-items: center;
 }
 
 .style-details-title {
-    display: flex;
-    align-items: center;
     font-family: 'Italiana', serif;
-    font-size: 40px;
+    font-size: 32px;
     color: #fdf9f5;
     margin-right: 10px;
 }
 
 .change-title-button {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     background: transparent;
     border: none;
     display: flex;
-    padding-left: 3px;
     align-items: center;
     justify-content: center;
 }
@@ -71,12 +69,12 @@
         "new-style-title cancel-title"
         "new-style-title style-submit-title"
         "error error";
-    grid-template-rows: auto;
-    background-color: #1a1a1a;
+    background-color: #222;
     color: #fdf9f5;
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
 
 .new-style-label {
@@ -87,12 +85,12 @@
 .new-style-title {
     grid-area: new-style-title;
     display: flex;
-    align-items: flex-end;
-    width: 400px;
+    align-items: center;
+    width: 100%;
 }
 
 .new-style-title-input {
-    background-color: #333333;
+    background-color: #333;
     border: none;
     border-bottom: 2px solid #fdf9f5;
     width: 100%;
@@ -103,7 +101,7 @@
 }
 
 .new-style-title-input:focus {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #fff;
 }
 
 .cancel-title {
@@ -126,7 +124,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000000;
+    color: #000;
     background-color: #fdf9f5;
     border: none;
     border-radius: 5px;
@@ -137,24 +135,25 @@
 }
 
 .style-submit-title:hover {
-    background-color: #000000;
+    background-color: #000;
     color: #fdf9f5;
 }
 
 .delete-style-button {
     width: 250px;
-    background-color: #1a1a1a;
+    background-color: #222;
     color: #fdf9f5;
     border: 2px solid #fdf9f5;
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 20px;
 }
 
 .delete-style-button:hover {
     background-color: #fdf9f5;
-    color: #000000;
+    color: #000;
 }
 
 .style-item-image {
@@ -162,7 +161,7 @@
     width: 200px;
     border-radius: 10px;
     object-fit: cover;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .error {
@@ -172,20 +171,19 @@
 }
 
 .style-items-display {
-    background-color: #1a1a1a;
-    padding-top: 40px;
-    margin-left: 5%;
-    margin-right: 5%;
+    background-color: #222;
+    padding: 20px;
+    margin: 0 5%;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 40px;
 }
 
 .style-is-empty {
     color: #fdf9f5;
-    padding: 40px;
+    padding-bottom: 100px;
     text-align: center;
     font-size: 18px;
-    margin: 0 20px;
 }
 
 .add-items-link {
@@ -196,13 +194,13 @@
 }
 
 .add-items-link:hover {
-    color: #ffffff;
+    color: #fff;
 }
 
 .link-back-styles {
     margin-bottom: 70px;
     color: #fdf9f5;
-    background-color: #1a1a1a;
+    background-color: #222;
     border: 2px solid #fdf9f5;
     border-radius: 5px;
     padding: 10px 20px;
@@ -212,5 +210,5 @@
 
 .link-back-styles:hover {
     background-color: #fdf9f5;
-    color: #000000;
+    color: #000;
 }

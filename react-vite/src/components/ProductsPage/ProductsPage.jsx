@@ -1,3 +1,4 @@
+// ProductPage.js
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
@@ -7,7 +8,7 @@ import { getCurrentOrder, modifyItem, newOrderItem, newOrder } from "../../redux
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
-import { editBag } from "../../redux/bags";
+import { editBag, setBag } from "../../redux/bags";
 import AddStyleItem from "../Wardrobe/AddStyleItems";
 import Reviews from "../Reviews/Review"; 
 import "./ProductsPage.css";
@@ -146,6 +147,7 @@ const ProductPage = () => {
                     };
                     dispatch(newOrderItem(itemData, newOrder.id)).then(() => {
                         dispatch(getCurrentOrder());
+                        dispatch(setBag(bag + quantity)); // Update bag state
                         setIsInCart(true);
                     });
                 } else {
@@ -164,6 +166,7 @@ const ProductPage = () => {
                 let data = { quantity: newQuantity, total_price: newTotalPrice };
                 dispatch(modifyItem(order.id, existingItem.id, data)).then(() => {
                     dispatch(getCurrentOrder());
+                    dispatch(setBag(bag + quantity)); // Update bag state
                     setIsInCart(true);
                 });
             } else {
@@ -180,6 +183,7 @@ const ProductPage = () => {
                 };
                 dispatch(newOrderItem(itemData, order.id)).then(() => {
                     dispatch(getCurrentOrder());
+                    dispatch(setBag(bag + quantity)); // Update bag state
                     setIsInCart(true);
                 });
             }
