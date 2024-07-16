@@ -5,6 +5,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from .utils import validation_errors_to_error_messages
 from flask_wtf.csrf import generate_csrf
 import os
+from sqlalchemy.exc import IntegrityError
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -48,10 +49,8 @@ def logout():
 def sign_up():
     form = SignUpForm()
     csrf_token = request.cookies.get('csrf_token')
-    print("Received CSRF Token:", csrf_token)  # Debugging line
-    print("Form data:", request.json)  # Debugging line
-    
     form['csrf_token'].data = csrf_token
+
     if form.validate_on_submit():
         user = User(
             first_name=form.data['firstName'],
@@ -59,11 +58,15 @@ def sign_up():
             email=form.data['email'],
             password=form.data['password']
         )
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
-        return user.to_dict()
-    print("Form errors:", form.errors)  # Debugging line
+        try:
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            return user.to_dict()
+        except IntegrityError:
+            db.session.rollback()
+            return {'errors': {'email': 'Email is already in use.'}}, 400
+
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

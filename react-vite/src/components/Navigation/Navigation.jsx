@@ -16,6 +16,7 @@ function Navigation({ isLoaded }) {
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -29,17 +30,27 @@ function Navigation({ isLoaded }) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPosition = window.scrollY;
-      if (window.innerWidth <= 960) { // Apply fade-out only for screens <= 960px
+      if (windowWidth <= 960) {
         setScrollPosition(currentScrollPosition);
       }
     };
 
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      // Remove the fade-out class when window is resized above 960px
+      if (window.innerWidth > 960) {
+        setScrollPosition(0);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [windowWidth]);
 
   const handleOpen = () => {
     setOpen(true);

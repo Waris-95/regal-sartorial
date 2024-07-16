@@ -16,7 +16,7 @@ function StylesDetails() {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,12 +42,17 @@ function StylesDetails() {
 
   const cancelEdit = () => {
     setTitle(style.title);
-    setErrors("");
+    setErrors({});
     setEdit(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!title.trim()) {
+      setErrors({ title: "Title cannot be empty or whitespace." });
+      return;
+    }
 
     if (title === style.title) return setEdit(false);
     const data = await dispatch(modifyStyle(style.id, { title }));
@@ -62,7 +67,7 @@ function StylesDetails() {
 
   const onChangeTitle = e => {
     setTitle(e.target.value);
-    setErrors("");
+    setErrors({});
   };
 
   if (!style) {
@@ -81,7 +86,7 @@ function StylesDetails() {
               </button>
             </div>
           ) : (
-            <form className='edit-style-title-container' onSubmit={handleSubmit}>
+            <form className='edit-style-title-container' onSubmit={handleSubmit} noValidate>
               <div className="new-style-title">
                 <label className='new-style-label'>Title</label>
                 <input
@@ -89,10 +94,9 @@ function StylesDetails() {
                   className="new-style-title-input"
                   value={title}
                   onChange={onChangeTitle}
-                  required
                 />
               </div>
-              {errors.title && (<span className="error"> *{errors.title}</span>)}
+              {errors.title && (<span className="error">*{errors.title}</span>)}
               <i className="fa-solid fa-x cancel-title" onClick={cancelEdit}></i>
               <button className='store-button style-submit-title' type='submit'>Save Title</button>
             </form>
@@ -123,4 +127,3 @@ function StylesDetails() {
 }
 
 export default StylesDetails;
-

@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadProductReviews, createReview, removeReview } from '../../redux/reviews';
-import { getProductType } from '../../redux/ProductType'
+import { getProductType } from '../../redux/ProductType';
 import './Review.css';
 
 const Reviews = ({ productTypeId, productId }) => {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews.reviews);
-    const productType = useSelector((state) => state.productType)
+    const productType = useSelector((state) => state.productType);
     const user = useSelector((state) => state.session.user);
     const [description, setDescription] = useState('');
     const [rating, setRating] = useState(1);
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        dispatch(loadProductReviews(productTypeId));
-    }, [dispatch, productTypeId]);
+        dispatch(loadProductReviews(productTypeId, productId));
+    }, [dispatch, productTypeId, productId]);
 
     useEffect(() => {
         if (productTypeId) {
@@ -25,7 +25,17 @@ const Reviews = ({ productTypeId, productId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const reviewData = { description, rating };
+        
+        // Reset errors
+        setErrors([]);
+
+        // Validate description
+        if (!description.trim()) {
+            setErrors(['*Description cannot be blank']);
+            return;
+        }
+
+        const reviewData = { description, rating, userId: user.id };
         const data = await dispatch(createReview(productTypeId, productId, reviewData));
         if (data.errors) {
             setErrors(data.errors);
@@ -40,16 +50,19 @@ const Reviews = ({ productTypeId, productId }) => {
         dispatch(removeReview(reviewId));
     };
 
+    // Check if the user has already reviewed this product
+    const userReview = reviews.find((review) => review.userId === user?.id);
+
     return (
         <div className="reviews-container">
-           <h2>Customer Reviews</h2>
-
+            <h2>Customer Reviews</h2>
 
             {reviews.length ? (
                 reviews.map((review) => (
                     <div key={review.id} className="review-card">
                         <p>{review.description}</p>
                         <p>Rating: <strong>{review.rating}</strong></p>
+                        <p>Reviewed by: {review.user.firstName}</p> 
                         {user && user.id === review.userId && (
                             <button onClick={() => handleDelete(review.id)} className="delete-button">Delete</button>
                         )}
@@ -59,7 +72,7 @@ const Reviews = ({ productTypeId, productId }) => {
                 <p>No reviews yet about {productType?.name}. Be the first to share your thoughts!</p>
             )}
 
-            {user && (
+            {user && !userReview && (
                 <form onSubmit={handleSubmit} className="review-form">
                     <h3>Leave a Review</h3>
                     {errors.length > 0 && (
@@ -75,7 +88,6 @@ const Reviews = ({ productTypeId, productId }) => {
                             id="description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            required
                             placeholder={`Share your experience about your ${productType?.name}`}
                         />
                     </div>
@@ -85,7 +97,6 @@ const Reviews = ({ productTypeId, productId }) => {
                             id="rating"
                             value={rating}
                             onChange={(e) => setRating(e.target.value)}
-                            required
                         >
                             {[1, 2, 3, 4, 5].map((num) => (
                                 <option key={num} value={num}>

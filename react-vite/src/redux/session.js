@@ -81,36 +81,35 @@ export const logout = () => async (dispatch) => {
 	}
 };
 
-export const signUp = (firstName, lastName, email, password) => async (dispatch) => {
-	const csrfToken = getCookie('csrf_token');
-	console.log("CSRF Token:", csrfToken); 
+export const signUp = (firstName, lastName, email, password, csrfToken) => async (dispatch) => {
 	const response = await fetch("/api/auth/signup", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"X-CSRFToken": csrfToken,
-		},
-		body: JSON.stringify({
-			firstName,
-			lastName,
-			email,
-			password,
-		}),
+	  method: "POST",
+	  headers: {
+		"Content-Type": "application/json",
+		"X-CSRFToken": csrfToken,
+	  },
+	  body: JSON.stringify({
+		firstName,
+		lastName,
+		email,
+		password,
+	  }),
 	});
-
+  
 	if (response.ok) {
-		const data = await response.json();
-		dispatch(setUser(data));
-		return null;
+	  const data = await response.json();
+	  dispatch(setUser(data));
+	  return null;
 	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
-		}
+	  const data = await response.json();
+	  if (data.errors) {
+		return data.errors; // Ensure errors are returned
+	  }
 	} else {
-		return ["An error occurred. Please try again."];
+	  return ["An error occurred. Please try again."];
 	}
-};
+  };
+  
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
