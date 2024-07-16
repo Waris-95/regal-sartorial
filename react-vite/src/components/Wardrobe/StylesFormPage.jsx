@@ -17,8 +17,10 @@ function StylesFormPage({ styleReturned, setMsg }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Clear previous title error if any
-        if (errors.title) setErrors(prev => ({ ...prev, title: '' }));
+        if (!title.trim()) {
+            setErrors({ title: "Title cannot be empty or whitespace." });
+            return;
+        }
 
         const data = await dispatch(createStyle({ title }));
 
@@ -36,7 +38,7 @@ function StylesFormPage({ styleReturned, setMsg }) {
     };
 
     return (
-        <form className='new-style-form' onSubmit={handleSubmit} onMouseLeave={closeModal}>
+        <form className='new-style-form' onSubmit={handleSubmit} noValidate>
             <div className='new-style-form-container'>
                 <div className="style-title-input-area">
                     <div className='title-style-box'>
@@ -47,8 +49,10 @@ function StylesFormPage({ styleReturned, setMsg }) {
                             type="text"
                             className="new-style-title-input2"
                             value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                                setErrors({});
+                            }}
                         />
                     </div>
                 </div>

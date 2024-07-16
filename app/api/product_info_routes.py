@@ -26,6 +26,15 @@ def create_review(product_type_id, product_id):
     form = ReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        # check if the user has already reviewed this product
+        existing_review = Review.query.filter_by(
+            user_id = current_user.id,
+            product_type_id = product_type_id
+        ).first()
+
+        if existing_review:
+            return {'errors': ['You already reviewed this product.']}, 400
+
         review = Review(
             user_id=current_user.id,
             product_type_id=product_type_id,

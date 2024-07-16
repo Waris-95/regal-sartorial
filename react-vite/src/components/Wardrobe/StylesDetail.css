@@ -182,9 +182,10 @@
 
 .style-is-empty {
     color: #fdf9f5;
-    padding-bottom: 200px;
+    padding: 40px;
     text-align: center;
     font-size: 18px;
+    margin: 0 20px;
 }
 
 .add-items-link {

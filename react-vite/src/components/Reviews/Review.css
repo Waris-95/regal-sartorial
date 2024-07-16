@@ -124,3 +124,73 @@
 .review-form .submit-button:hover {
     background: #333333;
 }
+
+/* Media Queries */
+@media (max-width: 1200px) { /* Laptops */
+    .reviews-container {
+        padding: 15px;
+    }
+    .review-form h3 {
+        font-size: 1.4em;
+    }
+    .review-form label {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 992px) { /* Tablets */
+    .reviews-container {
+        padding: 10px;
+    }
+    .review-form h3 {
+        font-size: 1.3em;
+    }
+    .review-form label {
+        font-size: 0.95em;
+    }
+    .review-card {
+        padding: 10px;
+    }
+    .review-card button {
+        padding: 5px;
+    }
+}
+
+@media (max-width: 768px) { /* Small tablets and large phones */
+    .reviews-container {
+        padding: 8px;
+    }
+    .review-form h3 {
+        font-size: 1.2em;
+    }
+    .review-form label {
+        font-size: 0.9em;
+    }
+    .review-card {
+        padding: 8px;
+    }
+    .review-card button {
+        padding: 5px;
+    }
+}
+
+@media (max-width: 576px) { /* Phones */
+    .reviews-container {
+        padding: 5px;
+    }
+    .review-form h3 {
+        font-size: 1.1em;
+    }
+    .review-form label {
+        font-size: 0.85em;
+    }
+    .review-card {
+        padding: 5px;
+    }
+    .review-card button {
+        padding: 4px;
+    }
+    .review-card p {
+        font-size: 0.9em;
+    }
+}
