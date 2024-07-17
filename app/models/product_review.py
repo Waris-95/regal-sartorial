@@ -27,7 +27,7 @@ class Review (db.Model):
             'productTypeId': self.product_type_id,
             'description': self.description,
             'rating': self.rating,
-            'createdAt': self.created_at,
+            'createdAt': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             'user': {
                 'firstName': self.user.first_name,
                 'lastName': self.user.last_name,

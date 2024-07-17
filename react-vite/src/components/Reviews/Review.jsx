@@ -34,7 +34,7 @@ const Reviews = ({ productTypeId, productId }) => {
 
         // Validate description
         if (!description.trim()) {
-            setErrors(['Please do provide a description for your review.']);
+            setErrors(['Please provide a description for your review.']);
             return;
         }
 
@@ -76,7 +76,8 @@ const Reviews = ({ productTypeId, productId }) => {
                     <div key={review.id} className="review-card">
                         <div className="review-rating">{renderStars(review.rating)}</div>
                         <p>{review.description}</p>
-                        <p>Reviewed by: {review.user.firstName}</p> 
+                        <p>Reviewed by: {review.user.firstName}</p>
+                        <p className="review-date">Reviewed on: {new Date(review.createdAt).toLocaleDateString()}</p> {/* Add this line to display the date */}
                         {user && user.id === review.userId && (
                             <button onClick={() => handleDelete(review.id)} className="delete-button">Delete</button>
                         )}
