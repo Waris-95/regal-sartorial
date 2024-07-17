@@ -6,6 +6,10 @@ from app.forms import FavoriteForm
 
 product_bp = Blueprint('products', __name__)
 
+"""
+--------->Product Routes<---------
+"""
+
 def validation_errors_to_error_messages(validation_errors):
     errorMessages = []
     for field in validation_errors:

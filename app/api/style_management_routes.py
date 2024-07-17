@@ -6,6 +6,10 @@ from .utils import validation_errors_to_error_messages
 
 style_item_bp = Blueprint('style_items', __name__)
 
+"""
+--------->Style Item Routes<---------
+"""
+
 # GET all items within a style
 @style_item_bp.route('/styles/<int:style_id>/style_items/', methods=['GET'])
 def all_style_items(style_id):

@@ -1,40 +1,33 @@
 from app.models import db, StyleItem, environment, SCHEMA
 from sqlalchemy.sql import text
 
-
-# Adds a demo user, you can add other users here if you want
 def seed_style_items():
-    wardrobe1 = StyleItem(
-        style_id=1, product_type_id=1)
-    wardrobe2 = StyleItem(
-        style_id=1, product_type_id=2)
-    wardrobe3 = StyleItem(
-        style_id=1, product_type_id=3)
-    wardrobe4 = StyleItem(
-        style_id=1, product_type_id=4)
-    wardrobe5 = StyleItem(
-        style_id=2, product_type_id=1)
-    wardrobe6 = StyleItem(
-        style_id=2, product_type_id=2)
+    style_items = [
+        StyleItem(style_id=1, product_type_id=1),
+        StyleItem(style_id=1, product_type_id=6),
+        StyleItem(style_id=1, product_type_id=14),
+        StyleItem(style_id=1, product_type_id=19),
+        StyleItem(style_id=2, product_type_id=3),
+        StyleItem(style_id=2, product_type_id=20),
+        StyleItem(style_id=2, product_type_id=24),
+        StyleItem(style_id=3, product_type_id=2),
+        StyleItem(style_id=3, product_type_id=7),
+        StyleItem(style_id=3, product_type_id=13),
+        StyleItem(style_id=3, product_type_id=18),
+        StyleItem(style_id=4, product_type_id=5),
+        StyleItem(style_id=4, product_type_id=8),
+        StyleItem(style_id=4, product_type_id=22),
+        StyleItem(style_id=5, product_type_id=9),
+        StyleItem(style_id=5, product_type_id=12),
+        StyleItem(style_id=5, product_type_id=40),
+        StyleItem(style_id=6, product_type_id=10),
+        StyleItem(style_id=6, product_type_id=23),
+        StyleItem(style_id=6, product_type_id=34)
+    ]
 
-
-    db.session.add(wardrobe1)
-    db.session.add(wardrobe2)
-    db.session.add(wardrobe3)
-    db.session.add(wardrobe4)
-    db.session.add(wardrobe5)
-    db.session.add(wardrobe6)
-
-
-
+    db.session.bulk_save_objects(style_items)
     db.session.commit()
 
-# Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
-# have a built in function to do this. With postgres in production TRUNCATE
-# removes all the data from the table, and RESET IDENTITY resets the auto
-# incrementing primary key, CASCADE deletes any dependent entities.  With
-# sqlite3 in development you need to instead use DELETE to remove all data and
-# it will reset the primary keys for you as well.
 def undo_style_items():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.style_items RESTART IDENTITY CASCADE;")

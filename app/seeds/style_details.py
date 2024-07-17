@@ -1,27 +1,29 @@
 from app.models import db, Style, environment, SCHEMA
 from sqlalchemy.sql import text
 
-
-# Adds a demo user, you can add other users here if you want
 def seed_styles():
-    wardrobe1 = Style(
+    style1 = Style(
         title="Autumn Casual Outfit", user_id=1)
-    wardrobe2 = Style(
+    style2 = Style(
         title="Date Night Outfit", user_id=1)
+    style3 = Style(
+        title="Business Formal", user_id=1)
+    style4 = Style(
+        title="Summer Beach Wear", user_id=1)
+    style5 = Style(
+        title="Winter Warmth", user_id=1)
+    style6 = Style(
+        title="Spring Picnic", user_id=1)
 
-
-    db.session.add(wardrobe1)
-    db.session.add(wardrobe2)
-
+    db.session.add(style1)
+    db.session.add(style2)
+    db.session.add(style3)
+    db.session.add(style4)
+    db.session.add(style5)
+    db.session.add(style6)
 
     db.session.commit()
 
-# Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
-# have a built in function to do this. With postgres in production TRUNCATE
-# removes all the data from the table, and RESET IDENTITY resets the auto
-# incrementing primary key, CASCADE deletes any dependent entities.  With
-# sqlite3 in development you need to instead use DELETE to remove all data and
-# it will reset the primary keys for you as well.
 def undo_styles():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.styles RESTART IDENTITY CASCADE;")
