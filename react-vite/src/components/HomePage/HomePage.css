@@ -7,18 +7,20 @@
   
   .featured-collection-box {
     display: flex;
-    height: 250px;
-    background-color: #000000;
+    /* height: 10px; */
+    /* background-color: #000000; */
     justify-content: center;
     align-items: center;
   }
   
   .feature-collection-text {
+    align-items: center;
+    justify-content: center;
     font-family: 'Roboto', sans-serif;
     font-size: 50px;
-    border-top: thin #ffffff solid;
-    border-bottom: thin #ffffff solid;
-    color: #ffffff;
+    /* border-top: thin #000000 solid; */
+    border-bottom: thin #010101 solid;
+    color: rgb(0, 0, 0);
   }
   
   @media screen and (max-width: 768px) {
