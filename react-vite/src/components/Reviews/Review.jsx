@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadProductReviews, createReview, removeReview } from '../../redux/reviews';
 import { getProductType } from '../../redux/ProductType';
 import './Review.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar as fullStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as emptyStar } from '@fortawesome/free-regular-svg-icons';
 
 const Reviews = ({ productTypeId, productId }) => {
     const dispatch = useDispatch();
@@ -31,7 +34,7 @@ const Reviews = ({ productTypeId, productId }) => {
 
         // Validate description
         if (!description.trim()) {
-            setErrors(['*Description cannot be blank']);
+            setErrors(['Please do provide a description for your review.']);
             return;
         }
 
@@ -50,6 +53,17 @@ const Reviews = ({ productTypeId, productId }) => {
         dispatch(removeReview(reviewId));
     };
 
+    const renderStars = (rating, onClick = () => {}) => {
+        return Array.from({ length: 5 }, (_, index) => (
+            <FontAwesomeIcon
+                key={index}
+                icon={index < rating ? fullStar : emptyStar}
+                onClick={() => onClick(index + 1)}
+                className={`star-icon ${index < rating ? 'checked' : ''}`}
+            />
+        ));
+    };
+
     // Check if the user has already reviewed this product
     const userReview = reviews.find((review) => review.userId === user?.id);
 
@@ -60,8 +74,8 @@ const Reviews = ({ productTypeId, productId }) => {
             {reviews.length ? (
                 reviews.map((review) => (
                     <div key={review.id} className="review-card">
+                        <div className="review-rating">{renderStars(review.rating)}</div>
                         <p>{review.description}</p>
-                        <p>Rating: <strong>{review.rating}</strong></p>
                         <p>Reviewed by: {review.user.firstName}</p> 
                         {user && user.id === review.userId && (
                             <button onClick={() => handleDelete(review.id)} className="delete-button">Delete</button>
@@ -93,17 +107,9 @@ const Reviews = ({ productTypeId, productId }) => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="rating">Rating</label>
-                        <select
-                            id="rating"
-                            value={rating}
-                            onChange={(e) => setRating(e.target.value)}
-                        >
-                            {[1, 2, 3, 4, 5].map((num) => (
-                                <option key={num} value={num}>
-                                    {num} Star{num > 1 ? 's' : ''}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="rating-select">
+                            {renderStars(rating, setRating)}
+                        </div>
                     </div>
                     <button type="submit" className="submit-button">Submit Review</button>
                 </form>
