@@ -1,3 +1,4 @@
+/* Container for the reviews */
 .reviews-container {
     width: 100%;
     max-width: 800px;
@@ -9,6 +10,7 @@
     font-family: 'Arial', sans-serif;
 }
 
+/* Title for the reviews */
 .reviews-container h2 {
     text-align: center;
     font-size: 2em;
@@ -16,12 +18,14 @@
     color: #333;
 }
 
+/* Individual review card */
 .review-card {
     background: #fff;
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
+    position: relative; /* Added to position the date */
     transition: transform 0.2s;
 }
 
@@ -29,10 +33,12 @@
     transform: scale(1.02);
 }
 
+/* Paragraphs within the review card */
 .review-card p {
     margin: 5px 0;
 }
 
+/* Button within the review card */
 .review-card button {
     background: #d9534f;
     color: #fff;
@@ -47,12 +53,14 @@
     background: #c9302c;
 }
 
+/* Rating section within the review card */
 .review-rating {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
+/* Stars for the rating */
 .star-icon {
     color: #ddd;
     margin-right: 5px;
@@ -68,6 +76,7 @@
     color: #000000;
 }
 
+/* Form for submitting a review */
 .review-form {
     margin-top: 20px;
 }
@@ -79,6 +88,7 @@
     color: #333;
 }
 
+/* Error messages */
 .review-form .errors {
     color: #d9534f;
     list-style: none;
@@ -90,6 +100,7 @@
     margin-bottom: 5px;
 }
 
+/* Form group for input fields */
 .review-form .form-group {
     margin-bottom: 15px;
 }
@@ -114,6 +125,7 @@
     align-items: center;
 }
 
+/* Submit button for the review form */
 .review-form button {
     display: block;
     width: 100%;
@@ -130,6 +142,7 @@
     background: #4cae4c;
 }
 
+/* Additional submit button styling */
 .review-form .submit-button {
     background: #000000;
     color: #fff;
@@ -141,6 +154,15 @@
 
 .review-form .submit-button:hover {
     background: #333333;
+}
+
+/* New style for the review date */
+.review-date {
+    font-size: 0.9em;
+    color: #999;
+    position: absolute; /* Positioning the date */
+    top: 10px; /* Aligning it to the top */
+    right: 15px; /* Aligning it to the right */
 }
 
 /* Media Queries */
