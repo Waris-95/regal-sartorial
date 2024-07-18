@@ -178,10 +178,13 @@ function Cart() {
           <button className="store-button-white checkout-now" onClick={toShipping}>Checkout Now</button>
 
           <OpenModalButton
-            buttonText="Empty Bag"
+            buttonText="Empty Cart"
             modalComponent={<DeleteOrder order={order} />}
             className="empty-bag-button-black-white"
+            style={{ border: '1px solid black', padding: '10px', fontSize: '16px' }}
           />
+
+
         </div>
       </div>
     </>
