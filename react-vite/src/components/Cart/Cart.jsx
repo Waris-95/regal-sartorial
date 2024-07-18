@@ -5,6 +5,7 @@ import { getCurrentOrder, modifyItem, deleteItem } from "../../redux/orders";
 import { editBag, setBag } from "../../redux/bags";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteOrder from "../DeleteOrder/DeleteOrder";
+import Spinner from "../Spinner/Spinner";
 import "./Cart.css";
 
 // Helper function to group order items
@@ -26,6 +27,7 @@ const groupOrderItems = (orderItems) => {
 
 function Cart() {
   const [orderLoaded, setOrderLoaded] = useState(false);
+  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const order = useSelector(state => state.orders?.currentOrder);
@@ -49,7 +51,11 @@ function Cart() {
           dispatch(setBag(0));
         }
         setOrderLoaded(true);
-      }).catch((error) => console.error("Failed to fetch current order:", error));
+        setLoading(false); // Set loading to false when order is loaded
+      }).catch((error) => {
+        console.error("Failed to fetch current order:", error);
+        setLoading(false); // Set loading to false even if there is an error
+      });
     }
   }, [dispatch, user]);
 
@@ -63,7 +69,7 @@ function Cart() {
     dispatch(modifyItem(order.id, item.id, data))
       .then(() => dispatch(getCurrentOrder())) 
       .then((updatedOrder) => {
-        console.log('Updated order after adding one item:', updatedOrder);
+        // console.log('Updated order after adding one item:', updatedOrder);
       })
       .catch((error) => console.error("Failed to add one item:", error));
   };
@@ -76,7 +82,7 @@ function Cart() {
     dispatch(modifyItem(order.id, item.id, data))
       .then(() => dispatch(getCurrentOrder())) 
       .then((updatedOrder) => {
-        console.log('Updated order after removing one item:', updatedOrder);
+        // console.log('Updated order after removing one item:', updatedOrder);
       })
       .catch((error) => console.error("Failed to remove one item:", error));
   };
@@ -89,7 +95,7 @@ function Cart() {
         return dispatch(getCurrentOrder());
       })
       .then((updatedOrder) => {
-        console.log('Updated order after removing item:', updatedOrder);
+        // console.log('Updated order after removing item:', updatedOrder);
       })
       .catch((error) => console.error("Failed to remove item:", error));
   };
@@ -99,7 +105,7 @@ function Cart() {
   };
 
   if (!orderLoaded) {
-    return <div>Loading...</div>;
+    return <Spinner loading={loading} />
   }
 
   if (!order || !order.orderItems || !order.orderItems.length) {

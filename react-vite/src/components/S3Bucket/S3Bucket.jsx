@@ -48,7 +48,9 @@ function Video() {
           className="fade-in-image"
         />
       )}
-      <Link className="link-new-arrivals" to="/new-arrivals">Shop New Arrivals</Link>
+      <Link className="link-new-arrivals" to="/new-arrivals">
+        Shop New Arrivals
+      </Link>
     </div>
   );
 }

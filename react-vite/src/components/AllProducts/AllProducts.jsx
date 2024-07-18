@@ -31,7 +31,7 @@ function AllProducts() {
 
   useEffect(() => {
     if (productValues.length > 0) {
-      console.log('Product Values:', productValues); // Log product values to verify `product_type_id`
+      // console.log('Product Values:', productValues); // Log product values to verify `product_type_id`
     }
   }, [productValues]);
 
@@ -49,7 +49,7 @@ function AllProducts() {
 
   const handleAddFavorite = (product) => {
     if (user) {
-      console.log('Product data:', product); // Ensure `product_type_id` is present in the logged data
+      // console.log('Product data:', product); // Ensure `product_type_id` is present in the logged data
 
       // Check if the product is already a favorite
       const isFavorite = favorites.some(fav => fav.product_id === product.id);

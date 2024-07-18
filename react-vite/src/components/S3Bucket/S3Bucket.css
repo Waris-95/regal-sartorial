@@ -20,7 +20,17 @@
     background-size: cover;
     overflow: hidden;
     object-fit: cover;
+    animation: fadeInVideo 2s ease-out;
   }
+
+  @keyframes fadeInVideo {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
   
   .link-new-arrivals {
     position: relative; /* Ensure the link is on top of the image */

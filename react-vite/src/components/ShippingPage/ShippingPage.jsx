@@ -34,11 +34,7 @@ function ShippingPage() {
         if (!city.trim()) errors.push("City is required.");
         if (!state.trim() || state.length !== 2) errors.push("Valid state abbreviation is required.");
         if (!/^\d{5}$/.test(zipcode)) errors.push("Valid ZIP Code is required.");
-
-        if (!/^\d{5,}$/.test(cardnumber.replace(/\D/g, ''))) {
-            errors.push("Valid card number is required (minimum 12 digits).");
-          }
-          
+        if (!/^\d{5,}$/.test(cardnumber.replace(/\D/g, ''))) errors.push("Valid card number is required (minimum 12 digits).");
         if (!/^\d{2}\/\d{2}$/.test(expDate) || !isValidExpirationDate(expDate)) errors.push("Valid expiration date is required.");
         if (!/^\d{3}$/.test(cvv)) errors.push("Valid CVV is required.");
         return errors;
@@ -50,12 +46,8 @@ function ShippingPage() {
         const currentMonth = currentDate.getMonth() + 1; // Months are 0-based in JS
         const currentYear = currentDate.getFullYear() % 100; // Get last two digits of the year
 
-        if (year < currentYear || (year === currentYear && month < currentMonth)) {
-            return false;
-        }
-        if (month < 1 || month > 12) {
-            return false;
-        }
+        if (year < currentYear || (year === currentYear && month < currentMonth)) return false;
+        if (month < 1 || month > 12) return false;
         return true;
     };
 
@@ -74,7 +66,7 @@ function ShippingPage() {
         };
 
         await emailjs.send('gmail', 'template_49np8dy', data, 'QRfJZsZlMoqoYc3Vr')
-            .then((result) => {
+            .then(() => {
                 dispatch(submitOrder(order.id));
             }, (error) => {
                 console.error('Error sending email:', error);
@@ -83,13 +75,10 @@ function ShippingPage() {
         dispatch(setBag(0));
     };
 
-    console.log("Shipping Page Order:", order);
-
     if (!order || !order.orderItems.length) {
         return <ConfirmationPage />;
     }
 
-    // Calculate subtotal and tax like in the cart component
     const subtotal = order.orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     const tax = subtotal * 0.1; // Example tax rate of 10%
     const totalPrice = subtotal + tax;

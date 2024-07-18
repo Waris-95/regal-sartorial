@@ -50,7 +50,7 @@ export const getUserStyles = () => async (dispatch) => {
     });
     if (response.ok) {
         const data = await response.json();
-        console.log('Fetched styles:', data); // Log for debugging
+        // console.log('Fetched styles:', data); // Log for debugging
         dispatch(loadUserStyles(data)); // Dispatch the correct payload
         if (!data.styles || !data.styles.length) {
             return null;
