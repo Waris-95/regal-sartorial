@@ -4,7 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProductType } from "../../redux/ProductType";
 import { getUserFavorites, addFavorites, deleteFavorites } from "../../redux/favorites";
 import { getCurrentOrder, modifyItem, newOrderItem, newOrder } from "../../redux/orders";
-import { FaPlus, FaMinus } from 'react-icons/fa';
+import { FaPlus, FaMinus, FaHeart, FaRegHeart } from 'react-icons/fa';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag, setBag } from "../../redux/bags";
@@ -124,7 +124,7 @@ const ProductPage = () => {
             navigate("/login");
             return;
         }
-    
+
         const productId = item ? item.id : productType.products?.[0]?.id;
         const color = item ? item.color : productType.products?.[0]?.color;
         const image = item ? item.image1 : productType.products?.[0]?.image1;
@@ -132,7 +132,7 @@ const ProductPage = () => {
         const sizeToUse = size || "Small";
         const price = productType.price;
         const total_price = quantity * price;
-    
+
         if (!order || !order.orderItems) {
             const orderData = { status: "pending" };
             dispatch(newOrder(orderData)).then((newOrder) => {
@@ -162,7 +162,7 @@ const ProductPage = () => {
         } else {
             let orderItems = order.orderItems;
             let existingItem = orderItems.find(orderItem => orderItem.product_id === productId && orderItem.size === sizeToUse);
-    
+
             if (existingItem) {
                 let newQuantity = existingItem.quantity + quantity;
                 let newTotalPrice = price * newQuantity;
@@ -248,11 +248,11 @@ const ProductPage = () => {
                             <>
                                 {favorite ? (
                                     <button className="fav-button" title="Remove from Favorites" onClick={deleteFav}>
-                                        <i className="fa-solid fa-heart"></i>
+                                        <FaHeart />
                                     </button>
                                 ) : (
                                     <button className="fav-button" title="Add to favorites" onClick={addFav}>
-                                        <i className="far fa-heart"></i>
+                                        <FaRegHeart />
                                     </button>
                                 )}
                             </>
