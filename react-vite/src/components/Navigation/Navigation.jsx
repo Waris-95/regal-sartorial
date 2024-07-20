@@ -70,7 +70,7 @@ function Navigation({ isLoaded }) {
   const categories = [
     'Suits',
     'Pants',
-    'Jeans',
+    // 'Jeans',
     'Vests',
     'Jackets',
     'Shirts',

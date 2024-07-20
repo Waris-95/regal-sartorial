@@ -29,7 +29,7 @@
 
   .featured-collection-box {
     height: 150px;
-    margin-top: 0; /* Reset the margin for smaller screens */
+    margin-top: 30px; /* Reset the margin for smaller screens */
   }
 }
 
@@ -40,6 +40,6 @@
 
   .featured-collection-box {
     height: 120px;
-    margin-top: 0; /* Reset the margin for smaller screens */
+    margin-top: 30px; /* Reset the margin for smaller screens */
   }
 }
