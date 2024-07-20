@@ -37,6 +37,7 @@ const ProductPage = () => {
     const [circleM, setCircleM] = useState(false);
     const [circleL, setCircleL] = useState(false);
     const [isInCart, setIsInCart] = useState(false);
+    const [showCartMessage, setShowCartMessage] = useState(false); // State to show cart message
 
     const addOne = () => setQuantity(quantity + 1);
     const minusOne = () => setQuantity(quantity - 1);
@@ -152,6 +153,8 @@ const ProductPage = () => {
                         dispatch(getCurrentOrder());
                         dispatch(setBag(bag + quantity)); // Update bag state
                         setIsInCart(true);
+                        setShowCartMessage(true); // Show cart message
+                        setTimeout(() => setShowCartMessage(false), 3000); // Hide cart message after 3 seconds
                     });
                 } else {
                     console.error('Failed to create new order:', newOrder);
@@ -171,6 +174,8 @@ const ProductPage = () => {
                     dispatch(getCurrentOrder());
                     dispatch(setBag(bag + quantity)); // Update bag state
                     setIsInCart(true);
+                    setShowCartMessage(true); // Show cart message
+                    setTimeout(() => setShowCartMessage(false), 3000); // Hide cart message after 3 seconds
                 });
             } else {
                 const itemData = {
@@ -188,6 +193,8 @@ const ProductPage = () => {
                     dispatch(getCurrentOrder());
                     dispatch(setBag(bag + quantity)); // Update bag state
                     setIsInCart(true);
+                    setShowCartMessage(true); // Show cart message
+                    setTimeout(() => setShowCartMessage(false), 3000); // Hide cart message after 3 seconds
                 });
             }
         }
@@ -300,9 +307,10 @@ const ProductPage = () => {
                         onClick={() => addItem(productType)}
                         disabled={isInCart}
                     >
-                        {isInCart ? "Item added to cart" : "Add to Cart"}
+                        {isInCart ? "" : "Add to Cart"}
                         {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
                     </button>
+                    {showCartMessage && <div className="cart-message">Item added to cart!</div>} {/* Show cart message */}
                     {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
                     {msg.cart && <Link className="go-to" to="/checkout">Go to my cart</Link>}
                     {msg.style && <p className="sign-up-errors">*{msg.style}</p>}
