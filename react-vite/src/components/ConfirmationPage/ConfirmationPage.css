@@ -1,0 +1,67 @@
+/* ConfirmationPage.css */
+.order-conf-container {
+    background-color: #111; /* Dark background for luxury feel */
+    color: #e0e0e0; /* Light grey text for contrast */
+    padding: 40px;
+    margin: 40px auto;
+    border-radius: 15px;
+    max-width: 700px;
+    text-align: center;
+    font-family: 'Merriweather', serif; /* Elegant font */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    border: 1px solid #444; /* Subtle border for a refined look */
+  }
+  
+  .order-conf-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff; /* White color for a touch of luxury */
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  
+  .conf-msg {
+    font-size: 18px;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+  
+  .new-order {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 30px;
+    background-color: #333; /* Dark grey color for luxury */
+    color: #e0e0e0; /* Light grey text for contrast */
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Merriweather', serif; /* Match the main font */
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  
+  .new-order:hover {
+    background-color: #555; /* Slightly lighter grey on hover */
+    color: #fff;
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+  
+  .new-order:focus {
+    outline: none;
+  }
+  
+  .order-number {
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  .user-thank {
+    font-size: 20px;
+    margin-top: 20px;
+    font-style: italic;
+    color: #e0e0e0; /* Light grey for consistent contrast */
+  }
+  
