@@ -83,6 +83,7 @@ function Navigation({ isLoaded }) {
     });
   };
 
+
   const categories = [
     'Suits',
     'Pants',
