@@ -60,4 +60,4 @@ Click the live link below to run Regal Sartorials locally on your machine follow
 # Demo
    
    Log in as a demo user to get a feel for the site.
-   # regal-sartorial
+   <!-- # regal-sartorial -->
