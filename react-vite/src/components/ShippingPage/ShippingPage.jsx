@@ -20,6 +20,7 @@ function ShippingPage() {
     const [cardnumber, setCardnumber] = useState("");
     const [expDate, setExpDate] = useState("");
     const [cvv, setCvv] = useState("");
+    const [errors, setErrors] = useState([]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -34,7 +35,7 @@ function ShippingPage() {
         if (!city.trim()) errors.push("City is required.");
         if (!state.trim() || state.length !== 2) errors.push("Valid state abbreviation is required.");
         if (!/^\d{5}$/.test(zipcode)) errors.push("Valid ZIP Code is required.");
-        if (!/^\d{5,}$/.test(cardnumber.replace(/\D/g, ''))) errors.push("Valid card number is required (minimum 12 digits).");
+        if (!/^\d{12,}$/.test(cardnumber.replace(/\D/g, ''))) errors.push("Valid card number is required (minimum 12 digits).");
         if (!/^\d{2}\/\d{2}$/.test(expDate) || !isValidExpirationDate(expDate)) errors.push("Valid expiration date is required.");
         if (!/^\d{3}$/.test(cvv)) errors.push("Valid CVV is required.");
         return errors;
@@ -55,7 +56,7 @@ function ShippingPage() {
         e.preventDefault();
         const errors = validateForm();
         if (errors.length > 0) {
-            alert(errors.join("\n"));
+            setErrors(errors);
             return;
         }
 
@@ -148,6 +149,9 @@ function ShippingPage() {
                         onChange={(e) => setCardnumber(e.target.value)}
                         required
                     />
+                    {errors.includes("Valid card number is required (minimum 12 digits).") && (
+                        <div className='error-message'>Valid card number is required (minimum 12 digits).</div>
+                    )}
                 </div>
 
                 <div className='shipping-input'>
