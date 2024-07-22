@@ -273,3 +273,31 @@
     }
   }
   
+  .empty-bag-button-black-white {
+    background-color: rgb(68, 68, 68);
+    color: white;
+    border: 1px solid rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8%; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: all 0.3s ease; 
+    display: inline-block;
+    text-align: center;
+    text-decoration: none; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for a 3D effect */
+  }
+  
+  .empty-bag-button-black-white:hover {
+    background-color: #333;
+    color: #ddd; 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+    transform: translateY(-2px); 
+  }
+  
+  .empty-bag-button-black-white:active {
+    background-color: #222; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+    transform: translateY(0); 
+  }
+  

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { getAllProductsThunk } from '../../redux/products';
-import { addFavorites, getUserFavorites } from '../../redux/favorites'; 
+import { addFavorites, getUserFavorites, deleteFavorites } from '../../redux/favorites';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './AllProducts.css';
 import '../../index.css';
 import SearchBox from '../SearchBox/SearchBox';
@@ -11,31 +12,23 @@ function AllProducts() {
   const [searchField, setSearchField] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
-  const [color, setColor] = useState(null); // Initialize as null
-  const [feedback, setFeedback] = useState({}); // For feedback message
+  const [color, setColor] = useState(null);
+  const [feedback, setFeedback] = useState({});
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(getUserFavorites()); // Fetch user favorites on component mount
+    dispatch(getUserFavorites());
   }, [dispatch]);
 
   let category = new URLSearchParams(location.search).get('category');
   const products = useSelector(state => state.products);
-  const user = useSelector(state => state.session.user); // Get the current user
-  const favorites = useSelector(state => state.favorites); // Get user's favorites
+  const user = useSelector(state => state.session.user);
+  const favorites = useSelector(state => state.favorites);
   let productValues = Object.values(products);
 
   useEffect(() => {
     dispatch(getAllProductsThunk(category));
   }, [dispatch, category]);
-
-  useEffect(() => {
-    if (productValues.length > 0) {
-      console.log('Product Values:', productValues); // Log product values to verify `product_type_id`
-    }
-  }, [productValues]);
-
-  if (category === "View All") category = null;
 
   const handleMouseOver = (e, product, item) => {
     const secondaryImage = item ? item.image2 : product.products?.[0]?.image2;
@@ -49,16 +42,13 @@ function AllProducts() {
 
   const handleAddFavorite = (product) => {
     if (user) {
-      console.log('Product data:', product); // Ensure `product_type_id` is present in the logged data
-
-      // Check if the product is already a favorite
       const isFavorite = favorites.some(fav => fav.product_id === product.id);
       if (isFavorite) {
         setFeedback({ ...feedback, [product.id]: 'This item is already in your favorites.' });
         return;
       }
 
-      const productTypeId = product.products?.[0]?.product_type_id; // Extract product_type_id dynamically from product
+      const productTypeId = product.products?.[0]?.product_type_id;
       const productId = product.id;
       const image = product.products?.[0]?.image1;
 
@@ -71,15 +61,19 @@ function AllProducts() {
       dispatch(addFavorites(productTypeId, productId, image))
         .then((favorite) => {
           if (favorite) {
-            setFeedback({ ...feedback, [product.id]: 'Item added to favorites' });
+            setFeedback({ ...feedback, [product.id]: '' });
           } else {
             setFeedback({ ...feedback, [product.id]: 'Failed to add favorite.' });
           }
         });
     } else {
-      // Handle case where user is not logged in
       setFeedback({ ...feedback, [product.id]: 'Please log in to add favorites.' });
     }
+  };
+
+  const handleRemoveFavorite = (favId) => {
+    dispatch(deleteFavorites(favId))
+      .then(() => dispatch(getUserFavorites()));
   };
 
   const onSearchChange = (e) => {
@@ -107,8 +101,8 @@ function AllProducts() {
             const primaryImage = color?.product_type_id === product.id ? color.image1 : (product.products?.[0]?.image1 || defaultImage);
             const secondaryImage = color?.product_type_id === product.id ? color.image2 : (product.products?.[0]?.image2 || primaryImage);
 
-            // Check if the product is already a favorite
             const isFavorite = favorites.some(fav => fav.product_id === product.id);
+            const favId = isFavorite ? favorites.find(fav => fav.product_id === product.id).id : null;
 
             return (
               <div className='card-container' key={product.id}>
@@ -131,10 +125,9 @@ function AllProducts() {
                   {user && (
                     <button 
                       className={`add-favorite-button ${isFavorite ? 'favorite-added' : ''}`} 
-                      onClick={() => handleAddFavorite(product)}
-                      disabled={isFavorite} // Disable button if already a favorite
+                      onClick={() => isFavorite ? handleRemoveFavorite(favId) : handleAddFavorite(product)}
                     >
-                      <i className="fa fa-heart"></i> {isFavorite ? 'Added to Favorites!' : 'Add to Favorites'}
+                      {isFavorite ? <FaHeart /> : <FaRegHeart />}
                     </button>
                   )}
                   {feedback[product.id] && <div className="feedback-message">{feedback[product.id]}</div>}

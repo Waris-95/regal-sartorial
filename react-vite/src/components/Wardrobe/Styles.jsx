@@ -80,9 +80,23 @@ function Styles() {
                     </div>
                 </div>
                 <div className="new-style-button-container">
-                    <OpenModalButton
-                        buttonText="Add New Wardrobes"
-                        modalComponent={<StylesFormPage styles={stylesArray} />}
+                <OpenModalButton
+                    buttonText="Add New Wardrobes"
+                    modalComponent={<StylesFormPage styles={stylesArray} />}
+                    style={{
+                        backgroundColor: 'black',
+                        color: 'white',
+                        border: '1px solid white',
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        borderRadius: '5px', // Rounded corners
+                        cursor: 'pointer', // Pointer cursor on hover
+                        transition: 'all 0.3s ease', // Smooth transition for hover effects
+                        display: 'inline-block',
+                        textAlign: 'center',
+                        textDecoration: 'none', // Remove underline from link-style buttons
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Add shadow for a 3D effect
+                    }}
                     />
                 </div>
             </div>

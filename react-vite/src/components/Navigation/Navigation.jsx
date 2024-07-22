@@ -4,9 +4,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../../redux/session';
 import { getCurrentOrder } from '../../redux/orders';
 import { editBag } from '../../redux/bags';
+import { FaCrown, FaBars, FaTimes } from "react-icons/fa";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Navigation.css';
 import '../../index.css';
-import { FaCrown, FaBars, FaTimes } from "react-icons/fa";
 
 function Navigation({ isLoaded }) {
   const navigate = useNavigate();
@@ -63,14 +65,29 @@ function Navigation({ isLoaded }) {
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(editBag(0));
-    dispatch(logout()).then(() => closeMobileMenu());
-    navigate('/');
+    dispatch(logout()).then(() => {
+      closeMobileMenu();
+      toast.success('You have logged out successfully!', {
+        className: 'custom-toast',
+        style: {
+          backgroundColor: 'black',
+          color: 'white',
+          borderRadius: '5px',
+          fontFamily: 'Arial, sans-serif'
+        },
+        progressStyle: {
+          backgroundColor: 'white'
+        }
+      });
+      navigate('/');
+    });
   };
+
 
   const categories = [
     'Suits',
     'Pants',
-    'Jeans',
+    // 'Jeans',
     'Vests',
     'Jackets',
     'Shirts',
@@ -167,6 +184,7 @@ function Navigation({ isLoaded }) {
           )}
         </ul>
       </div>
+      <ToastContainer />
     </nav>
   );
 }

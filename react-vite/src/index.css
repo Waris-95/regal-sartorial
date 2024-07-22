@@ -45,7 +45,7 @@ h1 {
   font-size: 15px;
   font-weight: lighter;
   background-color: #efefef;
-  color: #fdf9f5;
+  color: #ffffff;
   cursor: pointer;
   width: 250px;
   border-radius: 3px;
@@ -54,15 +54,15 @@ h1 {
 
 .store-button:hover {
   color: #909090;
-  background-color: #fdf9f5;
-  border: 2px solid #fdf9f5;
+  background-color: #ffffff;
+  border: 2px solid #ffffff;
 }
 
 .store-button-white {
   height: 45px;
   font-size: 15px;
   font-weight: lighter;
-  background-color: #fdf9f5;
+  background-color: #ffffff;
   color: #ffffff;
   cursor: pointer;
   width: 250px;
@@ -73,5 +73,5 @@ h1 {
 .store-button-white:hover {
   color: #ffffff;
   background-color: #c0c0c0;
-  border: 2px solid #fdf9f5;
+  border: 2px solid #fafafa;
 }

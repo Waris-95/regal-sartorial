@@ -9,8 +9,8 @@ export async function csrfFetch(url, options = {}) {
     options.headers["XSRF-Token"] = Cookies.get("csrf_token");
   }
 
-  console.log('CSRF Token:', Cookies.get('csrf_token')); // For debugging
-  console.log('Request Headers:', options.headers); // For debugging
+  // console.log('CSRF Token:', Cookies.get('csrf_token')); // For debugging
+  // console.log('Request Headers:', options.headers); // For debugging
 
   const res = await window.fetch(url, options);
 

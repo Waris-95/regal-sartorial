@@ -55,6 +55,7 @@
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
+  position: relative; /* Added for positioning the heart icon */
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -105,43 +106,19 @@
 }
 
 .add-favorite-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 230px;
-  height: 40px;
-  background: linear-gradient(90deg, #000000, #b9b9b9);
-  color: #fff;
-  border: none;
-  border-radius: 25px;
+  position: absolute; /* Absolute positioning to place the heart icon */
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  background: none; /* No background for the heart icon button */
+  border: none; /* No border for the heart icon button */
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  font-size: 16px;
-  margin-top: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 10px 20px;
-  font-weight: 600;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.add-favorite-button:hover {
-  background: linear-gradient(145deg, #030303, #000000);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-
-.add-favorite-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.add-favorite-button i {
-  margin-right: 10px;
+  font-size: 24px; /* Adjust size as needed */
+  color: #000000; /* Heart icon color */
+  transition: color 0.3s;
 }
 
 .add-favorite-button.favorite-added {
-  background: #000000; /* Change background for added favorites */
-  cursor: default; /* Change cursor to default */
+  color: #ff6666; /* Change color when added to favorites */
 }
 
 .feedback-message {
@@ -191,11 +168,6 @@
   .card-img {
     height: 200px;
   }
-
-  .add-favorite-button {
-    width: 100%;
-    font-size: 14px;
-  }
 }
 
 @media screen and (max-width: 480px) {
@@ -211,10 +183,5 @@
 
   .card-img {
     height: 150px;
-  }
-
-  .add-favorite-button {
-    width: 100%;
-    font-size: 12px;
   }
 }

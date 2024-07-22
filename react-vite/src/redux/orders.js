@@ -97,8 +97,8 @@ export const getUserOrders = () => async (dispatch) => {
 };
 
 export const newOrder = (orderData, itemData) => async dispatch => {
-    console.log("Order Data being sent:", orderData);
-    console.log("Item Data being sent:", itemData);
+    // console.log("Order Data being sent:", orderData);
+    // console.log("Item Data being sent:", itemData);
 
     const response = await fetch(`/api/orders/`, {
         method: 'POST',
@@ -129,8 +129,8 @@ export const newOrderItem = (data, orderId) => async dispatch => {
         console.error("No order ID provided");
         return;
     }
-    console.log("Order ID being sent:", orderId);
-    console.log("Order Item Data being sent:", data);
+    // console.log("Order ID being sent:", orderId);
+    // console.log("Order Item Data being sent:", data);
 
     const response = await fetch(`/api/orders/${orderId}/order_items`, {
         method: 'POST',

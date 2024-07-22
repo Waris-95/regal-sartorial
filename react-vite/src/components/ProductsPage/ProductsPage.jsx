@@ -1,16 +1,16 @@
-// ProductPage.js
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProductType } from "../../redux/ProductType";
 import { getUserFavorites, addFavorites, deleteFavorites } from "../../redux/favorites";
 import { getCurrentOrder, modifyItem, newOrderItem, newOrder } from "../../redux/orders";
-import { FaPlus, FaMinus } from 'react-icons/fa';
+import { FaPlus, FaMinus, FaHeart, FaRegHeart } from 'react-icons/fa';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ImageSlider from '../ImageSlider/ImageSlider';
 import { editBag, setBag } from "../../redux/bags";
 import AddStyleItem from "../Wardrobe/AddStyleItems";
 import Reviews from "../Reviews/Review"; 
+import Spinner from "../Spinner/Spinner"; // Import the Spinner component
 import "./ProductsPage.css";
 import "../../index.css";
 
@@ -24,12 +24,12 @@ const ProductPage = () => {
     const order = useSelector(state => state.orders.currentOrder);
     const bag = useSelector(state => state.bag);
 
+    const [loading, setLoading] = useState(true); // Define loading state
     const [loadingFavorites, setLoadingFavorites] = useState(true);
     const [favorite, setFavorite] = useState(false);
     const [item, setItem] = useState(null);
     const [size, setSize] = useState("Small");
     const [quantity, setQuantity] = useState(1);
-    const [loadingState, setLoadingState] = useState(false);
     const [checkFav, setCheckFav] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
     const [msg, setMsg] = useState({});
@@ -37,6 +37,7 @@ const ProductPage = () => {
     const [circleM, setCircleM] = useState(false);
     const [circleL, setCircleL] = useState(false);
     const [isInCart, setIsInCart] = useState(false);
+    const [showCartMessage, setShowCartMessage] = useState(false); // State to show cart message
 
     const addOne = () => setQuantity(quantity + 1);
     const minusOne = () => setQuantity(quantity - 1);
@@ -47,8 +48,11 @@ const ProductPage = () => {
 
     useEffect(() => {
         dispatch(getProductType(id))
-            .then(() => setLoadingState(true))
-            .catch((error) => console.error("Failed to load product type:", error));
+            .then(() => setLoading(false)) // Set loading to false when product type is loaded
+            .catch((error) => {
+                console.error("Failed to load product type:", error);
+                setLoading(false); // Set loading to false even if there is an error
+            });
 
         if (user) {
             dispatch(getCurrentOrder());
@@ -121,7 +125,7 @@ const ProductPage = () => {
             navigate("/login");
             return;
         }
-    
+
         const productId = item ? item.id : productType.products?.[0]?.id;
         const color = item ? item.color : productType.products?.[0]?.color;
         const image = item ? item.image1 : productType.products?.[0]?.image1;
@@ -129,7 +133,7 @@ const ProductPage = () => {
         const sizeToUse = size || "Small";
         const price = productType.price;
         const total_price = quantity * price;
-    
+
         if (!order || !order.orderItems) {
             const orderData = { status: "pending" };
             dispatch(newOrder(orderData)).then((newOrder) => {
@@ -149,6 +153,8 @@ const ProductPage = () => {
                         dispatch(getCurrentOrder());
                         dispatch(setBag(bag + quantity)); // Update bag state
                         setIsInCart(true);
+                        setShowCartMessage(true); // Show cart message
+                        setTimeout(() => setShowCartMessage(false), 3000); // Hide cart message after 3 seconds
                     });
                 } else {
                     console.error('Failed to create new order:', newOrder);
@@ -159,7 +165,7 @@ const ProductPage = () => {
         } else {
             let orderItems = order.orderItems;
             let existingItem = orderItems.find(orderItem => orderItem.product_id === productId && orderItem.size === sizeToUse);
-    
+
             if (existingItem) {
                 let newQuantity = existingItem.quantity + quantity;
                 let newTotalPrice = price * newQuantity;
@@ -168,6 +174,8 @@ const ProductPage = () => {
                     dispatch(getCurrentOrder());
                     dispatch(setBag(bag + quantity)); // Update bag state
                     setIsInCart(true);
+                    setShowCartMessage(true); // Show cart message
+                    setTimeout(() => setShowCartMessage(false), 3000); // Hide cart message after 3 seconds
                 });
             } else {
                 const itemData = {
@@ -185,6 +193,8 @@ const ProductPage = () => {
                     dispatch(getCurrentOrder());
                     dispatch(setBag(bag + quantity)); // Update bag state
                     setIsInCart(true);
+                    setShowCartMessage(true); // Show cart message
+                    setTimeout(() => setShowCartMessage(false), 3000); // Hide cart message after 3 seconds
                 });
             }
         }
@@ -209,119 +219,120 @@ const ProductPage = () => {
         }
     };
 
-    if (loadingState && checkFav) {
-        if (loadingFavorites && !user) {
-            return <div>Loading favorites....</div>;
+    if (loading) {
+        return <Spinner loading={loading} />
+    }
+
+    if (loadingFavorites && !user) {
+        return <Spinner loading={loadingFavorites} />
+    }
+
+    const itemImageCheck = () => {
+        if (item) {
+            let images = item.images.filter(ele => ele !== null);
+            return images;
+        } else if (productType.products && productType.products.length > 0) {
+            return productType.products[0].images.filter(img => img);
         }
+        return [];
+    };
 
-        const itemImageCheck = () => {
-            if (item) {
-                let images = item.images.filter(ele => ele !== null);
-                return images;
-            } else if (productType.products && productType.products.length > 0) {
-                return productType.products[0].images.filter(img => img);
-            }
-            return [];
-        };
+    const images = itemImageCheck();
+    const currentImage = images[imageIndex] || images[0];
 
-        const images = itemImageCheck();
-        const currentImage = images[imageIndex] || images[0];
-
-        return (
-            <div className="product-page-container">
-                <div className="product-area">
-                    <div className="product-img-container">
-                        <div className="product-small-area">
-                            {images.map((img, i) => (
-                                <img loading="lazy" key={i} alt="" className="product-img-small" src={img} onMouseOver={() => setImageIndex(i)} />
+    return (
+        <div className="product-page-container">
+            <div className="product-area">
+                <div className="product-img-container">
+                    <div className="product-small-area">
+                        {images.map((img, i) => (
+                            <img loading="lazy" key={i} alt="" className="product-img-small" src={img} onMouseOver={() => setImageIndex(i)} />
+                        ))}
+                    </div>
+                    <div className="product-img-big-container">
+                        <img loading="lazy" className="product-img-big" src={currentImage} alt="Product" />
+                        {user && (
+                            <>
+                                {favorite ? (
+                                    <button className="fav-button" title="Remove from Favorites" onClick={deleteFav}>
+                                        <FaHeart />
+                                    </button>
+                                ) : (
+                                    <button className="fav-button" title="Add to favorites" onClick={addFav}>
+                                        <FaRegHeart />
+                                    </button>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+                <div className="product-info">
+                    <div className="product-name">{productType.name}</div>
+                    <div className="prod-price-2">${productType.price}</div>
+                    {productType.products && productType.products.length > 1 && (
+                        <div className="color-container">
+                            {productType.products.map(item => (
+                                <div className="color-options" key={item.id} onMouseOver={() => setItem(item)}>
+                                    <input
+                                        type="checkbox"
+                                        className="color-circle"
+                                        style={{ backgroundColor: item.color }}
+                                        onClick={() => setItem(item)}
+                                    />
+                                </div>
                             ))}
                         </div>
-                        <div className="product-img-big-container">
-                            <img loading="lazy" className="product-img-big" src={currentImage} alt="Product" />
-                            {user && (
-                                <>
-                                    {favorite ? (
-                                        <button className="fav-button" title="Remove from Favorites" onClick={deleteFav}>
-                                            <i className="fa-solid fa-heart"></i>
-                                        </button>
-                                    ) : (
-                                        <button className="fav-button" title="Add to favorites" onClick={addFav}>
-                                            <i className="far fa-heart"></i>
-                                        </button>
-                                    )}
-                                </>
-                            )}
+                    )}
+                    <div className="size-container">
+                        <button className={circleS ? "circle" : "no-circle"} onClick={() => addSize("Small")}>S</button>
+                        <button className={circleM ? "circle" : "no-circle"} onClick={() => addSize("Medium")}>M</button>
+                        <button className={circleL ? "circle" : "no-circle"} onClick={() => addSize("Large")}>L</button>
+                    </div>
+
+                    <div className="quantity-container">
+                        <div>Quantity : </div>
+                        <div className="plusminus">
+                            <button className="add" disabled={quantity >= 10} onClick={addOne}>
+                                <FaPlus />
+                            </button>
+                            <div className="number">{quantity}</div>
+                            <button className="subtract" disabled={quantity <= 1} onClick={minusOne}>
+                                <FaMinus />
+                            </button>
                         </div>
                     </div>
-                    <div className="product-info">
-                        <div className="product-name">{productType.name}</div>
-                        <div className="prod-price-2">${productType.price}</div>
-                        {productType.products && productType.products.length > 1 && (
-                            <div className="color-container">
-                                {productType.products.map(item => (
-                                    <div className="color-options" key={item.id} onMouseOver={() => setItem(item)}>
-                                        <input
-                                            type="checkbox"
-                                            className="color-circle"
-                                            style={{ backgroundColor: item.color }}
-                                            onClick={() => setItem(item)}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                        <div className="size-container">
-                            <button className={circleS ? "circle" : "no-circle"} onClick={() => addSize("Small")}>S</button>
-                            <button className={circleM ? "circle" : "no-circle"} onClick={() => addSize("Medium")}>M</button>
-                            <button className={circleL ? "circle" : "no-circle"} onClick={() => addSize("Large")}>L</button>
-                        </div>
 
-                        <div className="quantity-container">
-                            <div>Quantity : </div>
-                            <div className="plusminus">
-                                <button className="add" disabled={quantity >= 10} onClick={addOne}>
-                                    <FaPlus />
-                                </button>
-                                <div className="number">{quantity}</div>
-                                <button className="subtract" disabled={quantity <= 1} onClick={minusOne}>
-                                    <FaMinus />
-                                </button>
-                            </div>
-                        </div>
-
-                        <button
-                            className="store-button add-to-bag-button"
-                            onClick={() => addItem(productType)}
-                            disabled={isInCart}
-                        >
-                            {isInCart ? "Item added to cart" : "Add to Cart"}
-                            {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
-                        </button>
+                    <button
+                        className="store-button add-to-bag-button"
+                        onClick={() => addItem(productType)}
+                        disabled={isInCart}
+                    >
+                        {isInCart ? "" : "Add to Cart"}
                         {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
-                        {msg.cart && <Link className="go-to" to="/checkout">Go to my cart</Link>}
-                        {msg.style && <p className="sign-up-errors">*{msg.style}</p>}
-                        {msg.style && <Link className="go-to" to="/styles">View my wardrobes</Link>}
-                        {user && (
-                            <OpenModalButton
-                                className="store-button add-to-style"
-                                buttonText="Add to Wardrobe"
-                                modalComponent={<AddStyleItem styleItem={productType} setMsg={setMsg} />}
-                            />
-                        )}
-                    </div>
+                    </button>
+                    {showCartMessage && <div className="cart-message">Item added to cart!</div>} {/* Show cart message */}
+                    {msg.cart && <p className="sign-up-errors">*{msg.cart}</p>}
+                    {msg.cart && <Link className="go-to" to="/checkout">Go to my cart</Link>}
+                    {msg.style && <p className="sign-up-errors">*{msg.style}</p>}
+                    {msg.style && <Link className="go-to" to="/styles">View my wardrobes</Link>}
+                    {user && (
+                        <OpenModalButton
+                            className="store-button add-to-style"
+                            buttonText="Add to Wardrobe"
+                            modalComponent={<AddStyleItem styleItem={productType} setMsg={setMsg} />}
+                        />
+                    )}
                 </div>
-
-                <div className="you-may-also">
-                    <ImageSlider productType={productType.id} category={productType.category} />
-                </div>
-
-                {/* Add Reviews */}
-                <Reviews productTypeId={productType.id} productId={id} />
             </div>
-        );
-    } else {
-        return <div>Loading....</div>;
-    }
+
+            <div className="you-may-also">
+                <ImageSlider productType={productType.id} category={productType.category} />
+            </div>
+
+            {/* Add Reviews */}
+            <Reviews productTypeId={productType.id} productId={id} />
+        </div>
+    );
 };
 
 export default ProductPage;
