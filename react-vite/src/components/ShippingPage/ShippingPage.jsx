@@ -189,6 +189,7 @@ function ShippingPage() {
                     </div>
                 </div>
             </div>
+            
         </div>
     );
 }
