@@ -5,6 +5,7 @@ import { submitOrder, getCurrentOrder } from '../../redux/orders';
 import { AddressAutofill } from '@mapbox/search-js-react';
 import { setBag } from '../../redux/bags';
 import ConfirmationPage from '../ConfirmationPage/Confirmation';
+import { ToastContainer, toast } from 'react-toastify';
 import emailjs from '@emailjs/browser';
 import "./ShippingPage.css";
 
@@ -76,7 +77,7 @@ function ShippingPage() {
         dispatch(setBag(0));
     };
 
-    if (!order || !order.orderItems.length) {
+    if (!order || !order.orderItems || !order.orderItems.length) {
         return <ConfirmationPage />;
     }
 
