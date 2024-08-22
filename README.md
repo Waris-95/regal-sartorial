@@ -58,6 +58,8 @@ Click the live link below to run Regal Sartorials locally on your machine follow
    
   
 # Demo
+![Regal](https://github.com/user-attachments/assets/a528094a-7503-4207-b4a1-8befc41277fd)
+
    
    Log in as a demo user to get a feel for the site.
    <!-- # regal-sartorial -->
